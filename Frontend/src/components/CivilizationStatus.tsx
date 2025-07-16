@@ -1,7 +1,14 @@
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
-import { Badge } from './ui/badge';
 import { Progress } from './ui/progress';
-import { BarChart3, Users, Sword, Heart, TrendingUp } from 'lucide-react';
+import { Badge } from './ui/badge';
+import { 
+  TrendingUp, 
+  Users, 
+  Swords, 
+  Heart,
+  BarChart3,
+  Wrench
+} from 'lucide-react';
 
 interface CivilizationStatusProps {
   phase: string;
@@ -12,149 +19,136 @@ interface CivilizationStatusProps {
   relationships: number;
 }
 
-export const CivilizationStatus = ({ 
-  phase, 
-  phaseProgress, 
-  population, 
-  activeGroups, 
-  conflicts, 
-  relationships 
+export const CivilizationStatus = ({
+  phase,
+  phaseProgress,
+  population,
+  activeGroups,
+  conflicts,
+  relationships
 }: CivilizationStatusProps) => {
-  const getPhaseColor = (phase: string) => {
-    const colors = {
-      'Genesis': 'cosmic-purple',
-      'Pair Bonding': 'cosmic-pink',
-      'Tribal Formation': 'cosmic-blue',
-      'Complex Society': 'cosmic-teal',
-      'Civilization': 'cosmic-green'
-    };
-    return colors[phase as keyof typeof colors] || 'cosmic-blue';
-  };
-
-  const getNextMilestone = (progress: number) => {
-    if (progress < 90) return 'First Trade Exchange';
-    return 'Cultural Renaissance';
-  };
-
   return (
-    <Card className="observatory-card h-[500px]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <BarChart3 className="w-5 h-5 text-cosmic-teal" />
-          Civilization Status
+    <Card className="observatory-card">
+      <CardHeader className="border-b border-slate-700/50">
+        <CardTitle className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-emerald-500 to-teal-600 flex items-center justify-center">
+            <BarChart3 className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <div className="text-white font-semibold">Civilization Status</div>
+            <div className="text-xs text-slate-400">Phase Progress & Metrics</div>
+          </div>
         </CardTitle>
       </CardHeader>
-      <CardContent className="space-y-6">
-        
+      
+      <CardContent className="p-6 space-y-6">
         {/* Current Phase */}
         <div className="space-y-3">
           <div className="flex items-center justify-between">
-            <span className="text-sm font-medium text-foreground">Current Phase</span>
-            <Badge variant="secondary" className={`text-${getPhaseColor(phase)}`}>
+            <div className="text-sm font-medium text-slate-300">Current Phase</div>
+            <Badge variant="outline" className="bg-purple-500/10 text-purple-300 border-purple-500/30">
               {phase}
             </Badge>
           </div>
           
           <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Progress</span>
-              <span className="text-foreground font-mono">{phaseProgress}%</span>
+            <div className="flex items-center justify-between text-sm">
+              <span className="text-slate-400">Progress</span>
+              <span className="text-white font-medium">{phaseProgress}%</span>
             </div>
-            <Progress value={phaseProgress} className="h-2" />
+            <div className="relative">
+              <Progress value={phaseProgress} className="h-2 bg-slate-800" />
+              <div className="absolute inset-0 bg-gradient-to-r from-blue-500 to-purple-500 opacity-20 rounded-full" />
+            </div>
           </div>
           
-          <div className="text-sm text-muted-foreground">
-            Next Milestone: <span className="text-cosmic-orange">{getNextMilestone(phaseProgress)}</span>
+          <div className="text-xs text-slate-400">
+            Next Milestone: First Trade Exchange
           </div>
         </div>
 
-        {/* Population Stats */}
+        {/* Population & Groups */}
         <div className="grid grid-cols-2 gap-4">
-          <div className="metric-card">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-cosmic-blue" />
-              <div>
-                <div className="text-2xl font-bold text-foreground">{population}</div>
-                <div className="text-xs text-muted-foreground">Population</div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-gradient-to-br from-green-500/10 to-emerald-500/5 border border-green-500/20">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-green-500 to-emerald-600 flex items-center justify-center">
+                <Users className="h-4 w-4 text-white" />
               </div>
-            </div>
-            <div className="mt-2 flex items-center gap-1">
-              <TrendingUp className="w-3 h-3 text-status-active" />
-              <span className="text-xs text-status-active">+5.2%</span>
+              <div>
+                <div className="text-lg font-bold text-white">{population}</div>
+                <div className="text-xs text-slate-400">Population</div>
+                <div className="flex items-center gap-1 text-xs">
+                  <TrendingUp className="h-3 w-3 text-green-400" />
+                  <span className="text-green-400 font-medium">+5.2%</span>
+                </div>
+              </div>
             </div>
           </div>
 
-          <div className="metric-card">
-            <div className="flex items-center gap-2">
-              <Users className="w-4 h-4 text-cosmic-teal" />
-              <div>
-                <div className="text-2xl font-bold text-foreground">{activeGroups}</div>
-                <div className="text-xs text-muted-foreground">Active Groups</div>
+          <div className="space-y-3">
+            <div className="flex items-center gap-3 p-4 rounded-lg bg-gradient-to-br from-blue-500/10 to-cyan-500/5 border border-blue-500/20">
+              <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-blue-500 to-cyan-600 flex items-center justify-center">
+                <Users className="h-4 w-4 text-white" />
               </div>
-            </div>
-            <div className="mt-2 flex items-center gap-1">
-              <TrendingUp className="w-3 h-3 text-status-active" />
-              <span className="text-xs text-status-active">Growing</span>
+              <div>
+                <div className="text-lg font-bold text-white">{activeGroups}</div>
+                <div className="text-xs text-slate-400">Active Groups</div>
+                <div className="flex items-center gap-1 text-xs">
+                  <TrendingUp className="h-3 w-3 text-blue-400" />
+                  <span className="text-blue-400 font-medium">Growing</span>
+                </div>
+              </div>
             </div>
           </div>
         </div>
 
-        {/* Social Metrics */}
-        <div className="space-y-4">
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Sword className="w-4 h-4 text-status-error" />
-              <span className="text-sm text-foreground">Active Conflicts</span>
+        {/* Conflicts & Relationships */}
+        <div className="grid grid-cols-2 gap-4">
+          <div className="flex items-center gap-3 p-4 rounded-lg bg-gradient-to-br from-red-500/10 to-orange-500/5 border border-red-500/20">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-red-500 to-orange-600 flex items-center justify-center">
+              <Swords className="h-4 w-4 text-white" />
             </div>
-            <Badge variant={conflicts > 0 ? "destructive" : "secondary"}>
-              {conflicts}
-            </Badge>
+            <div>
+              <div className="text-lg font-bold text-white">{conflicts}</div>
+              <div className="text-xs text-slate-400">Active Conflicts</div>
+            </div>
           </div>
 
-          <div className="flex items-center justify-between">
-            <div className="flex items-center gap-2">
-              <Heart className="w-4 h-4 text-cosmic-pink" />
-              <span className="text-sm text-foreground">Relationships</span>
+          <div className="flex items-center gap-3 p-4 rounded-lg bg-gradient-to-br from-pink-500/10 to-rose-500/5 border border-pink-500/20">
+            <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-pink-500 to-rose-600 flex items-center justify-center">
+              <Heart className="h-4 w-4 text-white" />
             </div>
-            <div className="text-sm font-mono text-foreground">{relationships}</div>
+            <div>
+              <div className="text-lg font-bold text-white">{relationships}</div>
+              <div className="text-xs text-slate-400">Relationships</div>
+            </div>
           </div>
         </div>
 
         {/* Development Indicators */}
-        <div className="space-y-3">
-          <div className="text-sm font-medium text-foreground">Development Indicators</div>
+        <div className="space-y-4">
+          <div className="text-sm font-medium text-slate-300">Development Indicators</div>
           
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Social Complexity</span>
-              <span className="text-cosmic-blue">Advanced</span>
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-400">Social Complexity</span>
+              <span className="text-sm text-blue-300 font-medium">Advanced</span>
             </div>
-            <Progress value={85} className="h-1" />
-          </div>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Tool Development</span>
-              <span className="text-cosmic-green">Intermediate</span>
+            <div className="relative">
+              <Progress value={85} className="h-2 bg-slate-800" />
+              <div className="absolute inset-0 bg-gradient-to-r from-cyan-500 to-blue-500 opacity-30 rounded-full" />
             </div>
-            <Progress value={65} className="h-1" />
           </div>
-          
-          <div className="space-y-2">
-            <div className="flex justify-between text-sm">
-              <span className="text-muted-foreground">Communication</span>
-              <span className="text-cosmic-purple">Expert</span>
-            </div>
-            <Progress value={92} className="h-1" />
-          </div>
-        </div>
 
-        {/* Status Summary */}
-        <div className="bg-secondary/30 rounded-lg p-3 border border-border">
-          <div className="text-xs text-muted-foreground mb-1">Current Status</div>
-          <div className="text-sm text-foreground">
-            The civilization is in active tribal formation with strong social bonds and emerging leadership structures. 
-            Communication systems are highly developed, enabling complex coordination between groups.
+          <div className="space-y-3">
+            <div className="flex items-center justify-between">
+              <span className="text-sm text-slate-400">Tool Development</span>
+              <span className="text-sm text-orange-300 font-medium">Intermediate</span>
+            </div>
+            <div className="relative">
+              <Progress value={65} className="h-2 bg-slate-800" />
+              <div className="absolute inset-0 bg-gradient-to-r from-orange-500 to-red-500 opacity-30 rounded-full" />
+            </div>
           </div>
         </div>
       </CardContent>

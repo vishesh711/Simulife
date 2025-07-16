@@ -26,6 +26,9 @@ interface Agent {
   status: 'active' | 'resting' | 'exploring';
   traits: string[];
   relationships: Record<string, string>;
+  age: number;
+  skills: Record<string, number>;
+  memories_count: number;
 }
 
 interface AgentInspectorProps {
@@ -36,71 +39,26 @@ interface AgentInspectorProps {
 export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
   const [activeTab, setActiveTab] = useState("overview");
 
-  // Mock data for demonstration
-  const mockData = {
-    age: 847,
-    goals: [
-      'Protect newborn child Aria',
-      'Teach toolmaking to tribe members',
-      'Find better shelter for family'
-    ],
-    relationships: [
-      { name: 'Zane', type: 'partner', strength: 94 },
-      { name: 'Aria', type: 'daughter', strength: 100 },
-      { name: 'Elder Thom', type: 'mentor', strength: 78 },
-      { name: 'Rix', type: 'rival', strength: 23 }
-    ],
-    memories: [
-      {
-        content: 'Taught Aria to make sharp stones',
-        daysAgo: 2,
-        importance: 'high'
-      },
-      {
-        content: 'Argued with Rix about territory',
-        daysAgo: 5,
-        importance: 'medium'
-      },
-      {
-        content: 'Discovered new water source',
-        daysAgo: 8,
-        importance: 'high'
-      }
-    ],
-    skills: [
-      { name: 'Toolmaking', level: 92 },
-      { name: 'Communication', level: 81 },
-      { name: 'Hunting', level: 67 },
-      { name: 'Leadership', level: 45 }
-    ],
-    personality: [
-      { trait: 'Curious', value: 85 },
-      { trait: 'Brave', value: 72 },
-      { trait: 'Kind', value: 91 },
-      { trait: 'Social', value: 68 },
-      { trait: 'Creative', value: 79 }
-    ]
-  };
-
+  // Use real agent data instead of mock data
   const getRelationshipColor = (type: string) => {
     const colors = {
-      'partner': 'cosmic-pink',
-      'daughter': 'cosmic-green',
-      'son': 'cosmic-green',
-      'mother': 'cosmic-purple',
-      'father': 'cosmic-purple',
-      'mentor': 'cosmic-blue',
-      'rival': 'status-error',
-      'friend': 'cosmic-teal'
+      'partner': 'text-pink-400',
+      'daughter': 'text-green-400',
+      'son': 'text-green-400',
+      'mother': 'text-purple-400',
+      'father': 'text-purple-400',
+      'mentor': 'text-blue-400',
+      'rival': 'text-red-400',
+      'friend': 'text-cyan-400'
     };
-    return colors[type as keyof typeof colors] || 'cosmic-blue';
+    return colors[type as keyof typeof colors] || 'text-blue-400';
   };
 
   const getSkillColor = (level: number) => {
-    if (level >= 80) return 'cosmic-green';
-    if (level >= 60) return 'cosmic-blue';
-    if (level >= 40) return 'cosmic-orange';
-    return 'muted-foreground';
+    if (level >= 80) return 'text-green-400';
+    if (level >= 60) return 'text-blue-400';
+    if (level >= 40) return 'text-yellow-400';
+    return 'text-gray-400';
   };
 
   const getSkillLabel = (level: number) => {
@@ -111,23 +69,43 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
     return 'Novice';
   };
 
+  // Extract real agent data
+  const relationships = Object.entries(agent.relationships || {});
+  const skills = Object.entries(agent.skills || {});
+  const traits = agent.traits || [];
+  const memories = agent.memories_count || 0;
+
   return (
-    <div className="fixed inset-0 bg-background/80 backdrop-blur-sm z-50 flex items-center justify-center p-4">
-      <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden observatory-card">
-        <CardHeader>
+    <div className="fixed inset-0 bg-black/50 backdrop-blur-sm z-50 flex items-center justify-center p-4">
+      <Card className="w-full max-w-4xl max-h-[90vh] overflow-hidden bg-slate-900/95 border-slate-700">
+        <CardHeader className="border-b border-slate-700">
           <div className="flex items-center justify-between">
-            <CardTitle className="flex items-center gap-2">
-              <User className="w-5 h-5 text-cosmic-blue" />
-              Agent Inspector: {agent.name}
+            <CardTitle className="flex items-center gap-3">
+              <div className="w-10 h-10 rounded-full bg-gradient-to-r from-blue-500 to-purple-500 flex items-center justify-center">
+                <User className="w-5 h-5 text-white" />
+              </div>
+              <div>
+                <div className="text-xl font-bold text-white">{agent.name}</div>
+                <div className="text-sm text-slate-400">Agent Inspector</div>
+              </div>
             </CardTitle>
-            <Button variant="ghost" size="icon" onClick={onClose}>
-              <X className="w-4 h-4" />
+            <Button variant="ghost" size="icon" onClick={onClose} className="text-slate-400 hover:text-white">
+              <X className="w-5 h-5" />
             </Button>
           </div>
-          <div className="flex items-center gap-2">
-            <Badge variant="secondary">{agent.tribe}</Badge>
-            <Badge variant="outline" className="capitalize">{agent.status}</Badge>
-            <Badge variant="outline">{mockData.age} days old</Badge>
+          <div className="flex items-center gap-3 mt-4">
+            <Badge variant="secondary" className="bg-blue-500/20 text-blue-300 border-blue-500/30">
+              {agent.tribe}
+            </Badge>
+            <Badge variant="outline" className="capitalize border-slate-600 text-slate-300">
+              {agent.status}
+            </Badge>
+            <Badge variant="outline" className="border-slate-600 text-slate-300">
+              {agent.age} days old
+            </Badge>
+            <Badge variant="outline" className="border-slate-600 text-slate-300">
+              {memories} memories
+            </Badge>
           </div>
         </CardHeader>
 
@@ -152,11 +130,7 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
                         <div className="text-sm font-medium">Current Goals</div>
                       </div>
                       <div className="mt-2 space-y-1">
-                        {mockData.goals.map((goal, i) => (
-                          <div key={i} className="text-xs text-muted-foreground">
-                            • {goal}
-                          </div>
-                        ))}
+                        {/* Goals are not directly available in the agent interface, so this will be empty */}
                       </div>
                     </div>
 
@@ -166,7 +140,7 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
                         <div className="text-sm font-medium">Key Traits</div>
                       </div>
                       <div className="mt-2 flex flex-wrap gap-1">
-                        {agent.traits.map(trait => (
+                        {traits.map(trait => (
                           <Badge key={trait} variant="outline" className="text-xs">
                             {trait}
                           </Badge>
@@ -212,15 +186,7 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
                       <div className="text-lg font-medium">Personality Profile</div>
                     </div>
                     
-                    {mockData.personality.map((trait) => (
-                      <div key={trait.trait} className="space-y-2">
-                        <div className="flex justify-between">
-                          <span className="text-sm font-medium">{trait.trait}</span>
-                          <span className="text-sm text-muted-foreground">{trait.value}%</span>
-                        </div>
-                        <Progress value={trait.value} className="h-2" />
-                      </div>
-                    ))}
+                    {/* Personality traits are not directly available in the agent interface, so this will be empty */}
                   </div>
                 </TabsContent>
 
@@ -231,19 +197,19 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
                       <div className="text-lg font-medium">Relationship Network</div>
                     </div>
                     
-                    {mockData.relationships.map((rel) => (
-                      <div key={rel.name} className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg">
+                    {relationships.map(([name, type]) => (
+                      <div key={name} className="flex items-center justify-between p-3 bg-secondary/20 rounded-lg">
                         <div className="flex items-center gap-3">
                           <div className="w-3 h-3 bg-cosmic-blue rounded-full"></div>
                           <div>
-                            <div className="text-sm font-medium">{rel.name}</div>
-                            <Badge variant="outline" className={`text-xs text-${getRelationshipColor(rel.type)}`}>
-                              {rel.type}
+                            <div className="text-sm font-medium">{name}</div>
+                            <Badge variant="outline" className={`text-xs text-${getRelationshipColor(type)}`}>
+                              {type}
                             </Badge>
                           </div>
                         </div>
                         <div className="text-sm text-muted-foreground">
-                          {rel.strength}% bond
+                          {/* Bond strength is not directly available in the agent interface, so this will be empty */}
                         </div>
                       </div>
                     ))}
@@ -257,23 +223,7 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
                       <div className="text-lg font-medium">Recent Memories</div>
                     </div>
                     
-                    {mockData.memories.map((memory, i) => (
-                      <div key={i} className="p-3 bg-secondary/20 rounded-lg">
-                        <div className="text-sm font-medium mb-1">{memory.content}</div>
-                        <div className="flex items-center gap-2">
-                          <Badge variant="outline" className="text-xs">
-                            {memory.daysAgo} days ago
-                          </Badge>
-                          <Badge variant="outline" className={`text-xs ${
-                            memory.importance === 'high' ? 'text-cosmic-orange' :
-                            memory.importance === 'medium' ? 'text-cosmic-blue' :
-                            'text-muted-foreground'
-                          }`}>
-                            {memory.importance}
-                          </Badge>
-                        </div>
-                      </div>
-                    ))}
+                    {/* Memories are not directly available in the agent interface, so this will be empty */}
                   </div>
                 </TabsContent>
 
@@ -284,18 +234,18 @@ export const AgentInspector = ({ agent, onClose }: AgentInspectorProps) => {
                       <div className="text-lg font-medium">Skills & Knowledge</div>
                     </div>
                     
-                    {mockData.skills.map((skill) => (
-                      <div key={skill.name} className="space-y-2">
+                    {skills.map(([name, level]) => (
+                      <div key={name} className="space-y-2">
                         <div className="flex justify-between">
-                          <span className="text-sm font-medium">{skill.name}</span>
+                          <span className="text-sm font-medium">{name}</span>
                           <div className="flex items-center gap-2">
-                            <Badge variant="outline" className={`text-xs text-${getSkillColor(skill.level)}`}>
-                              {getSkillLabel(skill.level)}
+                            <Badge variant="outline" className={`text-xs text-${getSkillColor(level)}`}>
+                              {getSkillLabel(level)}
                             </Badge>
-                            <span className="text-sm text-muted-foreground">{skill.level}%</span>
+                            <span className="text-sm text-muted-foreground">{level}%</span>
                           </div>
                         </div>
-                        <Progress value={skill.level} className="h-2" />
+                        <Progress value={level} className="h-2" />
                       </div>
                     ))}
                   </div>

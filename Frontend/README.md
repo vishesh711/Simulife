@@ -1,73 +1,148 @@
-# Welcome to your Lovable project
+# SimuLife Frontend
 
-## Project info
+A beautiful, real-time dashboard for monitoring the SimuLife multi-agent simulation.
 
-**URL**: https://lovable.dev/projects/b5e7f999-afaa-4b27-8792-dd5828f3946a
+## Features
 
-## How can I edit this code?
+- **Real-time Observatory Dashboard** - Live simulation monitoring with WebSocket connections
+- **3D World Visualization** - Interactive 3D world view using React Three Fiber
+- **Phase 10 Integration** - Deep Human Emotions tracking (Love & Romance, Family Bonds, Emotional Complexity, Life Purpose)
+- **Agent Inspector** - Detailed agent profiles with Phase 10 emotional data
+- **Control Panel** - Start/stop/pause simulation, speed control
+- **Civilization Status** - Population, phase progress, tribal groups
+- **Recent Events** - Live event feed with Phase 10 categorization
+- **Milestone Tracker** - Civilization advancement tracking
 
-There are several ways of editing your application.
+## Technology Stack
 
-**Use Lovable**
+- **React 18** with TypeScript
+- **Vite** for fast development and building
+- **Tailwind CSS** for styling
+- **shadcn/ui** component library
+- **React Query** for efficient data fetching and caching
+- **React Three Fiber** for 3D visualization
+- **WebSockets** for real-time updates
 
-Simply visit the [Lovable Project](https://lovable.dev/projects/b5e7f999-afaa-4b27-8792-dd5828f3946a) and start prompting.
+## Getting Started
 
-Changes made via Lovable will be committed automatically to this repo.
+### Prerequisites
 
-**Use your preferred IDE**
+- Node.js 18+ and npm
+- SimuLife backend server running on port 8000
 
-If you want to work locally using your own IDE, you can clone this repo and push changes. Pushed changes will also be reflected in Lovable.
+### Installation
 
-The only requirement is having Node.js & npm installed - [install with nvm](https://github.com/nvm-sh/nvm#installing-and-updating)
+1. Install dependencies:
+   ```bash
+   npm install
+   ```
 
-Follow these steps:
+2. Start the development server:
+   ```bash
+   npm run dev
+   ```
 
-```sh
-# Step 1: Clone the repository using the project's Git URL.
-git clone <YOUR_GIT_URL>
+3. Open your browser to [http://localhost:5173](http://localhost:5173)
 
-# Step 2: Navigate to the project directory.
-cd <YOUR_PROJECT_NAME>
+### Backend Connection
 
-# Step 3: Install the necessary dependencies.
-npm i
+The frontend connects to the SimuLife API server at `http://localhost:8000`. Make sure the backend is running:
 
-# Step 4: Start the development server with auto-reloading and an instant preview.
-npm run dev
+```bash
+# In the main SimuLife directory
+python api_server.py
 ```
 
-**Edit a file directly in GitHub**
+## API Endpoints
 
-- Navigate to the desired file(s).
-- Click the "Edit" button (pencil icon) at the top right of the file view.
-- Make your changes and commit the changes.
+The frontend connects to these backend endpoints:
 
-**Use GitHub Codespaces**
+- `GET /api/simulation` - Current simulation state
+- `GET /api/agents` - All agents with Phase 10 data
+- `GET /api/events` - Recent simulation events
+- `GET /api/phase10` - Phase 10 system statistics
+- `POST /api/control/{action}` - Control simulation (start/stop/pause)
+- `WebSocket /ws` - Real-time updates
 
-- Navigate to the main page of your repository.
-- Click on the "Code" button (green button) near the top right.
-- Select the "Codespaces" tab.
-- Click on "New codespace" to launch a new Codespace environment.
-- Edit files directly within the Codespace and commit and push your changes once you're done.
+## Development
 
-## What technologies are used for this project?
+### Scripts
 
-This project is built with:
+- `npm run dev` - Start development server
+- `npm run build` - Build for production
+- `npm run preview` - Preview production build
+- `npm run lint` - Lint code
 
-- Vite
-- TypeScript
-- React
-- shadcn-ui
-- Tailwind CSS
+### Environment Variables
 
-## How can I deploy this project?
+Create a `.env` file for custom API URLs:
 
-Simply open [Lovable](https://lovable.dev/projects/b5e7f999-afaa-4b27-8792-dd5828f3946a) and click on Share -> Publish.
+```env
+VITE_API_URL=http://localhost:8000
+VITE_WS_URL=ws://localhost:8000/ws
+```
 
-## Can I connect a custom domain to my Lovable project?
+## Project Structure
 
-Yes, you can!
+```
+src/
+├── components/          # React components
+│   ├── ui/             # Base UI components (shadcn/ui)
+│   ├── AgentInspector.tsx
+│   ├── CivilizationStatus.tsx
+│   ├── ControlPanel.tsx
+│   ├── MilestoneTracker.tsx
+│   ├── ObservatoryDashboard.tsx
+│   ├── RecentEvents.tsx
+│   └── WorldView3D.tsx
+├── services/           # API services
+│   └── api.ts         # SimuLife API integration
+├── hooks/             # Custom React hooks
+├── pages/             # Page components
+└── lib/               # Utilities
+```
 
-To connect a domain, navigate to Project > Settings > Domains and click Connect Domain.
+## Features in Detail
 
-Read more here: [Setting up a custom domain](https://docs.lovable.dev/tips-tricks/custom-domain#step-by-step-guide)
+### Real-time Dashboard
+
+- **Live Metrics**: Population, events, technologies, cultural artifacts
+- **WebSocket Connection**: Real-time updates with connection status indicator
+- **Beautiful Animations**: Smooth transitions and visual feedback
+
+### Phase 10 Tracking
+
+Monitor all four Phase 10 systems:
+
+1. **Love & Romance**: Active relationships, pregnancies
+2. **Family Bonds**: Family units, bond strength
+3. **Emotional Complexity**: Empathy levels, emotional range
+4. **Life Purpose**: Agents with purpose, purpose distribution
+
+### Agent Inspector
+
+Click any agent to see detailed information:
+- Basic stats (age, tribe, status)
+- Emotional state and mood
+- Life purpose and clarity
+- Family relationships and bonds
+- Skills and memories
+
+### 3D World View
+
+- Interactive 3D visualization of the simulation world
+- Agent positions and movements
+- Tribal territories and boundaries
+- Environmental features
+
+## Contributing
+
+1. Fork the repository
+2. Create a feature branch
+3. Make your changes
+4. Test thoroughly
+5. Submit a pull request
+
+## License
+
+Part of the SimuLife project. See the main project for license information.

@@ -31,6 +31,36 @@ export const ControlPanel = ({ isRunning, speed, onControl }: ControlPanelProps)
     return labels[speed as keyof typeof labels] || 'Normal';
   };
 
+  const handleSave = () => {
+    console.log('💾 Save simulation requested');
+    // TODO: Implement save functionality
+    alert('Save functionality coming soon!');
+  };
+
+  const handleExport = () => {
+    console.log('📤 Export data requested');
+    // TODO: Implement export functionality
+    alert('Export functionality coming soon!');
+  };
+
+  const handleAnalytics = () => {
+    console.log('📊 Analytics view requested');
+    // TODO: Implement analytics view
+    alert('Analytics view coming soon!');
+  };
+
+  const handleSpawnAgent = () => {
+    console.log('👤 Spawn agent requested');
+    // TODO: Implement spawn agent functionality
+    alert('Spawn agent functionality coming soon!');
+  };
+
+  const handleTriggerEvent = () => {
+    console.log('⚡ Trigger event requested');
+    // TODO: Implement trigger event functionality
+    alert('Trigger event functionality coming soon!');
+  };
+
   return (
     <Card className="observatory-card">
       <CardHeader>
@@ -50,7 +80,7 @@ export const ControlPanel = ({ isRunning, speed, onControl }: ControlPanelProps)
           <div className="grid grid-cols-2 gap-2">
             <Button
               variant={isRunning ? "outline" : "default"}
-              onClick={() => onControl(isRunning ? 'pause' : 'play')}
+              onClick={() => onControl(isRunning ? 'pause' : 'start')}
               className="control-button"
             >
               {isRunning ? (
@@ -68,20 +98,20 @@ export const ControlPanel = ({ isRunning, speed, onControl }: ControlPanelProps)
             
             <Button
               variant="outline"
-              onClick={() => onControl('fast')}
+              onClick={() => onControl('step')}
               className="control-button"
             >
               <FastForward className="w-4 h-4 mr-2" />
-              {getSpeedLabel(speed)}
+              Step
             </Button>
             
             <Button
               variant="outline"
-              onClick={() => onControl('restart')}
+              onClick={() => onControl('stop')}
               className="control-button col-span-2"
             >
               <RotateCcw className="w-4 h-4 mr-2" />
-              Restart Simulation
+              Stop Simulation
             </Button>
           </div>
         </div>
@@ -92,17 +122,17 @@ export const ControlPanel = ({ isRunning, speed, onControl }: ControlPanelProps)
         <div className="space-y-3">
           <div className="text-sm font-medium text-foreground">Data Management</div>
           <div className="grid grid-cols-2 gap-2">
-            <Button variant="outline" className="control-button">
+            <Button variant="outline" className="control-button" onClick={handleSave}>
               <Save className="w-4 h-4 mr-2" />
               Save
             </Button>
             
-            <Button variant="outline" className="control-button">
+            <Button variant="outline" className="control-button" onClick={handleExport}>
               <Cloud className="w-4 h-4 mr-2" />
               Export
             </Button>
             
-            <Button variant="outline" className="control-button col-span-2">
+            <Button variant="outline" className="control-button col-span-2" onClick={handleAnalytics}>
               <BarChart3 className="w-4 h-4 mr-2" />
               View Analytics
             </Button>
@@ -115,12 +145,12 @@ export const ControlPanel = ({ isRunning, speed, onControl }: ControlPanelProps)
         <div className="space-y-3">
           <div className="text-sm font-medium text-foreground">Intervention Tools</div>
           <div className="grid grid-cols-1 gap-2">
-            <Button variant="outline" className="control-button">
+            <Button variant="outline" className="control-button" onClick={handleSpawnAgent}>
               <Users className="w-4 h-4 mr-2" />
               Spawn Agent
             </Button>
             
-            <Button variant="outline" className="control-button">
+            <Button variant="outline" className="control-button" onClick={handleTriggerEvent}>
               <Zap className="w-4 h-4 mr-2" />
               Trigger Event
             </Button>

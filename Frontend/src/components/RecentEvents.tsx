@@ -1,16 +1,24 @@
 import { Card, CardContent, CardHeader, CardTitle } from './ui/card';
 import { Badge } from './ui/badge';
-import { Button } from './ui/button';
 import { ScrollArea } from './ui/scroll-area';
-import { Clock, Eye, BarChart3, PartyPopper, Swords, Lightbulb, Baby } from 'lucide-react';
+import { 
+  Clock, 
+  Heart, 
+  Users, 
+  Zap, 
+  Star,
+  Baby,
+  Wrench,
+  Sparkles
+} from 'lucide-react';
 
 interface Event {
   id: string;
-  type: 'celebration' | 'conflict' | 'discovery' | 'birth';
-  title: string;
+  type: string;
   description: string;
-  timestamp: number;
-  agents: string[];
+  agents_involved: string[];
+  timestamp: string;
+  importance?: string;
 }
 
 interface RecentEventsProps {
@@ -20,135 +28,135 @@ interface RecentEventsProps {
 export const RecentEvents = ({ events }: RecentEventsProps) => {
   const getEventIcon = (type: string) => {
     const icons = {
-      'celebration': PartyPopper,
-      'conflict': Swords,
-      'discovery': Lightbulb,
-      'birth': Baby
+      'family': Heart,
+      'emotional': Sparkles,
+      'technological': Wrench,
+      'social': Users,
+      'cultural': Star,
+      'celebration': Star,
+      'birth': Baby,
+      'conflict': Zap,
+      'discovery': Star
     };
-    return icons[type as keyof typeof icons] || PartyPopper;
+    return icons[type as keyof typeof icons] || Clock;
   };
 
-  const getEventColor = (type: string) => {
+  const getEventStyle = (type: string) => {
+    const styles = {
+      'family': 'border-l-pink-500 bg-pink-500/5 border-pink-500/20',
+      'emotional': 'border-l-purple-500 bg-purple-500/5 border-purple-500/20',
+      'technological': 'border-l-blue-500 bg-blue-500/5 border-blue-500/20',
+      'social': 'border-l-green-500 bg-green-500/5 border-green-500/20',
+      'cultural': 'border-l-orange-500 bg-orange-500/5 border-orange-500/20',
+      'celebration': 'border-l-yellow-500 bg-yellow-500/5 border-yellow-500/20',
+      'birth': 'border-l-pink-500 bg-pink-500/5 border-pink-500/20',
+      'conflict': 'border-l-red-500 bg-red-500/5 border-red-500/20',
+      'discovery': 'border-l-cyan-500 bg-cyan-500/5 border-cyan-500/20'
+    };
+    return styles[type as keyof typeof styles] || 'border-l-slate-500 bg-slate-500/5 border-slate-500/20';
+  };
+
+  const getEventIconColor = (type: string) => {
     const colors = {
-      'celebration': 'cosmic-green',
-      'conflict': 'status-error',
-      'discovery': 'cosmic-blue',
-      'birth': 'cosmic-pink'
+      'family': 'text-pink-400',
+      'emotional': 'text-purple-400',
+      'technological': 'text-blue-400',
+      'social': 'text-green-400',
+      'cultural': 'text-orange-400',
+      'celebration': 'text-yellow-400',
+      'birth': 'text-pink-400',
+      'conflict': 'text-red-400',
+      'discovery': 'text-cyan-400'
     };
-    return colors[type as keyof typeof colors] || 'cosmic-blue';
+    return colors[type as keyof typeof colors] || 'text-slate-400';
   };
 
-  const getEventBadgeVariant = (type: string): "default" | "secondary" | "destructive" | "outline" => {
-    const variants = {
-      'celebration': 'secondary' as const,
-      'conflict': 'destructive' as const,
-      'discovery': 'secondary' as const,
-      'birth': 'secondary' as const
-    };
-    return variants[type as keyof typeof variants] || 'secondary';
-  };
-
-  const formatTimeAgo = (timestamp: number) => {
-    const now = Date.now();
-    const diff = now - timestamp;
-    const minutes = Math.floor(diff / 60000);
-    const hours = Math.floor(minutes / 60);
-    const days = Math.floor(hours / 24);
-
-    if (days > 0) return `${days}d ago`;
-    if (hours > 0) return `${hours}h ago`;
-    if (minutes > 0) return `${minutes}m ago`;
+  const formatTimeAgo = (timestamp: string) => {
+    // Simple time formatting - could be enhanced
     return 'Just now';
   };
 
   return (
     <Card className="observatory-card h-[500px]">
-      <CardHeader>
-        <CardTitle className="flex items-center gap-2">
-          <Clock className="w-5 h-5 text-cosmic-orange" />
-          Recent Events
-          <Badge variant="outline" className="ml-auto">
+      <CardHeader className="border-b border-slate-700/50">
+        <CardTitle className="flex items-center gap-3">
+          <div className="w-8 h-8 rounded-lg bg-gradient-to-br from-orange-500 to-amber-600 flex items-center justify-center">
+            <Clock className="h-4 w-4 text-white" />
+          </div>
+          <div>
+            <div className="text-white font-semibold">Recent Events</div>
+            <div className="text-xs text-slate-400">Live Activity Feed</div>
+          </div>
+          <Badge variant="outline" className="ml-auto bg-orange-500/10 text-orange-300 border-orange-500/30">
             {events.length} total
           </Badge>
         </CardTitle>
       </CardHeader>
+      
       <CardContent className="p-0">
         <ScrollArea className="h-[400px] px-6">
-          <div className="space-y-4 pb-4">
-            {events.map((event, index) => {
-              const Icon = getEventIcon(event.type);
-              return (
-                <div
-                  key={event.id}
-                  className={`event-notification event-${event.type} animate-slide-in`}
-                  style={{ animationDelay: `${index * 100}ms` }}
-                >
-                  <div className="flex items-start gap-3">
-                    <div className={`p-2 rounded-lg bg-${getEventColor(event.type)}/20`}>
-                      <Icon className={`w-4 h-4 text-${getEventColor(event.type)}`} />
-                    </div>
-                    
-                    <div className="flex-1 min-w-0">
-                      <div className="flex items-center gap-2 mb-1">
-                        <h4 className="text-sm font-medium text-foreground truncate">
-                          {event.title}
-                        </h4>
-                        <Badge variant={getEventBadgeVariant(event.type)} className="text-xs">
-                          {event.type}
-                        </Badge>
+          <div className="space-y-3 py-4">
+            {events.length === 0 ? (
+              <div className="flex flex-col items-center justify-center h-32 text-center">
+                <Clock className="h-8 w-8 text-slate-600 mb-2" />
+                <div className="text-sm text-slate-400">No recent events</div>
+                <div className="text-xs text-slate-500">Events will appear here as they happen</div>
+              </div>
+            ) : (
+              events.map((event, index) => {
+                const Icon = getEventIcon(event.type);
+                return (
+                  <div
+                    key={event.id}
+                    className={`p-4 rounded-lg border-l-4 transition-all duration-300 ${getEventStyle(event.type)}`}
+                    style={{ animationDelay: `${index * 100}ms` }}
+                  >
+                    <div className="flex items-start gap-3">
+                      <div className={`w-8 h-8 rounded-lg bg-slate-800/50 flex items-center justify-center ${getEventIconColor(event.type)}`}>
+                        <Icon className="h-4 w-4" />
                       </div>
                       
-                      <p className="text-xs text-muted-foreground mb-2 line-clamp-2">
-                        {event.description}
-                      </p>
-                      
-                      <div className="flex items-center justify-between">
-                        <div className="flex items-center gap-1">
-                          {event.agents.slice(0, 3).map((agent, i) => (
-                            <Badge key={i} variant="outline" className="text-xs">
-                              {agent}
-                            </Badge>
-                          ))}
-                          {event.agents.length > 3 && (
-                            <span className="text-xs text-muted-foreground">
-                              +{event.agents.length - 3} more
-                            </span>
-                          )}
+                      <div className="flex-1 min-w-0">
+                        <div className="flex items-center gap-2 mb-1">
+                          <Badge 
+                            variant="outline" 
+                            className={`text-xs capitalize ${getEventIconColor(event.type)} border-current/30 bg-current/5`}
+                          >
+                            {event.type}
+                          </Badge>
+                          <div className="text-xs text-slate-500">
+                            {formatTimeAgo(event.timestamp)}
+                          </div>
                         </div>
-                        <span className="text-xs text-muted-foreground">
-                          {formatTimeAgo(event.timestamp)}
-                        </span>
+                        
+                        <div className="text-sm text-slate-200 leading-relaxed mb-2">
+                          {event.description}
+                        </div>
+                        
+                        {event.agents_involved && event.agents_involved.length > 0 && (
+                          <div className="flex items-center gap-2">
+                            <div className="text-xs text-slate-500">Agents:</div>
+                            <div className="flex gap-1">
+                              {event.agents_involved.map((agent, i) => (
+                                <Badge 
+                                  key={i} 
+                                  variant="secondary" 
+                                  className="text-xs bg-slate-800/50 text-slate-300 border-slate-600/50"
+                                >
+                                  {agent}
+                                </Badge>
+                              ))}
+                            </div>
+                          </div>
+                        )}
                       </div>
                     </div>
                   </div>
-                </div>
-              );
-            })}
-            
-            {events.length === 0 && (
-              <div className="text-center py-8">
-                <Clock className="w-12 h-12 text-muted-foreground mx-auto mb-2 opacity-50" />
-                <p className="text-sm text-muted-foreground">No recent events</p>
-                <p className="text-xs text-muted-foreground mt-1">
-                  Events will appear here as your civilization develops
-                </p>
-              </div>
+                );
+              })
             )}
           </div>
         </ScrollArea>
-        
-        <div className="p-4 border-t border-border">
-          <div className="flex gap-2">
-            <Button variant="outline" size="sm" className="flex-1">
-              <Eye className="w-3 h-3 mr-1" />
-              View Timeline
-            </Button>
-            <Button variant="outline" size="sm" className="flex-1">
-              <BarChart3 className="w-3 h-3 mr-1" />
-              Analytics
-            </Button>
-          </div>
-        </div>
       </CardContent>
     </Card>
   );
