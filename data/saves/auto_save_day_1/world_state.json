@@ -1,0 +1,43 @@
+{
+  "current_day": 1,
+  "season": "spring",
+  "year": 1,
+  "weather": "clear",
+  "temperature": "mild",
+  "resources": {
+    "food": 1.0120721834131534,
+    "water": 1.01918759820601,
+    "shelter": 1.0,
+    "knowledge": 0.5
+  },
+  "events": [
+    {
+      "event_id": "agent_event_0",
+      "day": 0,
+      "event_type": "social",
+      "description": "{elder} begins teaching Lara valuable skills",
+      "participants": [
+        "Lara"
+      ],
+      "location": "village_center",
+      "importance": 0.5,
+      "consequences": []
+    }
+  ],
+  "locations": {
+    "village_center": "The heart of the community where people gather",
+    "forest": "A mysterious woodland area rich with resources",
+    "river": "A flowing source of water and life",
+    "mountains": "Tall peaks that offer perspective and challenge",
+    "fields": "Open areas for farming and contemplation"
+  },
+  "factions": {},
+  "beliefs": {},
+  "customs": [],
+  "population_stats": {
+    "total_agents": 5,
+    "births": 0,
+    "deaths": 0,
+    "average_age": 31.4
+  }
+}

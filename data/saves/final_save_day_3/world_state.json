@@ -1,0 +1,41 @@
+{
+  "current_day": 3,
+  "season": "spring",
+  "year": 1,
+  "weather": "clear",
+  "temperature": "mild",
+  "resources": {
+    "food": 1.051363166776566,
+    "water": 1.0433754364450125,
+    "shelter": 1.0,
+    "knowledge": 0.5
+  },
+  "events": [
+    {
+      "event_id": "world_event_0",
+      "day": 1,
+      "event_type": "weather_change",
+      "description": "A sudden change in weather patterns affects the region",
+      "participants": [],
+      "location": "fields",
+      "importance": 0.5833465429718587,
+      "consequences": []
+    }
+  ],
+  "locations": {
+    "village_center": "The heart of the community where people gather",
+    "forest": "A mysterious woodland area rich with resources",
+    "river": "A flowing source of water and life",
+    "mountains": "Tall peaks that offer perspective and challenge",
+    "fields": "Open areas for farming and contemplation"
+  },
+  "factions": {},
+  "beliefs": {},
+  "customs": [],
+  "population_stats": {
+    "total_agents": 5,
+    "births": 0,
+    "deaths": 0,
+    "average_age": 31.4
+  }
+}

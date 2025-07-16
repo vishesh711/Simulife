@@ -1,0 +1,43 @@
+{
+  "id": "agent_001",
+  "name": "Lara",
+  "age": 28,
+  "traits": ["curious", "kind", "ambitious"],
+  "personality_scores": {
+    "openness": 0.8,
+    "conscientiousness": 0.7,
+    "extraversion": 0.6,
+    "agreeableness": 0.8,
+    "neuroticism": 0.3
+  },
+  "goals": ["learn magic", "protect village", "discover ancient knowledge"],
+  "current_goal": "learn magic",
+  "emotion": "hopeful",
+  "emotion_intensity": 0.7,
+  "relationships": {
+    "Aedan": "brother",
+    "Kara": "rival"
+  },
+  "family": {
+    "parents": ["Elder Matthias", "Sera"],
+    "siblings": ["Aedan"],
+    "children": []
+  },
+  "location": "village_center",
+  "health": 0.9,
+  "energy": 0.8,
+  "skills": {
+    "magic_theory": 0.6,
+    "herbalism": 0.4,
+    "diplomacy": 0.5,
+    "research": 0.7
+  },
+  "beliefs": {
+    "knowledge_is_power": 0.9,
+    "help_others": 0.8,
+    "magic_is_natural": 0.7
+  },
+  "values": ["knowledge", "compassion", "progress", "family"],
+  "reputation": 0.7,
+  "life_satisfaction": 0.6
+} 

@@ -1,0 +1,41 @@
+{
+  "current_day": 2,
+  "season": "spring",
+  "year": 1,
+  "weather": "windy",
+  "temperature": "mild",
+  "resources": {
+    "food": 1.0298466316018011,
+    "water": 1.0054785783022018,
+    "shelter": 1.0,
+    "knowledge": 0.5
+  },
+  "events": [
+    {
+      "event_id": "world_event_0",
+      "day": 2,
+      "event_type": "natural_phenomenon",
+      "description": "Strange lights appear in the sky, puzzling everyone",
+      "participants": [],
+      "location": "village_center",
+      "importance": 0.6504517048916765,
+      "consequences": []
+    }
+  ],
+  "locations": {
+    "village_center": "The heart of the community where people gather",
+    "forest": "A mysterious woodland area rich with resources",
+    "river": "A flowing source of water and life",
+    "mountains": "Tall peaks that offer perspective and challenge",
+    "fields": "Open areas for farming and contemplation"
+  },
+  "factions": {},
+  "beliefs": {},
+  "customs": [],
+  "population_stats": {
+    "total_agents": 5,
+    "births": 0,
+    "deaths": 0,
+    "average_age": 31.4
+  }
+}

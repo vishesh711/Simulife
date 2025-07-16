@@ -1,0 +1,44 @@
+{
+  "id": "agent_004",
+  "name": "Nyla",
+  "age": 45,
+  "traits": ["wise", "empathetic", "patient"],
+  "personality_scores": {
+    "openness": 0.6,
+    "conscientiousness": 0.8,
+    "extraversion": 0.4,
+    "agreeableness": 0.9,
+    "neuroticism": 0.2
+  },
+  "goals": ["heal the sick", "preserve ancient wisdom", "maintain peace"],
+  "current_goal": "heal the sick",
+  "emotion": "calm",
+  "emotion_intensity": 0.4,
+  "relationships": {
+    "Aedan": "friend",
+    "Lara": "mentor",
+    "Theron": "old friend"
+  },
+  "family": {
+    "parents": ["Deceased"],
+    "siblings": [],
+    "children": ["Eli"]
+  },
+  "location": "forest",
+  "health": 0.8,
+  "energy": 0.7,
+  "skills": {
+    "healing": 0.9,
+    "herbalism": 0.9,
+    "wisdom": 0.8,
+    "meditation": 0.8
+  },
+  "beliefs": {
+    "all_life_is_sacred": 0.9,
+    "knowledge_should_be_shared": 0.8,
+    "nature_provides_answers": 0.9
+  },
+  "values": ["compassion", "wisdom", "balance", "life"],
+  "reputation": 0.9,
+  "life_satisfaction": 0.8
+} 

@@ -1,0 +1,373 @@
+[
+  {
+    "id": "agent_003",
+    "name": "Kara",
+    "age": 30,
+    "birth_day": -10950,
+    "traits": [
+      "ambitious",
+      "clever",
+      "competitive"
+    ],
+    "personality_scores": {
+      "openness": 0.7,
+      "conscientiousness": 0.8,
+      "extraversion": 0.8,
+      "agreeableness": 0.3,
+      "neuroticism": 0.6
+    },
+    "goals": [
+      "gain political power",
+      "prove superiority",
+      "control resources"
+    ],
+    "current_goal": "gain political power",
+    "life_satisfaction": 0.4,
+    "emotion": "confident",
+    "emotion_intensity": 0.3826375200000002,
+    "mood": "stable",
+    "relationships": {
+      "Lara": "rival",
+      "Aedan": "potential threat",
+      "Theron": "ally"
+    },
+    "family": {
+      "parents": [
+        "Unknown"
+      ],
+      "siblings": [],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.5,
+    "location": "village_center",
+    "health": 0.9,
+    "energy": 0.9689123181315327,
+    "skills": {
+      "politics": 0.8,
+      "persuasion": 0.9,
+      "strategy": 0.7,
+      "magic_theory": 0.5
+    },
+    "beliefs": {
+      "power_brings_order": 0.8,
+      "competition_drives_progress": 0.9,
+      "weakness_invites_disaster": 0.7
+    },
+    "values": [
+      "power",
+      "achievement",
+      "control",
+      "excellence"
+    ],
+    "is_alive": true,
+    "last_action": "Kara contemplates the situation carefully and considers their options",
+    "action_history": [
+      "Kara My relationship with {person} has {change}. I should {action}.",
+      "Kara I remember when {memory}. Compared to now, {comparison}.",
+      "Kara My relationship with {person} has {change}. I should {action}.",
+      "Kara contemplates the situation carefully and considers their options",
+      "Kara contemplates the situation carefully and considers their options",
+      "Kara contemplates the situation carefully and considers their options",
+      "Kara contemplates the situation carefully and considers their options"
+    ]
+  },
+  {
+    "id": "agent_005",
+    "name": "Theron",
+    "age": 22,
+    "birth_day": -8030,
+    "traits": [
+      "adventurous",
+      "optimistic",
+      "restless"
+    ],
+    "personality_scores": {
+      "openness": 0.9,
+      "conscientiousness": 0.4,
+      "extraversion": 0.8,
+      "agreeableness": 0.6,
+      "neuroticism": 0.5
+    },
+    "goals": [
+      "explore unknown lands",
+      "discover new things",
+      "make friends"
+    ],
+    "current_goal": "explore unknown lands",
+    "life_satisfaction": 0.9,
+    "emotion": "excited",
+    "emotion_intensity": 0.3826375200000002,
+    "mood": "stable",
+    "relationships": {
+      "Kara": "ally",
+      "Nyla": "old friend"
+    },
+    "family": {
+      "parents": [
+        "Travelers"
+      ],
+      "siblings": [],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.6,
+    "location": "mountains",
+    "health": 0.9,
+    "energy": 1.0,
+    "skills": {
+      "exploration": 0.9,
+      "survival": 0.7,
+      "storytelling": 0.6,
+      "athletics": 0.8
+    },
+    "beliefs": {
+      "adventure_brings_wisdom": 0.9,
+      "the_world_is_full_of_wonders": 0.9,
+      "change_is_good": 0.8
+    },
+    "values": [
+      "freedom",
+      "discovery",
+      "friendship",
+      "experience"
+    ],
+    "is_alive": true,
+    "last_action": "Theron contemplates the situation carefully and considers their options",
+    "action_history": [
+      "Theron Today taught me about cooperation. I feel hopeful about {event}.",
+      "Theron Today taught me about change. I feel concerned about {event}.",
+      "Theron I remember when {memory}. Compared to now, {comparison}.",
+      "Theron The world seems to be {observation}. I must {response}.",
+      "Theron contemplates the situation carefully and considers their options",
+      "Theron contemplates the situation carefully and considers their options",
+      "Theron contemplates the situation carefully and considers their options"
+    ]
+  },
+  {
+    "id": "agent_001",
+    "name": "Lara",
+    "age": 28,
+    "birth_day": -10220,
+    "traits": [
+      "curious",
+      "kind",
+      "ambitious"
+    ],
+    "personality_scores": {
+      "openness": 0.8,
+      "conscientiousness": 0.7,
+      "extraversion": 0.6,
+      "agreeableness": 0.8,
+      "neuroticism": 0.3
+    },
+    "goals": [
+      "learn magic",
+      "protect village",
+      "discover ancient knowledge"
+    ],
+    "current_goal": "learn magic",
+    "life_satisfaction": 0.6,
+    "emotion": "hopeful",
+    "emotion_intensity": 0.3348078300000001,
+    "mood": "stable",
+    "relationships": {
+      "Aedan": "brother",
+      "Kara": "rival"
+    },
+    "family": {
+      "parents": [
+        "Elder Matthias",
+        "Sera"
+      ],
+      "siblings": [
+        "Aedan"
+      ],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.7,
+    "location": "village_center",
+    "health": 0.9,
+    "energy": 0.8836907862246669,
+    "skills": {
+      "magic_theory": 0.6,
+      "herbalism": 0.4,
+      "diplomacy": 0.5,
+      "research": 0.7
+    },
+    "beliefs": {
+      "knowledge_is_power": 0.9,
+      "help_others": 0.8,
+      "magic_is_natural": 0.7
+    },
+    "values": [
+      "knowledge",
+      "compassion",
+      "progress",
+      "family"
+    ],
+    "is_alive": true,
+    "last_action": "Lara contemplates the situation carefully and considers their options",
+    "action_history": [
+      "Lara debates ideas and philosophies",
+      "Lara Today taught me about cooperation. I feel hopeful about {event}.",
+      "Lara I remember when {memory}. Compared to now, {comparison}.",
+      "Lara contemplates the situation carefully and considers their options",
+      "Lara contemplates the situation carefully and considers their options",
+      "Lara contemplates the situation carefully and considers their options",
+      "Lara contemplates the situation carefully and considers their options"
+    ]
+  },
+  {
+    "id": "agent_004",
+    "name": "Nyla",
+    "age": 45,
+    "birth_day": -16425,
+    "traits": [
+      "wise",
+      "empathetic",
+      "patient"
+    ],
+    "personality_scores": {
+      "openness": 0.6,
+      "conscientiousness": 0.8,
+      "extraversion": 0.4,
+      "agreeableness": 0.9,
+      "neuroticism": 0.2
+    },
+    "goals": [
+      "heal the sick",
+      "preserve ancient wisdom",
+      "maintain peace"
+    ],
+    "current_goal": "heal the sick",
+    "life_satisfaction": 0.8,
+    "emotion": "neutral",
+    "emotion_intensity": 0.1,
+    "mood": "stable",
+    "relationships": {
+      "Aedan": "friend",
+      "Lara": "mentor",
+      "Theron": "old friend"
+    },
+    "family": {
+      "parents": [
+        "Deceased"
+      ],
+      "siblings": [],
+      "children": [
+        "Eli"
+      ]
+    },
+    "faction": null,
+    "reputation": 0.9,
+    "location": "forest",
+    "health": 0.8,
+    "energy": 1.0,
+    "skills": {
+      "healing": 0.9,
+      "herbalism": 0.9,
+      "wisdom": 0.8,
+      "meditation": 0.8
+    },
+    "beliefs": {
+      "all_life_is_sacred": 0.9,
+      "knowledge_should_be_shared": 0.8,
+      "nature_provides_answers": 0.9
+    },
+    "values": [
+      "compassion",
+      "wisdom",
+      "balance",
+      "life"
+    ],
+    "is_alive": true,
+    "last_action": "Nyla contemplates the situation carefully and considers their options",
+    "action_history": [
+      "Nyla I wonder what would happen if {speculation}. This makes me hopeful.",
+      "Nyla My relationship with {person} has {change}. I should {action}.",
+      "Nyla Today taught me about change. I feel excited about {event}.",
+      "Nyla The world seems to be {observation}. I must {response}.",
+      "Nyla contemplates the situation carefully and considers their options",
+      "Nyla contemplates the situation carefully and considers their options",
+      "Nyla contemplates the situation carefully and considers their options"
+    ]
+  },
+  {
+    "id": "agent_002",
+    "name": "Aedan",
+    "age": 32,
+    "birth_day": -11680,
+    "traits": [
+      "protective",
+      "practical",
+      "loyal"
+    ],
+    "personality_scores": {
+      "openness": 0.4,
+      "conscientiousness": 0.9,
+      "extraversion": 0.5,
+      "agreeableness": 0.7,
+      "neuroticism": 0.4
+    },
+    "goals": [
+      "protect family",
+      "build strong defenses",
+      "provide for community"
+    ],
+    "current_goal": "protect family",
+    "life_satisfaction": 0.7,
+    "emotion": "determined",
+    "emotion_intensity": 0.28697814000000005,
+    "mood": "stable",
+    "relationships": {
+      "Lara": "sister",
+      "Nyla": "friend",
+      "Kara": "suspicious"
+    },
+    "family": {
+      "parents": [
+        "Elder Matthias",
+        "Sera"
+      ],
+      "siblings": [
+        "Lara"
+      ],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.8,
+    "location": "village_center",
+    "health": 1.0,
+    "energy": 1.0,
+    "skills": {
+      "combat": 0.8,
+      "crafting": 0.7,
+      "leadership": 0.6,
+      "survival": 0.8
+    },
+    "beliefs": {
+      "family_first": 0.9,
+      "strength_protects": 0.8,
+      "tradition_matters": 0.7
+    },
+    "values": [
+      "family",
+      "duty",
+      "strength",
+      "tradition"
+    ],
+    "is_alive": true,
+    "last_action": "Aedan contemplates the situation carefully and considers their options",
+    "action_history": [
+      "Aedan The world seems to be {observation}. I must {response}.",
+      "Aedan Today taught me about trust. I feel excited about {event}.",
+      "Aedan I wonder what would happen if {speculation}. This makes me thoughtful.",
+      "Aedan contemplates the situation carefully and considers their options",
+      "Aedan contemplates the situation carefully and considers their options",
+      "Aedan contemplates the situation carefully and considers their options",
+      "Aedan contemplates the situation carefully and considers their options"
+    ]
+  }
+]

@@ -1,0 +1,107 @@
+{
+  "current_day": 7,
+  "season": "spring",
+  "year": 1,
+  "weather": "clear",
+  "temperature": "mild",
+  "resources": {
+    "food": 1.1289944654599324,
+    "water": 1.0753084253907177,
+    "shelter": 1.0,
+    "knowledge": 0.5
+  },
+  "events": [
+    {
+      "event_id": "agent_event_0",
+      "day": 0,
+      "event_type": "social",
+      "description": "{elder} begins teaching Lara valuable skills",
+      "participants": [
+        "Lara"
+      ],
+      "location": "village_center",
+      "importance": 0.5,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_1",
+      "day": 1,
+      "event_type": "cultural",
+      "description": "The community begins sharing stories and creating oral traditions",
+      "participants": [],
+      "location": "village_center",
+      "importance": 0.6,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_2",
+      "day": 1,
+      "event_type": "follow_up",
+      "description": "The community deals with the aftermath of Mentorship Forms",
+      "participants": [
+        "Lara"
+      ],
+      "location": "village_center",
+      "importance": 0.35,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_3",
+      "day": 2,
+      "event_type": "follow_up",
+      "description": "The community deals with the aftermath of Storytelling Tradition",
+      "participants": [],
+      "location": "village_center",
+      "importance": 0.42,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_4",
+      "day": 3,
+      "event_type": "follow_up",
+      "description": "The community deals with the aftermath of Storytelling Tradition",
+      "participants": [],
+      "location": "village_center",
+      "importance": 0.42,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_5",
+      "day": 4,
+      "event_type": "discovery",
+      "description": "Explorers discover a new area: Crystal Caves",
+      "participants": [],
+      "location": "village_center",
+      "importance": 0.6,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_6",
+      "day": 5,
+      "event_type": "political",
+      "description": "Kara questions {leader}'s authority",
+      "participants": [
+        "Kara"
+      ],
+      "location": "village_center",
+      "importance": 0.5,
+      "consequences": []
+    }
+  ],
+  "locations": {
+    "village_center": "The heart of the community where people gather",
+    "forest": "A mysterious woodland area rich with resources",
+    "river": "A flowing source of water and life",
+    "mountains": "Tall peaks that offer perspective and challenge",
+    "fields": "Open areas for farming and contemplation"
+  },
+  "factions": {},
+  "beliefs": {},
+  "customs": [],
+  "population_stats": {
+    "total_agents": 5,
+    "births": 0,
+    "deaths": 0,
+    "average_age": 31.4
+  }
+}

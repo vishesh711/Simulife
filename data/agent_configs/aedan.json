@@ -1,0 +1,44 @@
+{
+  "id": "agent_002",
+  "name": "Aedan",
+  "age": 32,
+  "traits": ["protective", "practical", "loyal"],
+  "personality_scores": {
+    "openness": 0.4,
+    "conscientiousness": 0.9,
+    "extraversion": 0.5,
+    "agreeableness": 0.7,
+    "neuroticism": 0.4
+  },
+  "goals": ["protect family", "build strong defenses", "provide for community"],
+  "current_goal": "protect family",
+  "emotion": "determined",
+  "emotion_intensity": 0.6,
+  "relationships": {
+    "Lara": "sister",
+    "Nyla": "friend",
+    "Kara": "suspicious"
+  },
+  "family": {
+    "parents": ["Elder Matthias", "Sera"],
+    "siblings": ["Lara"],
+    "children": []
+  },
+  "location": "village_center",
+  "health": 1.0,
+  "energy": 0.9,
+  "skills": {
+    "combat": 0.8,
+    "crafting": 0.7,
+    "leadership": 0.6,
+    "survival": 0.8
+  },
+  "beliefs": {
+    "family_first": 0.9,
+    "strength_protects": 0.8,
+    "tradition_matters": 0.7
+  },
+  "values": ["family", "duty", "strength", "tradition"],
+  "reputation": 0.8,
+  "life_satisfaction": 0.7
+} 

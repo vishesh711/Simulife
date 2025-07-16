@@ -1,0 +1,43 @@
+{
+  "id": "agent_005",
+  "name": "Theron",
+  "age": 22,
+  "traits": ["adventurous", "optimistic", "restless"],
+  "personality_scores": {
+    "openness": 0.9,
+    "conscientiousness": 0.4,
+    "extraversion": 0.8,
+    "agreeableness": 0.6,
+    "neuroticism": 0.5
+  },
+  "goals": ["explore unknown lands", "discover new things", "make friends"],
+  "current_goal": "explore unknown lands",
+  "emotion": "excited",
+  "emotion_intensity": 0.8,
+  "relationships": {
+    "Kara": "ally",
+    "Nyla": "old friend"
+  },
+  "family": {
+    "parents": ["Travelers"],
+    "siblings": [],
+    "children": []
+  },
+  "location": "mountains",
+  "health": 0.9,
+  "energy": 1.0,
+  "skills": {
+    "exploration": 0.9,
+    "survival": 0.7,
+    "storytelling": 0.6,
+    "athletics": 0.8
+  },
+  "beliefs": {
+    "adventure_brings_wisdom": 0.9,
+    "the_world_is_full_of_wonders": 0.9,
+    "change_is_good": 0.8
+  },
+  "values": ["freedom", "discovery", "friendship", "experience"],
+  "reputation": 0.6,
+  "life_satisfaction": 0.9
+} 

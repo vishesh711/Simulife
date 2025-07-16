@@ -1,0 +1,44 @@
+{
+  "id": "agent_003",
+  "name": "Kara",
+  "age": 30,
+  "traits": ["ambitious", "clever", "competitive"],
+  "personality_scores": {
+    "openness": 0.7,
+    "conscientiousness": 0.8,
+    "extraversion": 0.8,
+    "agreeableness": 0.3,
+    "neuroticism": 0.6
+  },
+  "goals": ["gain political power", "prove superiority", "control resources"],
+  "current_goal": "gain political power",
+  "emotion": "confident",
+  "emotion_intensity": 0.8,
+  "relationships": {
+    "Lara": "rival",
+    "Aedan": "potential threat",
+    "Theron": "ally"
+  },
+  "family": {
+    "parents": ["Unknown"],
+    "siblings": [],
+    "children": []
+  },
+  "location": "village_center",
+  "health": 0.9,
+  "energy": 0.9,
+  "skills": {
+    "politics": 0.8,
+    "persuasion": 0.9,
+    "strategy": 0.7,
+    "magic_theory": 0.5
+  },
+  "beliefs": {
+    "power_brings_order": 0.8,
+    "competition_drives_progress": 0.9,
+    "weakness_invites_disaster": 0.7
+  },
+  "values": ["power", "achievement", "control", "excellence"],
+  "reputation": 0.5,
+  "life_satisfaction": 0.4
+} 
