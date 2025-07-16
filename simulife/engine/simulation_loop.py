@@ -12,6 +12,18 @@ from ..agents.base_agent import BaseAgent
 from ..agents.reproduction import FamilyManager
 from .world_state import WorldState, WorldEvent
 from .advanced_events import AdvancedEventSystem
+from .cultural_system import CulturalSystem
+from .resource_system import ResourceSystem
+from .environmental_system import EnvironmentalSystem
+# Phase 4: Advanced Behaviors Systems
+from .skill_system import SkillSystem
+from .specialization_system import SpecializationSystem
+from .conflict_system import ConflictSystem
+from .cultural_artifacts import CulturalArtifactSystem
+# Phase 5: Group Dynamics Systems
+from .group_dynamics import GroupDynamicsSystem
+# Phase 6: Technology and Innovation Systems
+from .technology_system import TechnologySystem
 
 
 class SimulationEngine:
@@ -36,6 +48,23 @@ class SimulationEngine:
         
         # Initialize advanced event system
         self.event_system = AdvancedEventSystem()
+        
+        # Initialize Phase 3 completion systems
+        self.cultural_system = CulturalSystem()
+        self.resource_system = ResourceSystem()
+        self.environmental_system = EnvironmentalSystem()
+        
+        # Initialize Phase 4: Advanced Behaviors systems
+        self.skill_system = SkillSystem()
+        self.specialization_system = SpecializationSystem()
+        self.conflict_system = ConflictSystem()
+        self.cultural_artifact_system = CulturalArtifactSystem()
+        
+        # Initialize Phase 5: Group Dynamics systems
+        self.group_dynamics_system = GroupDynamicsSystem()
+        
+        # Initialize Phase 6: Technology and Innovation systems
+        self.technology_system = TechnologySystem()
         
         # Create save directory
         os.makedirs(save_dir, exist_ok=True)
@@ -92,71 +121,155 @@ class SimulationEngine:
     def run_day(self, verbose: bool = True) -> Dict[str, Any]:
         """
         Run a single day of simulation.
-        Returns a summary of the day's events.
+        
+        Returns:
+            Dict containing summary of the day's events
         """
-        day_summary = {
-            "day": self.world.current_day,
-            "agent_actions": [],
-            "interactions": [],
-            "world_events": [],
-            "new_relationships": [],
-            "status_changes": []
-        }
+        day_summary = {"day": self.world.current_day}
         
         if verbose:
-            print(f"\n🌅 Day {self.world.current_day} begins ({self.world.season}, {self.world.weather})")
-            print(f"   {self.world.get_world_description()}")
+            season_info = f"{self.world.season}, {self.world.weather}"
+            world_info = f"Day {self.world.current_day} of Year {self.world.year}, {season_info}. The weather is {self.world.weather}."
+            
+            # Add resource status
+            resource_statuses = []
+            for resource, level in self.world.resources.items():
+                if level > 1.2:
+                    status = "abundant"
+                elif level > 0.8:
+                    status = "adequate"
+                elif level > 0.4:
+                    status = "scarce"
+                else:
+                    status = "critically low"
+                resource_statuses.append(f"{resource} is {status}")
+            resource_status = ", ".join(resource_statuses)
+            
+            # Add recent events context
+            recent_events = self.world.get_recent_events(3)
+            events_context = ""
+            if recent_events:
+                # Handle WorldEvent objects properly
+                first_event = recent_events[0]
+                if hasattr(first_event, 'description'):
+                    events_context = f" Recent events include: {first_event.description}"
+                else:
+                    events_context = f" Recent events include: {str(first_event)}"
+            
+            world_description = f"   {world_info} Resources: {resource_status}.{events_context}"
+            print(f"\n🌅 Day {self.world.current_day} begins ({season_info})")
+            print(world_description)
         
-        # Step 1: All agents reflect and decide actions
-        for agent in self.agents:
-            if not agent.is_alive:
-                continue
-            
-            # Agent reflects on current situation
-            world_context = self.world.get_world_description()
-            reflection = agent.reflect(world_context)
-            
-            # Agent decides on action for the day
-            action = agent.decide_action(world_state=self.world.to_dict())
-            day_summary["agent_actions"].append({
-                "agent": agent.name,
-                "action": action,
-                "emotion": agent.emotion
-            })
-            
+        # Step 1: Generate world events
+        world_events = self.event_system.generate_daily_events(self.world, self.agents)
+        for event in world_events:
+            # Add event using the correct WorldState method
+            event_participants = event.get('participants', [])
+            self.world.add_agent_event(
+                event_participants, 
+                event.get('event_type', 'general'),
+                event.get('description', 'Unknown event'),
+                event.get('importance', 0.5)
+            )
             if verbose:
-                print(f"   🎭 {action}")
-            
-            # Age the agent
-            agent.age_one_day(self.world.current_day)
+                print(f"   🌍 World Event: {event.get('description', 'Unknown event')}")
+        day_summary["world_events"] = world_events
         
-        # Step 2: Generate interactions between agents
+        # Step 2: Process agent actions and interactions
         interactions = self._generate_interactions()
         day_summary["interactions"] = interactions
         
-        # Step 3: Process world events and their effects
-        world_events = self._process_world_events()
-        day_summary["world_events"] = world_events
+        # Step 3: Process Phase 3 systems (Cultural, Resource, Environmental)
+        # 3a: Process cultural evolution and knowledge transfer
+        cultural_events = self.cultural_system.process_cultural_evolution(
+            self.agents, self.world.current_day, self.world)
+        day_summary["cultural_events"] = cultural_events
         
-        # Step 4: Check for emergent phenomena (factions, beliefs, etc.)
+        # 3b: Process resource management and trading
+        resource_events = self.resource_system.process_daily_resources(
+            self.agents, self.world.resources, self.world.current_day)
+        day_summary["resource_events"] = resource_events
+        
+        # 3c: Process environmental effects and agent adaptation
+        environmental_events = self.environmental_system.process_environmental_effects(
+            self.agents, self.world, self.world.current_day)
+        day_summary["environmental_events"] = environmental_events
+        
+        # Step 4: Apply daily aging and maintenance for all agents
+        for agent in self.agents:
+            if agent.is_alive:
+                agent.age_one_day(self.world.current_day)
+        
+        # Step 5: Process Phase 4: Advanced Behaviors systems
+        # 5a: Process skill development and practice
+        skill_events = self.skill_system.process_daily_skill_activities(
+            self.agents, self.world.current_day)
+        day_summary["skill_events"] = skill_events
+        
+        # 5b: Process specialization activities and advancement
+        specialization_events = self.specialization_system.process_specialization_activities(
+            self.agents, self.world.current_day)
+        day_summary["specialization_events"] = specialization_events
+        
+        # 5c: Process conflicts and resolution attempts
+        conflict_events = self.conflict_system.process_daily_conflicts(
+            self.agents, self.world.current_day)
+        day_summary["conflict_events"] = conflict_events
+        
+        # 5d: Process cultural artifact creation and preservation
+        artifact_events = self.cultural_artifact_system.process_daily_artifacts(
+            self.agents, self.world.current_day)
+        day_summary["artifact_events"] = artifact_events
+        
+        # Step 5e: Process Phase 5: Group Dynamics systems
+        group_events = self.group_dynamics_system.process_daily_group_activities(
+            self.agents, self.world.current_day)
+        day_summary["group_events"] = group_events
+        
+        # Step 5f: Process Phase 6: Technology and Innovation systems
+        technology_events = self.technology_system.process_daily_technology_activities(
+            self.agents, self.group_dynamics_system.groups, self.world.current_day)
+        day_summary["technology_events"] = technology_events
+        
+        # Step 6: Check for emergent phenomena (factions, beliefs, etc.)
         emergent_events = self._check_emergent_phenomena()
         day_summary.update(emergent_events)
         
-        # Step 5: Process reproduction attempts
+        # Step 7: Process reproduction attempts
         new_births = self._process_reproduction_attempts()
         day_summary["new_births"] = new_births
         
-        # Step 6: Advance world state
+        # Step 8: Advance world state
         self.world.advance_day()
         self._update_population_stats()
         
-        # Step 7: Update statistics
+        # Step 9: Update statistics
         self.stats["days_simulated"] += 1
         self.stats["total_interactions"] += len(interactions)
         self.stats["total_events"] += len(world_events)
+        self.stats["cultural_activities"] = len(cultural_events)
+        self.stats["resource_transactions"] = len(resource_events)
+        self.stats["environmental_impacts"] = len(environmental_events)
+        self.stats["skill_developments"] = len(skill_events)
+        self.stats["specialization_advancements"] = len(specialization_events)
+        self.stats["conflicts_processed"] = len(conflict_events)
+        self.stats["artifacts_created"] = len(artifact_events)
+        self.stats["group_activities"] = len(group_events)
+        self.stats["technology_activities"] = len(technology_events)
         
+        # Step 10: Daily summary output
         if verbose:
-            print(f"   📊 {len(interactions)} interactions, {len(world_events)} events")
+            total_activities = (len(interactions) + len(world_events) + len(cultural_events) + 
+                              len(resource_events) + len(environmental_events) + len(skill_events) +
+                              len(specialization_events) + len(conflict_events) + len(artifact_events) +
+                              len(group_events) + len(technology_events))
+            
+            print(f"   📊 {total_activities} total activities: {len(interactions)} interactions, " +
+                  f"{len(world_events)} events, {len(cultural_events)} cultural, " +
+                  f"{len(resource_events)} resource, {len(environmental_events)} environmental, " +
+                  f"{len(skill_events)} skill, {len(specialization_events)} specialization, " +
+                  f"{len(conflict_events)} conflict, {len(artifact_events)} artifact, " +
+                  f"{len(group_events)} group, {len(technology_events)} technology")
         
         return day_summary
 

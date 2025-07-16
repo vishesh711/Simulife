@@ -42,7 +42,7 @@
     "reputation": 0.5,
     "location": "village_center",
     "health": 0.9,
-    "energy": 1.0,
+    "energy": 0.9466189972871586,
     "skills": {
       "politics": 0.8,
       "persuasion": 0.9,
@@ -61,10 +61,8 @@
       "excellence"
     ],
     "is_alive": true,
-    "last_action": "Kara My relationship with {person} has {change}. I should {action}.",
-    "action_history": [
-      "Kara My relationship with {person} has {change}. I should {action}."
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_005",
@@ -108,7 +106,7 @@
     "reputation": 0.6,
     "location": "mountains",
     "health": 0.9,
-    "energy": 0.966409903896874,
+    "energy": 1.0,
     "skills": {
       "exploration": 0.9,
       "survival": 0.7,
@@ -127,10 +125,8 @@
       "experience"
     ],
     "is_alive": true,
-    "last_action": "Theron Today taught me about cooperation. I feel hopeful about {event}.",
-    "action_history": [
-      "Theron Today taught me about cooperation. I feel hopeful about {event}."
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_001",
@@ -177,7 +173,7 @@
     "reputation": 0.7,
     "location": "village_center",
     "health": 0.9,
-    "energy": 0.8147006785027717,
+    "energy": 0.8540386572488523,
     "skills": {
       "magic_theory": 0.6,
       "herbalism": 0.4,
@@ -196,10 +192,8 @@
       "family"
     ],
     "is_alive": true,
-    "last_action": "Lara debates ideas and philosophies",
-    "action_history": [
-      "Lara debates ideas and philosophies"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_004",
@@ -246,7 +240,7 @@
     "reputation": 0.9,
     "location": "forest",
     "health": 0.8,
-    "energy": 0.6160724019063943,
+    "energy": 0.8199012735665365,
     "skills": {
       "healing": 0.9,
       "herbalism": 0.9,
@@ -265,10 +259,8 @@
       "life"
     ],
     "is_alive": true,
-    "last_action": "Nyla I wonder what would happen if {speculation}. This makes me hopeful.",
-    "action_history": [
-      "Nyla I wonder what would happen if {speculation}. This makes me hopeful."
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_002",
@@ -316,7 +308,7 @@
     "reputation": 0.8,
     "location": "village_center",
     "health": 1.0,
-    "energy": 0.8373580818247108,
+    "energy": 1.0,
     "skills": {
       "combat": 0.8,
       "crafting": 0.7,
@@ -335,9 +327,7 @@
       "tradition"
     ],
     "is_alive": true,
-    "last_action": "Aedan The world seems to be {observation}. I must {response}.",
-    "action_history": [
-      "Aedan The world seems to be {observation}. I must {response}."
-    ]
+    "last_action": "",
+    "action_history": []
   }
 ]

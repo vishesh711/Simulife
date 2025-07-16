@@ -3,5 +3,13 @@
   "total_interactions": 3,
   "total_events": 1,
   "agent_births": 0,
-  "agent_deaths": 0
+  "agent_deaths": 0,
+  "cultural_activities": 0,
+  "resource_transactions": 0,
+  "environmental_impacts": 0,
+  "skill_developments": 0,
+  "specialization_activities": 0,
+  "conflicts_processed": 0,
+  "artifact_activities": 0,
+  "group_activities": 0
 }

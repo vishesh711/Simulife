@@ -2,23 +2,23 @@
   "current_day": 3,
   "season": "spring",
   "year": 1,
-  "weather": "clear",
+  "weather": "cloudy",
   "temperature": "mild",
   "resources": {
-    "food": 1.051363166776566,
-    "water": 1.0433754364450125,
+    "food": 1.0484982210441205,
+    "water": 1.0425294748216032,
     "shelter": 1.0,
     "knowledge": 0.5
   },
   "events": [
     {
-      "event_id": "world_event_0",
-      "day": 1,
-      "event_type": "weather_change",
-      "description": "A sudden change in weather patterns affects the region",
+      "event_id": "agent_event_0",
+      "day": 2,
+      "event_type": "crisis",
+      "description": "A mysterious illness spreads among the community",
       "participants": [],
-      "location": "fields",
-      "importance": 0.5833465429718587,
+      "location": "village_center",
+      "importance": 0.8,
       "consequences": []
     }
   ],

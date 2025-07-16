@@ -61,11 +61,8 @@
       "excellence"
     ],
     "is_alive": true,
-    "last_action": "Kara works toward their personal goal: gain political power",
-    "action_history": [
-      "Kara works toward their personal goal: gain political power",
-      "Kara works toward their personal goal: gain political power"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_005",
@@ -109,7 +106,7 @@
     "reputation": 0.6,
     "location": "mountains",
     "health": 0.9,
-    "energy": 0.9363588831743723,
+    "energy": 1.0,
     "skills": {
       "exploration": 0.9,
       "survival": 0.7,
@@ -128,11 +125,8 @@
       "experience"
     ],
     "is_alive": true,
-    "last_action": "Theron seeks out others to chat and build relationships",
-    "action_history": [
-      "Theron seeks out others to chat and build relationships",
-      "Theron seeks out others to chat and build relationships"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_001",
@@ -179,7 +173,7 @@
     "reputation": 0.7,
     "location": "village_center",
     "health": 0.9,
-    "energy": 0.9040744761099693,
+    "energy": 0.8009588721984918,
     "skills": {
       "magic_theory": 0.6,
       "herbalism": 0.4,
@@ -198,11 +192,8 @@
       "family"
     ],
     "is_alive": true,
-    "last_action": "Lara carefully observes the environment and people around",
-    "action_history": [
-      "Lara works toward their personal goal: learn magic",
-      "Lara carefully observes the environment and people around"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_004",
@@ -249,7 +240,7 @@
     "reputation": 0.9,
     "location": "forest",
     "health": 0.8,
-    "energy": 0.9987625805288975,
+    "energy": 0.8711574334746286,
     "skills": {
       "healing": 0.9,
       "herbalism": 0.9,
@@ -268,11 +259,8 @@
       "life"
     ],
     "is_alive": true,
-    "last_action": "Nyla works toward their personal goal: heal the sick",
-    "action_history": [
-      "Nyla ventures out to explore and discover new places",
-      "Nyla works toward their personal goal: heal the sick"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_002",
@@ -320,7 +308,7 @@
     "reputation": 0.8,
     "location": "village_center",
     "health": 1.0,
-    "energy": 0.910222328900717,
+    "energy": 1.0,
     "skills": {
       "combat": 0.8,
       "crafting": 0.7,
@@ -339,10 +327,7 @@
       "tradition"
     ],
     "is_alive": true,
-    "last_action": "Aedan looks for someone who needs assistance",
-    "action_history": [
-      "Aedan ventures out to explore and discover new places",
-      "Aedan looks for someone who needs assistance"
-    ]
+    "last_action": "",
+    "action_history": []
   }
 ]

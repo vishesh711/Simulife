@@ -2,25 +2,23 @@
   "current_day": 1,
   "season": "spring",
   "year": 1,
-  "weather": "clear",
+  "weather": "windy",
   "temperature": "mild",
   "resources": {
-    "food": 1.0120721834131534,
-    "water": 1.01918759820601,
+    "food": 1.026891814769301,
+    "water": 1.0059696413104282,
     "shelter": 1.0,
     "knowledge": 0.5
   },
   "events": [
     {
-      "event_id": "agent_event_0",
-      "day": 0,
-      "event_type": "social",
-      "description": "{elder} begins teaching Lara valuable skills",
-      "participants": [
-        "Lara"
-      ],
-      "location": "village_center",
-      "importance": 0.5,
+      "event_id": "world_event_0",
+      "day": 1,
+      "event_type": "resource_discovery",
+      "description": "New resources have been discovered in the area",
+      "participants": [],
+      "location": "forest",
+      "importance": 0.6856831034124105,
       "consequences": []
     }
   ],

@@ -5,20 +5,44 @@
   "weather": "windy",
   "temperature": "mild",
   "resources": {
-    "food": 1.0298466316018011,
-    "water": 1.0054785783022018,
+    "food": 1.0517014590301343,
+    "water": 1.0142363715671965,
     "shelter": 1.0,
     "knowledge": 0.5
   },
   "events": [
     {
       "event_id": "world_event_0",
-      "day": 2,
-      "event_type": "natural_phenomenon",
-      "description": "Strange lights appear in the sky, puzzling everyone",
+      "day": 1,
+      "event_type": "resource_discovery",
+      "description": "New resources have been discovered in the area",
       "participants": [],
-      "location": "village_center",
-      "importance": 0.6504517048916765,
+      "location": "forest",
+      "importance": 0.6856831034124105,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_1",
+      "day": 1,
+      "event_type": "general",
+      "description": "{elder} begins teaching Nyla valuable skills",
+      "participants": [
+        "Nyla"
+      ],
+      "location": 0.5,
+      "importance": 0.5,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_2",
+      "day": 1,
+      "event_type": "general",
+      "description": "Kara questions {leader}'s authority",
+      "participants": [
+        "Kara"
+      ],
+      "location": 0.5,
+      "importance": 0.5,
       "consequences": []
     }
   ],
