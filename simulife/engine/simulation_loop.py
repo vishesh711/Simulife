@@ -40,6 +40,10 @@ from .inter_group_diplomacy_system import InterGroupDiplomacySystem
 from .self_awareness_system import SelfAwarenessSystem
 from .meta_cognition_system import MetaCognitionSystem
 from .consciousness_metrics_system import ConsciousnessMetricsSystem
+# Phase 10: Love & Romance System
+from .love_romance_system import LoveRomanceSystem
+# Phase Detection System
+from .phase_detector import PhaseDetector
 
 
 class SimulationEngine:
@@ -100,6 +104,12 @@ class SimulationEngine:
         self.self_awareness_system = SelfAwarenessSystem()
         self.meta_cognition_system = MetaCognitionSystem()
         self.consciousness_metrics_system = ConsciousnessMetricsSystem()
+        
+        # Initialize Phase 10: Love & Romance system
+        self.love_romance_system = LoveRomanceSystem()
+        
+        # Initialize Phase Detection System
+        self.phase_detector = PhaseDetector()
         
         # Create save directory
         os.makedirs(save_dir, exist_ok=True)
@@ -337,6 +347,11 @@ class SimulationEngine:
             self.agents, self.world.current_day)
         day_summary["consciousness_events"] = consciousness_events
         
+        # 10: Process romantic development and relationships (Phase 10)
+        romance_events = self.love_romance_system.process_daily_romantic_development(
+            self.agents, self.world.current_day)
+        day_summary["romance_events"] = romance_events
+        
         # Step 10: Process reproduction attempts (with genetic and health considerations)
         new_births = self._process_reproduction_attempts(verbose)
         day_summary["new_births"] = new_births
@@ -345,11 +360,51 @@ class SimulationEngine:
         emergent_events = self._check_emergent_phenomena()
         day_summary.update(emergent_events)
         
-        # Step 11: Advance world state and agent aging
+        # Step 12: Process Phase Detection and Civilization Progression
+        recent_events = []  # Collect all events from this day
+        recent_events.extend(world_events)
+        recent_events.extend(interactions)
+        recent_events.extend(cultural_events)
+        recent_events.extend(romance_events)
+        recent_events.extend(milestone_events)
+        
+        # Check for phase transition
+        phase_transition = self.phase_detector.check_transition(
+            self.world, self.agents, recent_events)
+        
+        if phase_transition:
+            # Execute phase transition
+            self.phase_detector.transition_to_phase(
+                phase_transition.to_phase, phase_transition)
+            
+            if verbose:
+                print(f"🌟 CIVILIZATION PHASE TRANSITION!")
+                print(f"   From: {phase_transition.from_phase}")
+                print(f"   To: {phase_transition.to_phase}")
+                print(f"   Population: {phase_transition.population_at_transition} agents")
+                print(f"   Confidence: {phase_transition.confidence:.1%}")
+                if phase_transition.trigger_milestones:
+                    print(f"   Triggered by milestones: {[m.name for m in phase_transition.trigger_milestones]}")
+        
+        # Get current phase status for summary
+        phase_status = self.phase_detector.get_current_status(self.world, self.agents)
+        day_summary["phase_status"] = phase_status
+        
+        # Show milestone progress in verbose mode
+        if verbose:
+            milestone_progress = self.phase_detector.get_milestone_progress()
+            if milestone_progress:
+                print(f"   📊 Phase Progress ({phase_status['current_phase']}):")
+                print(f"      Next Phase: {milestone_progress.get('target_phase', 'Unknown')}")
+                print(f"      Progress: {milestone_progress.get('progress_percentage', 0):.1f}%")
+                if milestone_progress.get('recent_milestones'):
+                    print(f"      Recent Milestones: {', '.join(phase_status['recent_milestones'])}")
+        
+        # Step 13: Advance world state and agent aging
         self.world.advance_day()
         self._update_population_stats()
         
-        # Step 12: Update statistics
+        # Step 14: Update statistics
         self.stats["days_simulated"] += 1
         self.stats["total_interactions"] += len(interactions)
         self.stats["total_events"] += len(world_events)
@@ -373,6 +428,7 @@ class SimulationEngine:
         self.stats["milestone_events"] = len(milestone_events)
         self.stats["crisis_events"] = len(crisis_events)
         self.stats["diplomacy_events"] = len(diplomacy_events)
+        self.stats["romance_events"] = len(romance_events)
         
         # Step 12: Daily summary output
         if verbose:
@@ -383,7 +439,8 @@ class SimulationEngine:
                               len(disease_events) + len(population_events) + len(cultural_transmission_events) +
                               len(institutional_events) + len(economic_events) + len(movement_events) +
                               len(milestone_events) + len(crisis_events) + len(diplomacy_events) +
-                              len(self_awareness_events) + len(metacognition_events) + len(consciousness_events))
+                              len(self_awareness_events) + len(metacognition_events) + len(consciousness_events) +
+                              len(romance_events))
             
             print(f"   📊 {total_activities} total activities: {len(interactions)} interactions, " +
                   f"{len(world_events)} events, {len(cultural_events)} cultural, " +
@@ -397,7 +454,7 @@ class SimulationEngine:
                   f"{len(movement_events)} movement, {len(milestone_events)} milestone, " +
                   f"{len(crisis_events)} crisis, {len(diplomacy_events)} diplomacy, " +
                   f"{len(self_awareness_events)} self-awareness, {len(metacognition_events)} metacognition, " +
-                  f"{len(consciousness_events)} consciousness")
+                  f"{len(consciousness_events)} consciousness, {len(romance_events)} romance")
         
         return day_summary
 

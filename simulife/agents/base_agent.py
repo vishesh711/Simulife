@@ -62,6 +62,74 @@ class BaseAgent:
         # Memory system
         self.memory = MemoryManager(self.name)
         
+        # Phase 10: Deep Human Emotions & Life Purpose
+        self.emotional_profile = config.get("emotional_profile", {
+            "primary_emotions": {
+                "love": 0.0,           # Capacity for deep love
+                "joy": 0.5,            # General happiness
+                "fear": 0.3,           # Anxiety and worry
+                "anger": 0.2,          # Frustration and rage
+                "sadness": 0.1,        # Depression and grief
+                "surprise": 0.4,       # Wonder and shock
+                "trust": 0.6,          # Faith in others
+                "anticipation": 0.5    # Hope and excitement
+            },
+            "complex_emotions": {
+                "romantic_love": 0.0,      # Passionate attachment
+                "parental_love": 0.0,      # Protective nurturing
+                "jealousy": 0.0,           # Romantic/social jealousy
+                "nostalgia": 0.0,          # Longing for past
+                "ambition": 0.3,           # Drive for achievement
+                "contentment": 0.4,        # Life satisfaction
+                "loneliness": 0.2,         # Social isolation pain
+                "pride": 0.3,              # Self-worth and dignity
+                "shame": 0.1,              # Self-criticism
+                "compassion": 0.5          # Care for others' suffering
+            }
+        })
+        
+        # Life Purpose & Meaning
+        self.life_purpose = config.get("life_purpose", {
+            "core_calling": None,              # Primary life mission
+            "secondary_purposes": [],          # Supporting goals
+            "spiritual_beliefs": {},           # Religious/philosophical views
+            "legacy_desires": [],              # How they want to be remembered
+            "meaning_sources": [],             # What gives life meaning
+            "existential_questions": [],       # Deep questions they ponder
+            "purpose_evolution": []            # How purpose changes over time
+        })
+        
+        # Romance & Love Life
+        self.romantic_life = config.get("romantic_life", {
+            "attraction_preferences": {},       # What they find attractive
+            "romantic_history": [],            # Past relationships
+            "current_partner": None,           # Active romantic relationship
+            "courtship_style": None,           # How they pursue romance
+            "love_languages": [],              # How they express/receive love
+            "relationship_values": [],         # What they value in partnerships
+            "heartbreak_history": [],          # Past emotional wounds
+            "romantic_ideals": {}              # Dreams about perfect love
+        })
+        
+        # Deep Family Connections
+        self.family_bonds = config.get("family_bonds", {
+            "parental_attachment": {},         # Strength of parent bonds
+            "sibling_relationships": {},       # Complex sibling dynamics
+            "protective_instincts": {},        # Who they'd protect
+            "family_loyalty": 0.7,             # Commitment to family
+            "generational_values": {},         # Family traditions they hold
+            "family_role": None,               # Their position in family
+            "inherited_traits": {},            # Family characteristics
+            "family_secrets": []               # Hidden family knowledge
+        })
+        
+        # Romantic relationship status (Phase 10)
+        self.relationship_status = config.get("relationship_status", "single")
+        self.romantic_partner = config.get("romantic_partner", None)
+        
+        # Pregnancy tracking (for reproduction system)
+        self.pregnancies = config.get("pregnancies", [])
+        
         # LLM brain for intelligent decision-making
         llm_config = config.get("llm_config", {"provider_type": "mock"})
         provider = create_llm_provider(**llm_config)
@@ -328,6 +396,142 @@ class BaseAgent:
                 self.emotion = "neutral"
                 self.emotion_intensity = 0.1
 
+    def experience_romantic_attraction(self, target_agent) -> bool:
+        """Experience romantic feelings for another agent."""
+        # This method is called by the LoveRomanceSystem
+        return True  # Basic implementation - system handles the complexity
+    
+    def calculate_romantic_compatibility(self, other_agent) -> float:
+        """Calculate romantic compatibility with another agent."""
+        # Basic compatibility calculation - full logic is in LoveRomanceSystem
+        compatibility = 0.0
+        
+        # Personality compatibility
+        for trait in ["extraversion", "agreeableness", "openness"]:
+            if trait in self.personality_scores and trait in other_agent.personality_scores:
+                diff = abs(self.personality_scores[trait] - other_agent.personality_scores[trait])
+                compatibility += max(0, 1.0 - diff) * 0.2
+        
+        # Shared traits
+        shared_traits = len(set(self.traits) & set(other_agent.traits))
+        compatibility += shared_traits * 0.1
+        
+        # Age compatibility
+        age_diff = abs(self.age - other_agent.age)
+        age_compat = max(0, 1.0 - (age_diff / 20.0))
+        compatibility += age_compat * 0.2
+        
+        return min(1.0, compatibility)
+    
+    def discover_life_purpose(self):
+        """Agent discovers or evolves their life purpose."""
+        # Life purpose emerges from personality, experiences, and age
+        if self.age >= 18 and not self.life_purpose["core_calling"]:
+            # Generate purpose based on personality and experiences
+            possible_purposes = self._generate_possible_purposes()
+            if possible_purposes:
+                chosen_purpose = possible_purposes[0]  # Take the most fitting one
+                self.life_purpose["core_calling"] = chosen_purpose
+                
+                # Create important memory
+                self.memory.store_memory(
+                    f"I've discovered my life's calling: {chosen_purpose}. This gives my existence meaning.",
+                    importance=1.0,
+                    emotion="enlightenment",
+                    memory_type="life_milestone"
+                )
+    
+    def _generate_possible_purposes(self) -> List[str]:
+        """Generate possible life purposes based on personality and traits."""
+        purposes = []
+        
+        if "creative" in self.traits or "artistic" in self.traits:
+            purposes.append("create beautiful art that inspires others")
+        if "wise" in self.traits or self.personality_scores.get("openness", 0.5) > 0.7:
+            purposes.append("seek knowledge and teach wisdom")
+        if "social" in self.traits or self.personality_scores.get("extraversion", 0.5) > 0.7:
+            purposes.append("build strong communities and help others")
+        if "strong" in self.traits or "protective" in self.traits:
+            purposes.append("protect those who cannot protect themselves")
+        if "spiritual" in self.traits:
+            purposes.append("understand the deeper meaning of existence")
+        if self.personality_scores.get("conscientiousness", 0.5) > 0.7:
+            purposes.append("create lasting institutions that benefit society")
+        
+        # Default purposes if none match
+        if not purposes:
+            purposes = [
+                "live a meaningful life and be remembered kindly",
+                "make the world a better place for future generations",
+                "find happiness and help others find theirs"
+            ]
+        
+        return purposes
+    
+    def form_deep_family_bond(self, family_member, bond_type: str):
+        """Create intense family emotional bonds."""
+        import random
+        
+        if bond_type == "parent_child":
+            # Incredibly strong protective and nurturing bond
+            bond_strength = random.uniform(0.8, 1.0)
+            self.family_bonds["parental_attachment"][family_member.name] = bond_strength
+            
+            # Parental love is one of the strongest emotions
+            self.emotional_profile["complex_emotions"]["parental_love"] = max(
+                self.emotional_profile["complex_emotions"]["parental_love"],
+                bond_strength
+            )
+            
+        elif bond_type == "siblings":
+            # Complex mix of competition and loyalty
+            bond_strength = random.uniform(0.4, 0.9)
+            rivalry_level = random.uniform(0.1, 0.6)
+            
+            self.family_bonds["sibling_relationships"][family_member.name] = {
+                "bond_strength": bond_strength,
+                "rivalry_level": rivalry_level,
+                "shared_memories": [],
+                "loyalty": random.uniform(0.6, 1.0)
+            }
+    
+    def update_emotional_state(self, emotion_changes: Dict[str, float]):
+        """Update agent's emotional state with new influences."""
+        # Update primary emotions
+        for emotion, change in emotion_changes.get("primary_emotions", {}).items():
+            if emotion in self.emotional_profile["primary_emotions"]:
+                current_value = self.emotional_profile["primary_emotions"][emotion]
+                new_value = max(0.0, min(1.0, current_value + change))
+                self.emotional_profile["primary_emotions"][emotion] = new_value
+        
+        # Update complex emotions
+        for emotion, change in emotion_changes.get("complex_emotions", {}).items():
+            if emotion in self.emotional_profile["complex_emotions"]:
+                current_value = self.emotional_profile["complex_emotions"][emotion]
+                new_value = max(0.0, min(1.0, current_value + change))
+                self.emotional_profile["complex_emotions"][emotion] = new_value
+    
+    def get_dominant_emotion(self) -> str:
+        """Get the currently strongest emotion."""
+        all_emotions = {}
+        all_emotions.update(self.emotional_profile["primary_emotions"])
+        all_emotions.update(self.emotional_profile["complex_emotions"])
+        
+        return max(all_emotions, key=all_emotions.get)
+    
+    def get_life_stage(self) -> str:
+        """Determine current life stage based on age."""
+        if self.age < 16:
+            return "child"
+        elif self.age < 25:
+            return "young_adult"
+        elif self.age < 40:
+            return "adult"
+        elif self.age < 60:
+            return "middle_aged"
+        else:
+            return "elder"
+
     def to_dict(self) -> Dict[str, Any]:
         """
         Serialize agent state to dictionary for saving.
@@ -357,7 +561,15 @@ class BaseAgent:
             "values": self.values,
             "is_alive": self.is_alive,
             "last_action": self.last_action,
-            "action_history": self.action_history[-10:]  # Keep only recent history
+            "action_history": self.action_history[-10:],  # Keep only recent history
+            # Phase 10 additions
+            "emotional_profile": self.emotional_profile,
+            "life_purpose": self.life_purpose,
+            "romantic_life": self.romantic_life,
+            "family_bonds": self.family_bonds,
+            "relationship_status": self.relationship_status,
+            "romantic_partner": self.romantic_partner,
+            "pregnancies": self.pregnancies
         }
 
     def get_status_summary(self) -> str:

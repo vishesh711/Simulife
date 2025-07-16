@@ -5,25 +5,12 @@
   "weather": "clear",
   "temperature": "mild",
   "resources": {
-    "food": 1.010647217662602,
-    "water": 1.0162661280688108,
+    "food": 1.0190336125088704,
+    "water": 1.0034404744137182,
     "shelter": 1.0,
     "knowledge": 0.5
   },
-  "events": [
-    {
-      "event_id": "agent_event_0",
-      "day": 0,
-      "event_type": "general",
-      "description": "Kara questions {leader}'s authority",
-      "participants": [
-        "Kara"
-      ],
-      "location": 0.5,
-      "importance": 0.5,
-      "consequences": []
-    }
-  ],
+  "events": [],
   "locations": {
     "village_center": "The heart of the community where people gather",
     "forest": "A mysterious woodland area rich with resources",
@@ -35,9 +22,9 @@
   "beliefs": {},
   "customs": [],
   "population_stats": {
-    "total_agents": 5,
+    "total_agents": 0,
     "births": 0,
     "deaths": 0,
-    "average_age": 31.4
+    "average_age": 0
   }
 }

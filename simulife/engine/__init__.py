@@ -41,6 +41,12 @@ from .self_awareness_system import SelfAwarenessSystem, IdentityAspect, SelfRefl
 from .meta_cognition_system import MetaCognitionSystem, CognitiveProcess, MetaCognitiveSkill, CognitiveBias, MetaCognitiveInsight, CognitiveBiasRecognition, MetaCognitiveStrategy, ThinkingPattern, MetaCognitiveProfile
 from .consciousness_metrics_system import ConsciousnessMetricsSystem, ConsciousnessAspect, ConsciousnessEvent, ConsciousnessProfile, ConsciousnessBreakthrough, ExistentialMoment, CollectiveConsciousnessEvent
 
+# Phase 10: Love & Romance System
+from .love_romance_system import LoveRomanceSystem, RelationshipStatus, CourtshipStyle, LoveLanguage, RomanticAttraction, RomanticRelationship, MarriageEvent
+
+# Phase Detection and Civilization Progression System
+from .phase_detector import PhaseDetector, Milestone, PhaseState, PhaseTransition, CivilizationMetrics, MilestoneTracker
+
 __all__ = [
     'SimulationEngine',
     'WorldState', 
@@ -172,5 +178,20 @@ __all__ = [
     'ConsciousnessProfile',
     'ConsciousnessBreakthrough',
     'ExistentialMoment',
-    'CollectiveConsciousnessEvent'
+    'CollectiveConsciousnessEvent',
+    # Phase 10 Systems
+    'LoveRomanceSystem',
+    'RelationshipStatus',
+    'CourtshipStyle',
+    'LoveLanguage',
+    'RomanticAttraction',
+    'RomanticRelationship',
+    'MarriageEvent',
+    # Phase Detection Systems
+    'PhaseDetector',
+    'Milestone',
+    'PhaseState',
+    'PhaseTransition',
+    'CivilizationMetrics',
+    'MilestoneTracker'
 ] 

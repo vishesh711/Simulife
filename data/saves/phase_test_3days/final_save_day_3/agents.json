@@ -1,0 +1,613 @@
+[
+  {
+    "id": "agent_003",
+    "name": "Kara",
+    "age": 30,
+    "birth_day": -10950,
+    "traits": [
+      "ambitious",
+      "clever",
+      "competitive"
+    ],
+    "personality_scores": {
+      "openness": 0.7,
+      "conscientiousness": 0.8,
+      "extraversion": 0.8,
+      "agreeableness": 0.3,
+      "neuroticism": 0.6
+    },
+    "goals": [
+      "gain political power",
+      "prove superiority",
+      "control resources"
+    ],
+    "current_goal": "gain political power",
+    "life_satisfaction": 0.4,
+    "emotion": "confident",
+    "emotion_intensity": 0.8,
+    "mood": "stable",
+    "relationships": {
+      "Lara": "rival",
+      "Aedan": "potential threat",
+      "Theron": "ally"
+    },
+    "family": {
+      "parents": [
+        "Unknown"
+      ],
+      "siblings": [],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.5,
+    "location": "village_center",
+    "health": 0.9,
+    "energy": 0.9,
+    "skills": {
+      "politics": 0.8,
+      "persuasion": 0.9,
+      "strategy": 0.7,
+      "magic_theory": 0.5
+    },
+    "beliefs": {
+      "power_brings_order": 0.8,
+      "competition_drives_progress": 0.9,
+      "weakness_invites_disaster": 0.7
+    },
+    "values": [
+      "power",
+      "achievement",
+      "control",
+      "excellence"
+    ],
+    "is_alive": true,
+    "last_action": "",
+    "action_history": [],
+    "emotional_profile": {
+      "primary_emotions": {
+        "love": 0.0,
+        "joy": 0.5,
+        "fear": 0.3,
+        "anger": 0.2,
+        "sadness": 0.1,
+        "surprise": 0.4,
+        "trust": 0.6,
+        "anticipation": 0.5
+      },
+      "complex_emotions": {
+        "romantic_love": 0.0,
+        "parental_love": 0.0,
+        "jealousy": 0.0,
+        "nostalgia": 0.0,
+        "ambition": 0.3,
+        "contentment": 0.4,
+        "loneliness": 0.2,
+        "pride": 0.3,
+        "shame": 0.1,
+        "compassion": 0.5
+      }
+    },
+    "life_purpose": {
+      "core_calling": null,
+      "secondary_purposes": [],
+      "spiritual_beliefs": {},
+      "legacy_desires": [],
+      "meaning_sources": [],
+      "existential_questions": [],
+      "purpose_evolution": []
+    },
+    "romantic_life": {
+      "attraction_preferences": {},
+      "romantic_history": [],
+      "current_partner": null,
+      "courtship_style": null,
+      "love_languages": [],
+      "relationship_values": [],
+      "heartbreak_history": [],
+      "romantic_ideals": {}
+    },
+    "family_bonds": {
+      "parental_attachment": {},
+      "sibling_relationships": {},
+      "protective_instincts": {},
+      "family_loyalty": 0.7,
+      "generational_values": {},
+      "family_role": null,
+      "inherited_traits": {},
+      "family_secrets": []
+    },
+    "relationship_status": "single",
+    "romantic_partner": null,
+    "pregnancies": []
+  },
+  {
+    "id": "agent_005",
+    "name": "Theron",
+    "age": 22,
+    "birth_day": -8030,
+    "traits": [
+      "adventurous",
+      "optimistic",
+      "restless"
+    ],
+    "personality_scores": {
+      "openness": 0.9,
+      "conscientiousness": 0.4,
+      "extraversion": 0.8,
+      "agreeableness": 0.6,
+      "neuroticism": 0.5
+    },
+    "goals": [
+      "explore unknown lands",
+      "discover new things",
+      "make friends"
+    ],
+    "current_goal": "explore unknown lands",
+    "life_satisfaction": 0.9,
+    "emotion": "excited",
+    "emotion_intensity": 0.8,
+    "mood": "stable",
+    "relationships": {
+      "Kara": "ally",
+      "Nyla": "old friend"
+    },
+    "family": {
+      "parents": [
+        "Travelers"
+      ],
+      "siblings": [],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.6,
+    "location": "mountains",
+    "health": 0.9,
+    "energy": 1.0,
+    "skills": {
+      "exploration": 0.9,
+      "survival": 0.7,
+      "storytelling": 0.6,
+      "athletics": 0.8
+    },
+    "beliefs": {
+      "adventure_brings_wisdom": 0.9,
+      "the_world_is_full_of_wonders": 0.9,
+      "change_is_good": 0.8
+    },
+    "values": [
+      "freedom",
+      "discovery",
+      "friendship",
+      "experience"
+    ],
+    "is_alive": true,
+    "last_action": "",
+    "action_history": [],
+    "emotional_profile": {
+      "primary_emotions": {
+        "love": 0.0,
+        "joy": 0.5,
+        "fear": 0.3,
+        "anger": 0.2,
+        "sadness": 0.1,
+        "surprise": 0.4,
+        "trust": 0.6,
+        "anticipation": 0.5
+      },
+      "complex_emotions": {
+        "romantic_love": 0.0,
+        "parental_love": 0.0,
+        "jealousy": 0.0,
+        "nostalgia": 0.0,
+        "ambition": 0.3,
+        "contentment": 0.4,
+        "loneliness": 0.2,
+        "pride": 0.3,
+        "shame": 0.1,
+        "compassion": 0.5
+      }
+    },
+    "life_purpose": {
+      "core_calling": null,
+      "secondary_purposes": [],
+      "spiritual_beliefs": {},
+      "legacy_desires": [],
+      "meaning_sources": [],
+      "existential_questions": [],
+      "purpose_evolution": []
+    },
+    "romantic_life": {
+      "attraction_preferences": {},
+      "romantic_history": [],
+      "current_partner": null,
+      "courtship_style": null,
+      "love_languages": [],
+      "relationship_values": [],
+      "heartbreak_history": [],
+      "romantic_ideals": {}
+    },
+    "family_bonds": {
+      "parental_attachment": {},
+      "sibling_relationships": {},
+      "protective_instincts": {},
+      "family_loyalty": 0.7,
+      "generational_values": {},
+      "family_role": null,
+      "inherited_traits": {},
+      "family_secrets": []
+    },
+    "relationship_status": "single",
+    "romantic_partner": null,
+    "pregnancies": []
+  },
+  {
+    "id": "agent_001",
+    "name": "Lara",
+    "age": 28,
+    "birth_day": -10220,
+    "traits": [
+      "curious",
+      "kind",
+      "ambitious"
+    ],
+    "personality_scores": {
+      "openness": 0.8,
+      "conscientiousness": 0.7,
+      "extraversion": 0.6,
+      "agreeableness": 0.8,
+      "neuroticism": 0.3
+    },
+    "goals": [
+      "learn magic",
+      "protect village",
+      "discover ancient knowledge"
+    ],
+    "current_goal": "learn magic",
+    "life_satisfaction": 0.6,
+    "emotion": "worried",
+    "emotion_intensity": 0.8999999999999999,
+    "mood": "stable",
+    "relationships": {
+      "Aedan": "brother",
+      "Kara": "rival"
+    },
+    "family": {
+      "parents": [
+        "Elder Matthias",
+        "Sera"
+      ],
+      "siblings": [
+        "Aedan"
+      ],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.7,
+    "location": "village_center",
+    "health": 0.89,
+    "energy": 0.8,
+    "skills": {
+      "magic_theory": 0.6,
+      "herbalism": 0.4,
+      "diplomacy": 0.5,
+      "research": 0.7
+    },
+    "beliefs": {
+      "knowledge_is_power": 0.9,
+      "help_others": 0.8,
+      "magic_is_natural": 0.7
+    },
+    "values": [
+      "knowledge",
+      "compassion",
+      "progress",
+      "family"
+    ],
+    "is_alive": true,
+    "last_action": "",
+    "action_history": [],
+    "emotional_profile": {
+      "primary_emotions": {
+        "love": 0.0,
+        "joy": 0.5,
+        "fear": 0.3,
+        "anger": 0.2,
+        "sadness": 0.1,
+        "surprise": 0.4,
+        "trust": 0.6,
+        "anticipation": 0.5
+      },
+      "complex_emotions": {
+        "romantic_love": 0.0,
+        "parental_love": 0.0,
+        "jealousy": 0.0,
+        "nostalgia": 0.0,
+        "ambition": 0.3,
+        "contentment": 0.4,
+        "loneliness": 0.2,
+        "pride": 0.3,
+        "shame": 0.1,
+        "compassion": 0.5
+      }
+    },
+    "life_purpose": {
+      "core_calling": null,
+      "secondary_purposes": [],
+      "spiritual_beliefs": {},
+      "legacy_desires": [],
+      "meaning_sources": [],
+      "existential_questions": [],
+      "purpose_evolution": []
+    },
+    "romantic_life": {
+      "attraction_preferences": {},
+      "romantic_history": [],
+      "current_partner": null,
+      "courtship_style": null,
+      "love_languages": [],
+      "relationship_values": [],
+      "heartbreak_history": [],
+      "romantic_ideals": {}
+    },
+    "family_bonds": {
+      "parental_attachment": {},
+      "sibling_relationships": {},
+      "protective_instincts": {},
+      "family_loyalty": 0.7,
+      "generational_values": {},
+      "family_role": null,
+      "inherited_traits": {},
+      "family_secrets": []
+    },
+    "relationship_status": "single",
+    "romantic_partner": null,
+    "pregnancies": []
+  },
+  {
+    "id": "agent_004",
+    "name": "Nyla",
+    "age": 45,
+    "birth_day": -16425,
+    "traits": [
+      "wise",
+      "empathetic",
+      "patient"
+    ],
+    "personality_scores": {
+      "openness": 0.6,
+      "conscientiousness": 0.8,
+      "extraversion": 0.4,
+      "agreeableness": 0.9,
+      "neuroticism": 0.2
+    },
+    "goals": [
+      "heal the sick",
+      "preserve ancient wisdom",
+      "maintain peace"
+    ],
+    "current_goal": "heal the sick",
+    "life_satisfaction": 0.8,
+    "emotion": "worried",
+    "emotion_intensity": 0.6000000000000001,
+    "mood": "stable",
+    "relationships": {
+      "Aedan": "friend",
+      "Lara": "mentor",
+      "Theron": "old friend"
+    },
+    "family": {
+      "parents": [
+        "Deceased"
+      ],
+      "siblings": [],
+      "children": [
+        "Eli"
+      ]
+    },
+    "faction": null,
+    "reputation": 0.9,
+    "location": "forest",
+    "health": 0.7520621664644108,
+    "energy": 0.6734126566288624,
+    "skills": {
+      "healing": 0.8967221362517828,
+      "herbalism": 0.8971116116258974,
+      "wisdom": 0.7974274033875267,
+      "meditation": 0.7967316567649526
+    },
+    "beliefs": {
+      "all_life_is_sacred": 0.9,
+      "knowledge_should_be_shared": 0.8,
+      "nature_provides_answers": 0.9
+    },
+    "values": [
+      "compassion",
+      "wisdom",
+      "balance",
+      "life"
+    ],
+    "is_alive": true,
+    "last_action": "",
+    "action_history": [],
+    "emotional_profile": {
+      "primary_emotions": {
+        "love": 0.0,
+        "joy": 0.5,
+        "fear": 0.3,
+        "anger": 0.2,
+        "sadness": 0.1,
+        "surprise": 0.4,
+        "trust": 0.6,
+        "anticipation": 0.5
+      },
+      "complex_emotions": {
+        "romantic_love": 0.0,
+        "parental_love": 0.0,
+        "jealousy": 0.0,
+        "nostalgia": 0.0,
+        "ambition": 0.3,
+        "contentment": 0.4,
+        "loneliness": 0.2,
+        "pride": 0.3,
+        "shame": 0.1,
+        "compassion": 0.5
+      }
+    },
+    "life_purpose": {
+      "core_calling": null,
+      "secondary_purposes": [],
+      "spiritual_beliefs": {},
+      "legacy_desires": [],
+      "meaning_sources": [],
+      "existential_questions": [],
+      "purpose_evolution": []
+    },
+    "romantic_life": {
+      "attraction_preferences": {},
+      "romantic_history": [],
+      "current_partner": null,
+      "courtship_style": null,
+      "love_languages": [],
+      "relationship_values": [],
+      "heartbreak_history": [],
+      "romantic_ideals": {}
+    },
+    "family_bonds": {
+      "parental_attachment": {},
+      "sibling_relationships": {},
+      "protective_instincts": {},
+      "family_loyalty": 0.7,
+      "generational_values": {},
+      "family_role": null,
+      "inherited_traits": {},
+      "family_secrets": []
+    },
+    "relationship_status": "single",
+    "romantic_partner": null,
+    "pregnancies": []
+  },
+  {
+    "id": "agent_002",
+    "name": "Aedan",
+    "age": 32,
+    "birth_day": -11680,
+    "traits": [
+      "protective",
+      "practical",
+      "loyal"
+    ],
+    "personality_scores": {
+      "openness": 0.4,
+      "conscientiousness": 0.9,
+      "extraversion": 0.5,
+      "agreeableness": 0.7,
+      "neuroticism": 0.4
+    },
+    "goals": [
+      "protect family",
+      "build strong defenses",
+      "provide for community"
+    ],
+    "current_goal": "protect family",
+    "life_satisfaction": 0.7,
+    "emotion": "determined",
+    "emotion_intensity": 0.6,
+    "mood": "stable",
+    "relationships": {
+      "Lara": "sister",
+      "Nyla": "friend",
+      "Kara": "suspicious"
+    },
+    "family": {
+      "parents": [
+        "Elder Matthias",
+        "Sera"
+      ],
+      "siblings": [
+        "Lara"
+      ],
+      "children": []
+    },
+    "faction": null,
+    "reputation": 0.8,
+    "location": "village_center",
+    "health": 0.9720269420951009,
+    "energy": 0.8584620987396311,
+    "skills": {
+      "combat": 0.797722514989061,
+      "crafting": 0.6958539557837393,
+      "leadership": 0.5981398148625457,
+      "survival": 0.7978372785924318
+    },
+    "beliefs": {
+      "family_first": 0.9,
+      "strength_protects": 0.8,
+      "tradition_matters": 0.7
+    },
+    "values": [
+      "family",
+      "duty",
+      "strength",
+      "tradition"
+    ],
+    "is_alive": true,
+    "last_action": "",
+    "action_history": [],
+    "emotional_profile": {
+      "primary_emotions": {
+        "love": 0.0,
+        "joy": 0.5,
+        "fear": 0.3,
+        "anger": 0.2,
+        "sadness": 0.1,
+        "surprise": 0.4,
+        "trust": 0.6,
+        "anticipation": 0.5
+      },
+      "complex_emotions": {
+        "romantic_love": 0.0,
+        "parental_love": 0.0,
+        "jealousy": 0.0,
+        "nostalgia": 0.0,
+        "ambition": 0.3,
+        "contentment": 0.4,
+        "loneliness": 0.2,
+        "pride": 0.3,
+        "shame": 0.1,
+        "compassion": 0.5
+      }
+    },
+    "life_purpose": {
+      "core_calling": null,
+      "secondary_purposes": [],
+      "spiritual_beliefs": {},
+      "legacy_desires": [],
+      "meaning_sources": [],
+      "existential_questions": [],
+      "purpose_evolution": []
+    },
+    "romantic_life": {
+      "attraction_preferences": {},
+      "romantic_history": [],
+      "current_partner": null,
+      "courtship_style": null,
+      "love_languages": [],
+      "relationship_values": [],
+      "heartbreak_history": [],
+      "romantic_ideals": {}
+    },
+    "family_bonds": {
+      "parental_attachment": {},
+      "sibling_relationships": {},
+      "protective_instincts": {},
+      "family_loyalty": 0.7,
+      "generational_values": {},
+      "family_role": null,
+      "inherited_traits": {},
+      "family_secrets": []
+    },
+    "relationship_status": "single",
+    "romantic_partner": null,
+    "pregnancies": []
+  }
+]

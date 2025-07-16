@@ -2,11 +2,11 @@
   "current_day": 1,
   "season": "spring",
   "year": 1,
-  "weather": "clear",
+  "weather": "cloudy",
   "temperature": "mild",
   "resources": {
-    "food": 1.0190336125088704,
-    "water": 1.0034404744137182,
+    "food": 1.0299535768781796,
+    "water": 1.0066667784549328,
     "shelter": 1.0,
     "knowledge": 0.5
   },
@@ -22,9 +22,9 @@
   "beliefs": {},
   "customs": [],
   "population_stats": {
-    "total_agents": 0,
+    "total_agents": 5,
     "births": 0,
     "deaths": 0,
-    "average_age": 0
+    "average_age": 31.4
   }
 }
