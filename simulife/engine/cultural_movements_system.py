@@ -1079,13 +1079,15 @@ class CulturalMovementsSystem:
                     "day": current_day
                 })
             
-            # Check for reforms or schisms
-            reform_events = self._check_movement_reforms(movement, agents, current_day)
-            events.extend(reform_events)
+            # Check for reforms or schisms - reduce frequency to weekly
+            if current_day % 7 == 0:  # Only check once per week
+                reform_events = self._check_movement_reforms(movement, agents, current_day)
+                events.extend(reform_events)
             
-            # Check for achievements
-            achievement_events = self._check_movement_achievements(movement, agents, current_day)
-            events.extend(achievement_events)
+            # Check for achievements - reduce frequency to monthly
+            if current_day % 30 == 0:  # Only check once per month
+                achievement_events = self._check_movement_achievements(movement, agents, current_day)
+                events.extend(achievement_events)
         
         return events
     

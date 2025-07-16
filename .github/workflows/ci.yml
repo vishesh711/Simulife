@@ -1,0 +1,248 @@
+name: SimuLife CI/CD Pipeline
+
+on:
+  push:
+    branches: [ main, develop ]
+  pull_request:
+    branches: [ main, develop ]
+
+jobs:
+  test:
+    runs-on: ubuntu-latest
+    strategy:
+      matrix:
+        python-version: [3.9, 3.10, 3.11]
+
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python ${{ matrix.python-version }}
+      uses: actions/setup-python@v4
+      with:
+        python-version: ${{ matrix.python-version }}
+    
+    - name: Cache pip dependencies
+      uses: actions/cache@v3
+      with:
+        path: ~/.cache/pip
+        key: ${{ runner.os }}-pip-${{ hashFiles('**/requirements.txt') }}
+        restore-keys: |
+          ${{ runner.os }}-pip-
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install pytest pytest-cov flake8 black isort mypy
+    
+    - name: Lint with flake8
+      run: |
+        # Stop the build if there are Python syntax errors or undefined names
+        flake8 . --count --select=E9,F63,F7,F82 --show-source --statistics
+        # Treat all other issues as warnings
+        flake8 . --count --exit-zero --max-complexity=10 --max-line-length=120 --statistics
+    
+    - name: Check code formatting with black
+      run: |
+        black --check --line-length=120 .
+    
+    - name: Check import sorting with isort
+      run: |
+        isort --check-only --line-length=120 --profile=black .
+    
+    - name: Type checking with mypy
+      run: |
+        mypy simulife/ --ignore-missing-imports --no-strict-optional
+      continue-on-error: true  # Allow to continue even if type checking fails
+    
+    - name: Run unit tests
+      run: |
+        pytest tests/ -v --cov=simulife --cov-report=xml --cov-report=html
+    
+    - name: Test basic simulation functionality
+      run: |
+        python main.py --days 1 --save-dir "data/saves/ci_test" --verbose
+    
+    - name: Test Phase 10 systems integration
+      run: |
+        python -c "
+        from simulife.engine import SimulationEngine
+        engine = SimulationEngine(['data/agent_configs/kara.json', 'data/agent_configs/theron.json'])
+        # Test that all Phase 10 systems are properly initialized
+        assert hasattr(engine, 'love_romance_system')
+        assert hasattr(engine, 'life_purpose_system')
+        assert hasattr(engine, 'family_bonds_system')
+        assert hasattr(engine, 'emotional_complexity_system')
+        print('✅ All Phase 10 systems initialized successfully')
+        "
+    
+    - name: Upload coverage reports to Codecov
+      uses: codecov/codecov-action@v3
+      with:
+        file: ./coverage.xml
+        flags: unittests
+        name: codecov-umbrella
+        fail_ci_if_error: false
+
+  integration-test:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+    
+    - name: Run extended simulation test (10 days)
+      run: |
+        python main.py --days 10 --save-dir "data/saves/integration_test"
+    
+    - name: Validate simulation outputs
+      run: |
+        python -c "
+        import json
+        import os
+        
+        # Check that save files were created
+        save_dir = 'data/saves/integration_test'
+        assert os.path.exists(f'{save_dir}/final_save_day_10'), 'Final save not created'
+        
+        # Check agent data
+        with open(f'{save_dir}/final_save_day_10/agents.json', 'r') as f:
+            agents = json.load(f)
+        assert len(agents) > 0, 'No agents in save file'
+        
+        # Check world state
+        with open(f'{save_dir}/final_save_day_10/world_state.json', 'r') as f:
+            world = json.load(f)
+        assert world['current_day'] == 10, f'Expected day 10, got {world[\"current_day\"]}'
+        
+        print('✅ Integration test passed - simulation ran successfully for 10 days')
+        "
+
+  performance-test:
+    runs-on: ubuntu-latest
+    needs: test
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install memory-profiler
+    
+    - name: Performance benchmark test
+      run: |
+        python -c "
+        import time
+        import psutil
+        import os
+        from simulife.engine import SimulationEngine
+        
+        # Memory usage before
+        process = psutil.Process(os.getpid())
+        initial_memory = process.memory_info().rss / 1024 / 1024  # MB
+        
+        # Time the simulation
+        start_time = time.time()
+        engine = SimulationEngine(['data/agent_configs/kara.json', 'data/agent_configs/theron.json'])
+        engine.run_simulation(days=5, verbose=False)
+        end_time = time.time()
+        
+        # Memory usage after
+        final_memory = process.memory_info().rss / 1024 / 1024  # MB
+        
+        duration = end_time - start_time
+        memory_usage = final_memory - initial_memory
+        
+        print(f'⏱️  5-day simulation completed in {duration:.2f} seconds')
+        print(f'🧠 Memory usage: {memory_usage:.2f} MB')
+        
+        # Performance thresholds
+        assert duration < 60, f'Simulation too slow: {duration:.2f}s (max: 60s)'
+        assert memory_usage < 500, f'Memory usage too high: {memory_usage:.2f}MB (max: 500MB)'
+        
+        print('✅ Performance test passed')
+        "
+
+  deploy:
+    runs-on: ubuntu-latest
+    needs: [test, integration-test, performance-test]
+    if: github.ref == 'refs/heads/main' && github.event_name == 'push'
+    
+    steps:
+    - uses: actions/checkout@v4
+    
+    - name: Set up Python 3.11
+      uses: actions/setup-python@v4
+      with:
+        python-version: 3.11
+    
+    - name: Install dependencies
+      run: |
+        python -m pip install --upgrade pip
+        pip install -r requirements.txt
+        pip install build twine
+    
+    - name: Build package
+      run: |
+        python -m build
+    
+    - name: Create GitHub Release
+      if: github.event_name == 'push' && startsWith(github.ref, 'refs/tags/')
+      uses: actions/create-release@v1
+      env:
+        GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      with:
+        tag_name: ${{ github.ref }}
+        release_name: SimuLife ${{ github.ref }}
+        body: |
+          🌍 **New SimuLife Release**
+          
+          ## What's New
+          - Phase 10: Deep Human Emotions & Life Purpose system
+          - Complete AI agent emotional complexity
+          - Family bonds and traditions
+          - Life purpose discovery and mentorship
+          - Automated CI/CD pipeline
+          
+          ## Systems Status
+          ✅ All 10 phases implemented and tested
+          ✅ Multi-generational agent societies  
+          ✅ Complex emotional AI relationships
+          ✅ Civilizational milestone progression
+          
+        draft: false
+        prerelease: false
+
+  notify:
+    runs-on: ubuntu-latest
+    needs: [test, integration-test, performance-test]
+    if: always()
+    
+    steps:
+    - name: Notify on success
+      if: needs.test.result == 'success' && needs.integration-test.result == 'success'
+      run: |
+        echo "🎉 All tests passed! SimuLife is ready for deployment."
+    
+    - name: Notify on failure
+      if: needs.test.result == 'failure' || needs.integration-test.result == 'failure'
+      run: |
+        echo "❌ Tests failed. Please check the logs and fix issues before merging."
+        exit 1 

@@ -23,6 +23,17 @@ class BaseAgent:
         self.age = config.get("age", 25)
         self.birth_day = config.get("birth_day", world_day - self.age * 365)
         
+        # Biological attributes
+        self.gender = config.get("gender", random.choice(["male", "female"]))
+        self.fertility = config.get("fertility", 1.0 if 16 <= self.age <= 45 else 0.5)
+        self.genetic_traits = config.get("genetic_traits", self._generate_genetic_traits())
+        
+        # Family and lineage
+        self.parents = config.get("parents", [])  # List of parent names/IDs
+        self.children = config.get("children", [])  # List of children names/IDs
+        self.generation = config.get("generation", 1)  # Which generation they belong to
+        self.family_name = config.get("family_name", self._generate_family_name())
+        
         # Personality and traits
         self.traits = config.get("traits", [])
         self.personality_scores = config.get("personality_scores", {
@@ -131,7 +142,11 @@ class BaseAgent:
         self.pregnancies = config.get("pregnancies", [])
         
         # LLM brain for intelligent decision-making
-        llm_config = config.get("llm_config", {"provider_type": "mock"})
+        try:
+            from config import LLM_CONFIG
+            llm_config = config.get("llm_config", LLM_CONFIG)
+        except ImportError:
+            llm_config = config.get("llm_config", {"provider_type": "mock"})
         provider = create_llm_provider(**llm_config)
         self.brain = LLMAgentBrain(provider)
         
@@ -541,6 +556,13 @@ class BaseAgent:
             "name": self.name,
             "age": self.age,
             "birth_day": self.birth_day,
+            "gender": self.gender,
+            "fertility": self.fertility,
+            "genetic_traits": self.genetic_traits,
+            "parents": self.parents,
+            "children": self.children,
+            "generation": self.generation,
+            "family_name": self.family_name,
             "traits": self.traits,
             "personality_scores": self.personality_scores,
             "goals": self.goals,
@@ -567,7 +589,7 @@ class BaseAgent:
             "life_purpose": self.life_purpose,
             "romantic_life": self.romantic_life,
             "family_bonds": self.family_bonds,
-            "relationship_status": self.relationship_status,
+            "relationship_status": self.relationship_status.value if hasattr(self.relationship_status, 'value') else self.relationship_status,
             "romantic_partner": self.romantic_partner,
             "pregnancies": self.pregnancies
         }
@@ -592,4 +614,61 @@ class BaseAgent:
         if memory_stats.get("total_memories", 0) > 0:
             status_parts.append(f"Memories: {memory_stats['total_memories']}")
         
-        return " | ".join(status_parts) 
+        return " | ".join(status_parts)
+    
+    def _generate_genetic_traits(self) -> Dict[str, Any]:
+        """Generate random genetic traits for an agent."""
+        return {
+            "height": random.uniform(150, 190),  # cm
+            "build": random.choice(["lean", "average", "stocky", "tall"]),
+            "eye_color": random.choice(["brown", "blue", "green", "hazel", "gray"]),
+            "hair_color": random.choice(["black", "brown", "blonde", "red", "gray"]),
+            "genetic_predispositions": random.sample([
+                "longevity", "intelligence", "creativity", "athleticism", 
+                "disease_resistance", "social_aptitude"
+            ], k=random.randint(1, 3)),
+            "genetic_weaknesses": random.sample([
+                "anxiety_prone", "allergies", "joint_issues", "vision_problems"
+            ], k=random.randint(0, 2))
+        }
+    
+    def _generate_family_name(self) -> str:
+        """Generate a family name if none exists."""
+        prefixes = ["Stone", "River", "Mountain", "Forest", "Star", "Moon", "Sun", "Wind"]
+        suffixes = ["heart", "walker", "keeper", "born", "wise", "strong", "bright", "clan"]
+        return f"{random.choice(prefixes)}{random.choice(suffixes)}"
+    
+    def can_reproduce_with(self, other_agent) -> bool:
+        """Check if this agent can reproduce with another agent."""
+        if not hasattr(other_agent, 'gender') or not hasattr(other_agent, 'fertility'):
+            return False
+            
+        # Must be different genders
+        if self.gender == other_agent.gender:
+            return False
+            
+        # Both must be of reproductive age and fertile
+        if self.age < 16 or self.age > 45 or other_agent.age < 16 or other_agent.age > 45:
+            return False
+            
+        # Must have sufficient fertility
+        if self.fertility < 0.3 or other_agent.fertility < 0.3:
+            return False
+            
+        # Cannot reproduce with close family members
+        if (other_agent.name in self.parents or self.name in other_agent.parents or
+            other_agent.name in self.children or self.name in other_agent.children):
+            return False
+            
+        return True
+    
+    def update_fertility_with_age(self):
+        """Update fertility based on current age."""
+        if 16 <= self.age <= 25:
+            self.fertility = min(1.0, self.fertility + 0.01)  # Peak fertility
+        elif 25 < self.age <= 35:
+            self.fertility = max(0.8, self.fertility - 0.005)  # Gradual decline
+        elif 35 < self.age <= 45:
+            self.fertility = max(0.3, self.fertility - 0.02)  # Faster decline
+        else:
+            self.fertility = max(0.1, self.fertility - 0.05)  # Very low fertility 

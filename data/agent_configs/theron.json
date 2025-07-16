@@ -2,6 +2,7 @@
   "id": "agent_005",
   "name": "Theron",
   "age": 22,
+  "gender": "male",
   "traits": ["adventurous", "optimistic", "restless"],
   "personality_scores": {
     "openness": 0.9,

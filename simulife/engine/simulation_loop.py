@@ -28,6 +28,7 @@ from .technology_system import TechnologySystem
 from .mortality_system import MortalitySystem
 from .genetic_disease_system import GeneticDiseaseSystem
 from .population_pressure_system import PopulationPressureSystem
+from .population_dynamics import PopulationDynamicsSystem
 from .generational_culture_system import GenerationalCultureSystem
 # Phase 8: Emergent Phenomena Systems
 from .social_institutions_system import SocialInstitutionsSystem
@@ -42,6 +43,10 @@ from .meta_cognition_system import MetaCognitionSystem
 from .consciousness_metrics_system import ConsciousnessMetricsSystem
 # Phase 10: Love & Romance System
 from .love_romance_system import LoveRomanceSystem
+# Phase 10: Deep Human Emotions & Life Purpose Systems
+from .life_purpose_system import LifePurposeSystem
+from .family_bonds_system import DeepFamilyBondsSystem
+from .emotional_complexity_system import EmotionalComplexitySystem
 # Phase Detection System
 from .phase_detector import PhaseDetector
 
@@ -90,6 +95,7 @@ class SimulationEngine:
         self.mortality_system = MortalitySystem()
         self.genetic_disease_system = GeneticDiseaseSystem()
         self.population_pressure_system = PopulationPressureSystem()
+        self.population_dynamics_system = PopulationDynamicsSystem(carrying_capacity=50)  # Start with smaller capacity
         self.generational_culture_system = GenerationalCultureSystem()
         
         # Initialize Phase 8: Emergent Phenomena systems
@@ -105,8 +111,11 @@ class SimulationEngine:
         self.meta_cognition_system = MetaCognitionSystem()
         self.consciousness_metrics_system = ConsciousnessMetricsSystem()
         
-        # Initialize Phase 10: Love & Romance system
+        # Initialize Phase 10: Deep Human Emotions & Life Purpose systems
         self.love_romance_system = LoveRomanceSystem()
+        self.life_purpose_system = LifePurposeSystem()
+        self.family_bonds_system = DeepFamilyBondsSystem()
+        self.emotional_complexity_system = EmotionalComplexitySystem()
         
         # Initialize Phase Detection System
         self.phase_detector = PhaseDetector()
@@ -172,291 +181,502 @@ class SimulationEngine:
         """
         day_summary = {"day": self.world.current_day}
         
-        if verbose:
-            season_info = f"{self.world.season}, {self.world.weather}"
-            world_info = f"Day {self.world.current_day} of Year {self.world.year}, {season_info}. The weather is {self.world.weather}."
-            
-            # Add resource status
-            resource_statuses = []
-            for resource, level in self.world.resources.items():
-                if level > 1.2:
-                    status = "abundant"
-                elif level > 0.8:
-                    status = "adequate"
-                elif level > 0.4:
-                    status = "scarce"
-                else:
-                    status = "critically low"
-                resource_statuses.append(f"{resource} is {status}")
-            resource_status = ", ".join(resource_statuses)
-            
-            # Add recent events context
-            recent_events = self.world.get_recent_events(3)
-            events_context = ""
-            if recent_events:
-                # Handle WorldEvent objects properly
-                first_event = recent_events[0]
-                if hasattr(first_event, 'description'):
-                    events_context = f" Recent events include: {first_event.description}"
-                else:
-                    events_context = f" Recent events include: {str(first_event)}"
-            
-            world_description = f"   {world_info} Resources: {resource_status}.{events_context}"
-            print(f"\n🌅 Day {self.world.current_day} begins ({season_info})")
-            print(world_description)
-        
-        # Step 1: Generate world events
-        world_events = self.event_system.generate_daily_events(self.world, self.agents)
-        for event in world_events:
-            # Add event using the correct WorldState method
-            event_participants = event.get('participants', [])
-            self.world.add_agent_event(
-                event_participants, 
-                event.get('event_type', 'general'),
-                event.get('description', 'Unknown event'),
-                event.get('importance', 0.5)
-            )
+        try:
             if verbose:
-                print(f"   🌍 World Event: {event.get('description', 'Unknown event')}")
-        day_summary["world_events"] = world_events
-        
-        # Step 2: Process agent actions and interactions
-        interactions = self._generate_interactions()
-        day_summary["interactions"] = interactions
-        
-        # Step 3: Process Phase 3 systems (Cultural, Resource, Environmental)
-        # 3a: Process cultural evolution and knowledge transfer
-        cultural_events = self.cultural_system.process_cultural_evolution(
-            self.agents, self.world.current_day, self.world)
-        day_summary["cultural_events"] = cultural_events
-        
-        # 3b: Process resource management and trading
-        resource_events = self.resource_system.process_daily_resources(
-            self.agents, self.world.resources, self.world.current_day)
-        day_summary["resource_events"] = resource_events
-        
-        # 3c: Process environmental effects and agent adaptation
-        environmental_events = self.environmental_system.process_environmental_effects(
-            self.agents, self.world, self.world.current_day)
-        day_summary["environmental_events"] = environmental_events
-        
-        # Step 4: Process Phase 4: Advanced Behaviors systems
-        # 4a: Process skill development and practice
-        skill_events = self.skill_system.process_daily_skill_activities(
-            self.agents, self.world.current_day)
-        day_summary["skill_events"] = skill_events
-        
-        # 4b: Process specialization activities and advancement
-        specialization_events = self.specialization_system.process_specialization_activities(
-            self.agents, self.world.current_day)
-        day_summary["specialization_events"] = specialization_events
-        
-        # 4c: Process conflicts and resolution attempts
-        conflict_events = self.conflict_system.process_daily_conflicts(
-            self.agents, self.world.current_day)
-        day_summary["conflict_events"] = conflict_events
-        
-        # 4d: Process cultural artifact creation and preservation
-        artifact_events = self.cultural_artifact_system.process_daily_artifacts(
-            self.agents, self.world.current_day)
-        day_summary["artifact_events"] = artifact_events
-        
-        # Step 5: Process Phase 5: Group Dynamics systems
-        group_events = self.group_dynamics_system.process_daily_group_activities(
-            self.agents, self.world.current_day)
-        day_summary["group_events"] = group_events
-        
-        # Step 6: Process Phase 6: Technology and Innovation systems
-        technology_events = self.technology_system.process_daily_technology_activities(
-            self.agents, self.group_dynamics_system.groups, self.world.current_day)
-        day_summary["technology_events"] = technology_events
-        
-        # Step 7: Process Phase 7: Population Dynamics systems
-        # 7a: Process aging, death, and mortality
-        aging_events = self.mortality_system.process_daily_aging(
-            self.agents, self.world.current_day)
-        day_summary["aging_events"] = aging_events
-        
-        # 7b: Process genetic diseases and health effects
-        disease_events = self.genetic_disease_system.process_daily_disease_effects(
-            self.agents, self.world.current_day)
-        day_summary["disease_events"] = disease_events
-        
-        # 7c: Process population pressure and migration
-        population_events = self.population_pressure_system.process_daily_population_pressure(
-            self.agents, self.world.resources, self.world.current_day)
-        day_summary["population_events"] = population_events
-        
-        # 7d: Process generational cultural transmission
-        cultural_transmission_events = self.generational_culture_system.process_daily_cultural_transmission(
-            self.agents, self.world.current_day)
-        day_summary["cultural_transmission_events"] = cultural_transmission_events
-        
-        # Step 8: Process Phase 8: Emergent Phenomena systems
-        # 8a: Process emergent social institutions (governments, schools, religions)
-        institutional_events = self.social_institutions_system.process_daily_institutional_emergence(
-            self.agents, self.group_dynamics_system.groups, self.world, self.world.current_day)
-        day_summary["institutional_events"] = institutional_events
-        
-        # 8b: Process economic emergence (markets, currency, trade networks)
-        economic_events = self.economic_emergence_system.process_daily_economic_emergence(
-            self.agents, self.group_dynamics_system.groups, self.world, self.world.current_day)
-        day_summary["economic_events"] = economic_events
-        
-        # 8c: Process cultural movements (ideologies, belief systems, social movements)
-        movement_events = self.cultural_movements_system.process_daily_cultural_movements(
-            self.agents, self.group_dynamics_system.groups, world_events, self.world.current_day)
-        day_summary["movement_events"] = movement_events
-        
-        # 8d: Process civilizational milestones (major achievements and progress)
-        milestone_events = self.civilizational_milestones_system.process_daily_milestone_analysis(
-            self.agents, self.group_dynamics_system.groups, 
-            getattr(self.social_institutions_system, 'institutions', {}),
-            getattr(self.cultural_movements_system, 'movements', {}),
-            self.economic_emergence_system.get_economic_summary(),
-            self.technology_system.get_technology_summary(),
-            self.world, self.world.current_day)
-        day_summary["milestone_events"] = milestone_events
-        
-        # 8e: Process crisis response (collective adaptation to challenges)
-        crisis_events = self.crisis_response_system.process_daily_crisis_response(
-            self.agents, getattr(self.social_institutions_system, 'institutions', {}),
-            self.group_dynamics_system.groups, world_events, self.world, self.world.current_day)
-        day_summary["crisis_events"] = crisis_events
-        
-        # 8f: Process inter-group diplomacy (international relations and treaties)
-        diplomacy_events = self.inter_group_diplomacy_system.process_daily_diplomacy(
-            self.agents, self.group_dynamics_system.groups,
-            getattr(self.social_institutions_system, 'institutions', {}),
-            world_events, self.world.current_day)
-        day_summary["diplomacy_events"] = diplomacy_events
-        
-        # Step 9: Process Phase 9: Advanced AI & Meta-Cognition systems
-        # 9a: Process self-awareness and identity development
-        self_awareness_events = self.self_awareness_system.process_daily_self_awareness_development(
-            self.agents, self.world.current_day)
-        day_summary["self_awareness_events"] = self_awareness_events
-        
-        # 9b: Process meta-cognitive development (thinking about thinking)
-        metacognition_events = self.meta_cognition_system.process_daily_metacognitive_development(
-            self.agents, self.world.current_day)
-        day_summary["metacognition_events"] = metacognition_events
-        
-        # 9c: Process consciousness measurement and tracking
-        consciousness_events = self.consciousness_metrics_system.process_daily_consciousness_measurement(
-            self.agents, self.world.current_day)
-        day_summary["consciousness_events"] = consciousness_events
-        
-        # 10: Process romantic development and relationships (Phase 10)
-        romance_events = self.love_romance_system.process_daily_romantic_development(
-            self.agents, self.world.current_day)
-        day_summary["romance_events"] = romance_events
-        
-        # Step 10: Process reproduction attempts (with genetic and health considerations)
-        new_births = self._process_reproduction_attempts(verbose)
-        day_summary["new_births"] = new_births
-        
-        # Step 11: Check for emergent phenomena (factions, beliefs, etc.)
-        emergent_events = self._check_emergent_phenomena()
-        day_summary.update(emergent_events)
-        
-        # Step 12: Process Phase Detection and Civilization Progression
-        recent_events = []  # Collect all events from this day
-        recent_events.extend(world_events)
-        recent_events.extend(interactions)
-        recent_events.extend(cultural_events)
-        recent_events.extend(romance_events)
-        recent_events.extend(milestone_events)
-        
-        # Check for phase transition
-        phase_transition = self.phase_detector.check_transition(
-            self.world, self.agents, recent_events)
-        
-        if phase_transition:
-            # Execute phase transition
-            self.phase_detector.transition_to_phase(
-                phase_transition.to_phase, phase_transition)
+                season_info = f"{self.world.season}, {self.world.weather}"
+                world_info = f"Day {self.world.current_day} of Year {self.world.year}, {season_info}. The weather is {self.world.weather}."
+                
+                # Add resource status
+                resource_statuses = []
+                for resource, level in self.world.resources.items():
+                    if level > 1.2:
+                        status = "abundant"
+                    elif level > 0.8:
+                        status = "adequate"
+                    elif level > 0.4:
+                        status = "scarce"
+                    else:
+                        status = "critically low"
+                    resource_statuses.append(f"{resource} is {status}")
+                resource_status = ", ".join(resource_statuses)
+                
+                # Add recent events context
+                recent_events = self.world.get_recent_events(3)
+                events_context = ""
+                if recent_events:
+                    # Handle WorldEvent objects properly
+                    first_event = recent_events[0]
+                    if hasattr(first_event, 'description'):
+                        events_context = f" Recent events include: {first_event.description}"
+                    else:
+                        events_context = f" Recent events include: {str(first_event)}"
+                
+                world_description = f"   {world_info} Resources: {resource_status}.{events_context}"
+                print(f"\n🌅 Day {self.world.current_day} begins ({season_info})")
+                print(world_description)
+
+            # Step 1: Generate world events
+            try:
+                world_events = self.event_system.generate_daily_events(self.world, self.agents)
+                for event in world_events:
+                    # Add event using the correct WorldState method
+                    event_participants = event.get('participants', [])
+                    self.world.add_agent_event(
+                        event_participants, 
+                        event.get('event_type', 'general'),
+                        event.get('description', 'Unknown event'),
+                        event.get('location', 'village_center'),
+                        event.get('importance', 0.5)
+                    )
+                    if verbose:
+                        print(f"   🌍 World Event: {event.get('description', 'Unknown event')}")
+                day_summary["world_events"] = world_events
+            except Exception as e:
+                print(f"ERROR in world events generation: {e}")
+                world_events = []
+                day_summary["world_events"] = []
+
+            # Step 2: Process agent actions and interactions
+            try:
+                interactions = self._generate_interactions()
+                day_summary["interactions"] = interactions
+            except Exception as e:
+                print(f"ERROR in interactions: {e}")
+                interactions = []
+                day_summary["interactions"] = []
+
+            # Step 3: Process Phase 3 systems (Cultural, Resource, Environmental)
+            # 3a: Process cultural evolution and knowledge transfer
+            try:
+                cultural_events = self.cultural_system.process_cultural_evolution(
+                    self.agents, self.world.current_day, self.world)
+                day_summary["cultural_events"] = cultural_events
+            except Exception as e:
+                print(f"ERROR in cultural system: {e}")
+                cultural_events = []
+                day_summary["cultural_events"] = []
+
+            # 3b: Process resource management and trading
+            try:
+                resource_events = self.resource_system.process_daily_resources(
+                    self.agents, self.world.resources, self.world.current_day)
+                day_summary["resource_events"] = resource_events
+            except Exception as e:
+                print(f"ERROR in resource system: {e}")
+                resource_events = []
+                day_summary["resource_events"] = []
+
+            # 3c: Process environmental effects and agent adaptation
+            try:
+                environmental_events = self.environmental_system.process_environmental_effects(
+                    self.agents, self.world, self.world.current_day)
+                day_summary["environmental_events"] = environmental_events
+            except Exception as e:
+                print(f"ERROR in environmental system: {e}")
+                environmental_events = []
+                day_summary["environmental_events"] = []
+
+            # Step 4: Process Phase 4: Advanced Behaviors systems
+            # 4a: Process skill development and practice
+            try:
+                skill_events = self.skill_system.process_daily_skill_activities(
+                    self.agents, self.world.current_day)
+                day_summary["skill_events"] = skill_events
+            except Exception as e:
+                print(f"ERROR in skill system: {e}")
+                skill_events = []
+                day_summary["skill_events"] = []
+
+            # 4b: Process specialization activities and advancement
+            try:
+                specialization_events = self.specialization_system.process_specialization_activities(
+                    self.agents, self.world.current_day)
+                day_summary["specialization_events"] = specialization_events
+            except Exception as e:
+                print(f"ERROR in specialization system: {e}")
+                specialization_events = []
+                day_summary["specialization_events"] = []
+
+            # 4c: Process conflicts and resolution attempts
+            try:
+                conflict_events = self.conflict_system.process_daily_conflicts(
+                    self.agents, self.world.current_day)
+                day_summary["conflict_events"] = conflict_events
+            except Exception as e:
+                print(f"ERROR in conflict system: {e}")
+                conflict_events = []
+                day_summary["conflict_events"] = []
+
+            # 4d: Process cultural artifact creation and preservation
+            try:
+                artifact_events = self.cultural_artifact_system.process_daily_artifacts(
+                    self.agents, self.world.current_day)
+                day_summary["artifact_events"] = artifact_events
+            except Exception as e:
+                print(f"ERROR in artifact system: {e}")
+                artifact_events = []
+                day_summary["artifact_events"] = []
+
+            # Step 5: Process Phase 5: Group Dynamics systems
+            try:
+                group_events = self.group_dynamics_system.process_daily_group_activities(
+                    self.agents, self.world.current_day)
+                day_summary["group_events"] = group_events
+            except Exception as e:
+                print(f"ERROR in group dynamics: {e}")
+                group_events = []
+                day_summary["group_events"] = []
+
+            # Step 6: Process Phase 6: Technology and Innovation systems
+            try:
+                technology_events = self.technology_system.process_daily_technology_activities(
+                    self.agents, self.group_dynamics_system.groups, self.world.current_day)
+                day_summary["technology_events"] = technology_events
+            except Exception as e:
+                print(f"ERROR in technology system: {e}")
+                technology_events = []
+                day_summary["technology_events"] = []
+
+            # Step 7: Process Phase 7: Population Dynamics systems
+            # 7a: Process aging, death, and mortality
+            try:
+                aging_events = self.mortality_system.process_daily_aging(
+                    self.agents, self.world.current_day)
+                day_summary["aging_events"] = aging_events
+            except Exception as e:
+                print(f"ERROR in mortality system: {e}")
+                aging_events = []
+                day_summary["aging_events"] = []
+
+            # 7b: Process genetic diseases and health effects
+            try:
+                disease_events = self.genetic_disease_system.process_daily_disease_effects(
+                    self.agents, self.world.current_day)
+                day_summary["disease_events"] = disease_events
+            except Exception as e:
+                print(f"ERROR in disease system: {e}")
+                disease_events = []
+                day_summary["disease_events"] = []
+
+            # 7c: Process population pressure and migration
+            try:
+                population_events = self.population_pressure_system.process_daily_population_pressure(
+                    self.agents, self.world.resources, self.world.current_day)
+                day_summary["population_events"] = population_events
+            except Exception as e:
+                print(f"ERROR in population pressure: {e}")
+                population_events = []
+                day_summary["population_events"] = []
             
-            if verbose:
-                print(f"🌟 CIVILIZATION PHASE TRANSITION!")
-                print(f"   From: {phase_transition.from_phase}")
-                print(f"   To: {phase_transition.to_phase}")
-                print(f"   Population: {phase_transition.population_at_transition} agents")
-                print(f"   Confidence: {phase_transition.confidence:.1%}")
-                if phase_transition.trigger_milestones:
-                    print(f"   Triggered by milestones: {[m.name for m in phase_transition.trigger_milestones]}")
-        
-        # Get current phase status for summary
-        phase_status = self.phase_detector.get_current_status(self.world, self.agents)
-        day_summary["phase_status"] = phase_status
-        
-        # Show milestone progress in verbose mode
-        if verbose:
-            milestone_progress = self.phase_detector.get_milestone_progress()
-            if milestone_progress:
-                print(f"   📊 Phase Progress ({phase_status['current_phase']}):")
-                print(f"      Next Phase: {milestone_progress.get('target_phase', 'Unknown')}")
-                print(f"      Progress: {milestone_progress.get('progress_percentage', 0):.1f}%")
-                if milestone_progress.get('recent_milestones'):
-                    print(f"      Recent Milestones: {', '.join(phase_status['recent_milestones'])}")
-        
-        # Step 13: Advance world state and agent aging
-        self.world.advance_day()
-        self._update_population_stats()
-        
-        # Step 14: Update statistics
-        self.stats["days_simulated"] += 1
-        self.stats["total_interactions"] += len(interactions)
-        self.stats["total_events"] += len(world_events)
-        self.stats["cultural_activities"] = len(cultural_events)
-        self.stats["resource_transactions"] = len(resource_events)
-        self.stats["environmental_impacts"] = len(environmental_events)
-        self.stats["skill_developments"] = len(skill_events)
-        self.stats["specialization_advancements"] = len(specialization_events)
-        self.stats["conflicts_processed"] = len(conflict_events)
-        self.stats["artifacts_created"] = len(artifact_events)
-        self.stats["group_activities"] = len(group_events)
-        self.stats["technology_activities"] = len(technology_events)
-        self.stats["aging_events"] = len(aging_events)
-        self.stats["disease_events"] = len(disease_events)
-        self.stats["population_events"] = len(population_events)
-        self.stats["cultural_transmission_events"] = len(cultural_transmission_events)
-        # Phase 8 statistics
-        self.stats["institutional_events"] = len(institutional_events)
-        self.stats["economic_events"] = len(economic_events)
-        self.stats["movement_events"] = len(movement_events)
-        self.stats["milestone_events"] = len(milestone_events)
-        self.stats["crisis_events"] = len(crisis_events)
-        self.stats["diplomacy_events"] = len(diplomacy_events)
-        self.stats["romance_events"] = len(romance_events)
-        
-        # Step 12: Daily summary output
-        if verbose:
-            total_activities = (len(interactions) + len(world_events) + len(cultural_events) + 
-                              len(resource_events) + len(environmental_events) + len(skill_events) +
-                              len(specialization_events) + len(conflict_events) + len(artifact_events) +
-                              len(group_events) + len(technology_events) + len(aging_events) +
-                              len(disease_events) + len(population_events) + len(cultural_transmission_events) +
-                              len(institutional_events) + len(economic_events) + len(movement_events) +
-                              len(milestone_events) + len(crisis_events) + len(diplomacy_events) +
-                              len(self_awareness_events) + len(metacognition_events) + len(consciousness_events) +
-                              len(romance_events))
-            
-            print(f"   📊 {total_activities} total activities: {len(interactions)} interactions, " +
-                  f"{len(world_events)} events, {len(cultural_events)} cultural, " +
-                  f"{len(resource_events)} resource, {len(environmental_events)} environmental, " +
-                  f"{len(skill_events)} skill, {len(specialization_events)} specialization, " +
-                  f"{len(conflict_events)} conflict, {len(artifact_events)} artifact, " +
-                  f"{len(group_events)} group, {len(technology_events)} technology, " +
-                  f"{len(aging_events)} aging, {len(disease_events)} disease, " +
-                  f"{len(population_events)} population, {len(cultural_transmission_events)} cultural transmission, " +
-                  f"{len(institutional_events)} institutional, {len(economic_events)} economic, " +
-                  f"{len(movement_events)} movement, {len(milestone_events)} milestone, " +
-                  f"{len(crisis_events)} crisis, {len(diplomacy_events)} diplomacy, " +
-                  f"{len(self_awareness_events)} self-awareness, {len(metacognition_events)} metacognition, " +
-                  f"{len(consciousness_events)} consciousness, {len(romance_events)} romance")
-        
-        return day_summary
+            # 7c2: Process enhanced population dynamics (resource scarcity, carrying capacity, natural regulation)
+            try:
+                alive_agents = [a for a in self.agents if getattr(a, 'is_alive', True)]
+                
+                # Calculate population and resource pressures
+                population_metrics = self.population_dynamics_system.calculate_population_metrics(alive_agents)
+                resource_pressure = self.population_dynamics_system.calculate_resource_pressure(
+                    self.world.resources, len(alive_agents))
+                
+                # Apply population pressure effects
+                pressure_events = self.population_dynamics_system.apply_population_pressure_effects(
+                    alive_agents, resource_pressure, population_metrics.population_pressure)
+                
+                # Check carrying capacity
+                capacity_exceeded, capacity_events = self.population_dynamics_system.check_carrying_capacity_exceeded(alive_agents)
+                
+                # Apply natural population regulation (mortality, disease, etc.)
+                regulation_events = self.population_dynamics_system.natural_population_regulation(
+                    alive_agents, self.world.current_day)
+                
+                # Update agent fertility based on age
+                for agent in alive_agents:
+                    if hasattr(agent, 'update_fertility_with_age'):
+                        agent.update_fertility_with_age()
+                
+                # Collect all population dynamics events
+                all_pop_events = pressure_events + capacity_events + regulation_events
+                day_summary["enhanced_population_events"] = all_pop_events
+                day_summary["population_metrics"] = {
+                    "total_population": population_metrics.total_population,
+                    "population_pressure": population_metrics.population_pressure,
+                    "resource_pressure": resource_pressure,
+                    "carrying_capacity": self.population_dynamics_system.carrying_capacity,
+                    "avg_age": population_metrics.avg_age,
+                    "gender_ratio": population_metrics.gender_ratio
+                }
+                
+            except Exception as e:
+                print(f"ERROR in enhanced population dynamics: {e}")
+                day_summary["enhanced_population_events"] = []
+                day_summary["population_metrics"] = {}
+
+            # 7d: Process generational cultural transmission
+            try:
+                cultural_transmission_events = self.generational_culture_system.process_daily_cultural_transmission(
+                    self.agents, self.world.current_day)
+                day_summary["cultural_transmission_events"] = cultural_transmission_events
+            except Exception as e:
+                print(f"ERROR in cultural transmission: {e}")
+                cultural_transmission_events = []
+                day_summary["cultural_transmission_events"] = []
+
+            # Step 8: Process Phase 8: Emergent Phenomena systems
+            # 8a: Process emergent social institutions (governments, schools, religions)
+            try:
+                institutional_events = self.social_institutions_system.process_daily_institutional_emergence(
+                    self.agents, self.group_dynamics_system.groups, self.world, self.world.current_day)
+                day_summary["institutional_events"] = institutional_events
+            except Exception as e:
+                print(f"ERROR in institutional system: {e}")
+                institutional_events = []
+                day_summary["institutional_events"] = []
+
+            # 8b: Process economic emergence (markets, currency, trade networks)
+            try:
+                economic_events = self.economic_emergence_system.process_daily_economic_emergence(
+                    self.agents, self.group_dynamics_system.groups, self.world, self.world.current_day)
+                day_summary["economic_events"] = economic_events
+            except Exception as e:
+                print(f"ERROR in economic system: {e}")
+                economic_events = []
+                day_summary["economic_events"] = []
+
+            # 8c: Process cultural movements (ideologies, belief systems, social movements)
+            try:
+                movement_events = self.cultural_movements_system.process_daily_cultural_movements(
+                    self.agents, self.group_dynamics_system.groups, self._normalize_events(world_events), self.world.current_day)
+                day_summary["movement_events"] = movement_events
+            except Exception as e:
+                print(f"ERROR in cultural movements: {e}")
+                movement_events = []
+                day_summary["movement_events"] = []
+
+            # 8d: Process civilizational milestones (major achievements and progress)
+            try:
+                milestone_events = self.civilizational_milestones_system.process_daily_milestone_analysis(
+                    self.agents, self.group_dynamics_system.groups, 
+                    getattr(self.social_institutions_system, 'institutions', {}),
+                    getattr(self.cultural_movements_system, 'movements', {}),
+                    self.economic_emergence_system.get_economic_summary(),
+                    self.technology_system.get_technology_summary(),
+                    self.world, self.world.current_day)
+                day_summary["milestone_events"] = milestone_events
+            except Exception as e:
+                print(f"ERROR in milestone system: {e}")
+                milestone_events = []
+                day_summary["milestone_events"] = []
+
+            # 8e: Process crisis response (collective adaptation to challenges)
+            try:
+                crisis_events = self.crisis_response_system.process_daily_crisis_response(
+                    self.agents, getattr(self.social_institutions_system, 'institutions', {}),
+                    self.group_dynamics_system.groups, self._normalize_events(world_events), self.world, self.world.current_day)
+                day_summary["crisis_events"] = crisis_events
+            except Exception as e:
+                print(f"ERROR in crisis response: {e}")
+                crisis_events = []
+                day_summary["crisis_events"] = []
+
+            # 8f: Process inter-group diplomacy (international relations and treaties)
+            try:
+                diplomacy_events = self.inter_group_diplomacy_system.process_daily_diplomacy(
+                    self.agents, self.group_dynamics_system.groups,
+                    getattr(self.social_institutions_system, 'institutions', {}),
+                    self._normalize_events(world_events), self.world.current_day)
+                day_summary["diplomacy_events"] = diplomacy_events
+            except Exception as e:
+                print(f"ERROR in diplomacy system: {e}")
+                diplomacy_events = []
+                day_summary["diplomacy_events"] = []
+
+            # Step 9: Process Phase 9: Advanced AI & Meta-Cognition systems
+            # 9a: Process self-awareness and identity development
+            try:
+                self_awareness_events = self.self_awareness_system.process_daily_self_awareness_development(
+                    self.agents, self.world.current_day)
+                day_summary["self_awareness_events"] = self_awareness_events
+            except Exception as e:
+                print(f"ERROR in self-awareness system: {e}")
+                self_awareness_events = []
+                day_summary["self_awareness_events"] = []
+
+            # 9b: Process meta-cognitive development (thinking about thinking)
+            try:
+                metacognition_events = self.meta_cognition_system.process_daily_metacognitive_development(
+                    self.agents, self.world.current_day)
+                day_summary["metacognition_events"] = metacognition_events
+            except Exception as e:
+                print(f"ERROR in metacognition system: {e}")
+                metacognition_events = []
+                day_summary["metacognition_events"] = []
+
+            # 9c: Process consciousness measurement and tracking
+            try:
+                consciousness_events = self.consciousness_metrics_system.process_daily_consciousness_measurement(
+                    self.agents, self.world.current_day)
+                day_summary["consciousness_events"] = consciousness_events
+            except Exception as e:
+                print(f"ERROR in consciousness system: {e}")
+                consciousness_events = []
+                day_summary["consciousness_events"] = []
+
+            # Step 10: Process Phase 10: Deep Human Emotions & Life Purpose systems
+            # 10a: Process romantic development and love
+            try:
+                romance_events = self.love_romance_system.process_daily_romantic_development(
+                    self.agents, self.world.current_day)
+                day_summary["romance_events"] = romance_events
+            except Exception as e:
+                print(f"ERROR in romance system: {e}")
+                romance_events = []
+                day_summary["romance_events"] = []
+
+            # 10b: Process life purpose discovery and development
+            try:
+                purpose_events = self.life_purpose_system.process_daily_purpose_development(
+                    self.agents, self.world.current_day)
+                day_summary["purpose_events"] = purpose_events
+            except Exception as e:
+                print(f"ERROR in life purpose system: {e}")
+                purpose_events = []
+                day_summary["purpose_events"] = []
+
+            # 10c: Process deep family bonds and traditions
+            try:
+                family_events = self.family_bonds_system.process_daily_family_bonds(
+                    self.agents, self.world.current_day)
+                day_summary["family_events"] = family_events
+            except Exception as e:
+                print(f"ERROR in family bonds system: {e}")
+                family_events = []
+                day_summary["family_events"] = []
+
+            # 10d: Process emotional complexity and empathy
+            try:
+                emotional_events = self.emotional_complexity_system.process_daily_emotional_complexity(
+                    self.agents, self.world.current_day)
+                day_summary["emotional_events"] = emotional_events
+            except Exception as e:
+                print(f"ERROR in emotional complexity system: {e}")
+                emotional_events = []
+                day_summary["emotional_events"] = []
+
+            # Step 10a: Process reproduction attempts (with genetic and health considerations)
+            try:
+                new_conceptions = self._process_reproduction_attempts(verbose)
+                day_summary["new_conceptions"] = new_conceptions
+            except Exception as e:
+                print(f"ERROR in reproduction: {e}")
+                new_conceptions = []
+                day_summary["new_conceptions"] = []
+
+            # Step 10b: Process births from pregnancies that are due
+            try:
+                new_births = self._process_births(verbose)
+                day_summary["new_births"] = new_births
+            except Exception as e:
+                print(f"ERROR in births: {e}")
+                new_births = []
+                day_summary["new_births"] = []
+
+            # Step 11: Check for emergent phenomena (factions, beliefs, etc.)
+            try:
+                emergent_events = self._check_emergent_phenomena()
+                day_summary.update(emergent_events)
+            except Exception as e:
+                print(f"ERROR in emergent phenomena: {e}")
+
+            # Step 12: Process Phase Detection and Civilization Progression
+            try:
+                recent_events = []  # Collect all events from this day
+                recent_events.extend(world_events)
+                recent_events.extend(interactions)
+                recent_events.extend(cultural_events)
+                recent_events.extend(romance_events)
+                recent_events.extend(milestone_events)
+                
+                # Check for phase transition
+                phase_transition = self.phase_detector.check_transition(
+                    self.world, self.agents, recent_events)
+                
+                if phase_transition:
+                    # Execute phase transition
+                    self.phase_detector.transition_to_phase(
+                        phase_transition.to_phase, phase_transition)
+                    
+                    if verbose:
+                        print(f"🌟 CIVILIZATION PHASE TRANSITION!")
+                        print(f"   From: {phase_transition.from_phase}")
+                        print(f"   To: {phase_transition.to_phase}")
+                        print(f"   Population: {phase_transition.population_at_transition} agents")
+                        print(f"   Confidence: {phase_transition.confidence:.1%}")
+                        if phase_transition.trigger_milestones:
+                            print(f"   Triggered by milestones: {[m.name for m in phase_transition.trigger_milestones]}")
+                
+                # Get current phase status for summary
+                phase_status = self.phase_detector.get_current_status(self.world, self.agents)
+                day_summary["phase_status"] = phase_status
+                
+                # Show milestone progress in verbose mode
+                if verbose:
+                    milestone_progress = self.phase_detector.get_milestone_progress()
+                    if milestone_progress:
+                        print(f"   📊 Phase Progress ({phase_status['current_phase']}):")
+                        print(f"      Next Phase: {milestone_progress.get('target_phase', 'Unknown')}")
+                        print(f"      Progress: {milestone_progress.get('progress_percentage', 0):.1f}%")
+                        if milestone_progress.get('recent_milestones'):
+                            print(f"      Recent Milestones: {', '.join(phase_status['recent_milestones'])}")
+            except Exception as e:
+                print(f"ERROR in phase detection: {e}")
+
+            # Step 13: Advance world state and agent aging
+            try:
+                self.world.advance_day()
+                self._update_population_stats()
+            except Exception as e:
+                print(f"ERROR in world advancement: {e}")
+
+            # Step 14: Update statistics
+            try:
+                self.stats["days_simulated"] += 1
+                self.stats["total_interactions"] += len(interactions)
+                self.stats["total_events"] += len(world_events)
+                self.stats["cultural_activities"] = len(cultural_events)
+                
+                # Step 12: Daily summary output
+                if verbose:
+                    total_activities = (len(interactions) + len(world_events) + len(cultural_events) + 
+                                      len(resource_events) + len(environmental_events) + len(skill_events) +
+                                      len(specialization_events) + len(conflict_events) + len(artifact_events) +
+                                      len(group_events) + len(technology_events) + len(aging_events) +
+                                      len(disease_events) + len(population_events) + len(cultural_transmission_events) +
+                                      len(institutional_events) + len(economic_events) + len(movement_events) +
+                                      len(milestone_events) + len(crisis_events) + len(diplomacy_events) +
+                                      len(self_awareness_events) + len(metacognition_events) + len(consciousness_events) +
+                                      len(romance_events))
+                    
+                    total_activities = (len(interactions) + len(world_events) + len(cultural_events) + 
+                                      len(resource_events) + len(environmental_events) + len(skill_events) +
+                                      len(specialization_events) + len(conflict_events) + len(artifact_events) +
+                                      len(group_events) + len(technology_events) + len(aging_events) +
+                                      len(disease_events) + len(population_events) + len(cultural_transmission_events) +
+                                      len(institutional_events) + len(economic_events) + len(movement_events) +
+                                      len(milestone_events) + len(crisis_events) + len(diplomacy_events) +
+                                      len(self_awareness_events) + len(metacognition_events) + len(consciousness_events) +
+                                      len(romance_events) + len(purpose_events) + len(family_events) + len(emotional_events))
+                    
+                    print(f"   📊 {total_activities} total activities: {len(interactions)} interactions, {len(world_events)} events, {len(cultural_events)} cultural, {len(resource_events)} resource, {len(environmental_events)} environmental, {len(skill_events)} skill, {len(specialization_events)} specialization, {len(conflict_events)} conflict, {len(artifact_events)} artifact, {len(group_events)} group, {len(technology_events)} technology, {len(aging_events)} aging, {len(disease_events)} disease, {len(population_events)} population, {len(cultural_transmission_events)} cultural transmission, {len(institutional_events)} institutional, {len(economic_events)} economic, {len(movement_events)} movement, {len(milestone_events)} milestone, {len(crisis_events)} crisis, {len(diplomacy_events)} diplomacy, {len(self_awareness_events)} self-awareness, {len(metacognition_events)} metacognition, {len(consciousness_events)} consciousness, {len(romance_events)} romance, {len(purpose_events)} purpose, {len(family_events)} family, {len(emotional_events)} emotional")
+            except Exception as e:
+                print(f"ERROR in statistics: {e}")
+
+            return day_summary
+
+        except Exception as e:
+            print(f"CRITICAL ERROR in run_day: {e}")
+            print(f"Error type: {type(e)}")
+            import traceback
+            traceback.print_exc()
+            return day_summary
 
     def _generate_interactions(self) -> List[Dict[str, Any]]:
         """Generate interactions between agents for this day."""
@@ -743,7 +963,7 @@ class SimulationEngine:
 
     def _process_reproduction_attempts(self, verbose: bool = False) -> List[Dict[str, Any]]:
         """Process potential reproduction between agents with genetic considerations."""
-        new_births = []
+        new_conceptions = []
         
         # Look for agents who might reproduce
         adult_agents = [a for a in self.agents if a.is_alive and a.age >= 18]
@@ -770,47 +990,80 @@ class SimulationEngine:
                     base_chance *= health_factor
                     
                     if random.random() < base_chance:
-                        # Attempt reproduction
-                        can_reproduce, reason = self.family_manager.can_reproduce(
-                            agent1, agent2, self.world.current_day)
+                        # Attempt reproduction - now creates pregnancy instead of immediate birth
+                        pregnancy_data = self.family_manager.attempt_reproduction(
+                            agent1, agent2, self.world.current_day, self)
                         
-                        if can_reproduce:
-                            # Create child
-                            child_config = self.family_manager.create_offspring(
-                                agent1, agent2, self.world.current_day, self)
-                            
-                            # Create new agent and add to simulation
-                            new_agent = BaseAgent(child_config, self.world.current_day)
-                            
-                            # Initialize genetic profile for child
-                            child_genetics = self.genetic_disease_system.inherit_diseases_from_parents(
-                                new_agent, agent1, agent2)
-                            
-                            # Initialize cultural knowledge for child
-                            child_culture = self.generational_culture_system.initialize_agent_culture(
-                                new_agent, self.world.current_day)
-                            
-                            self.agents.append(new_agent)
-                            
-                            # Log the birth event
-                            birth_event = {
-                                "child_name": child_config["name"],
-                                "parents": [agent1.name, agent2.name],
+                        if pregnancy_data:
+                            # Pregnancy successfully started!
+                            conception_event = {
+                                "mother": pregnancy_data["mother"],
+                                "father": pregnancy_data["father"],
+                                "conception_day": pregnancy_data["conception_day"],
+                                "due_date": pregnancy_data["due_date"],
                                 "location": agent1.location,
-                                "day": self.world.current_day,
-                                "genetic_diseases": len(child_genetics),
-                                "cultural_elements": len(child_culture)
+                                "expected_babies": pregnancy_data["baby_count"]
                             }
                             
-                            new_births.append(birth_event)
-                            
-                            # Update statistics
-                            self.stats["agent_births"] += 1
+                            new_conceptions.append(conception_event)
                             
                             if verbose:
-                                print(f"   👶 Birth: {child_config['name']} born to {agent1.name} and {agent2.name}")
+                                print(f"   🤰 Conception: {pregnancy_data['mother']} is pregnant with {pregnancy_data['father']}'s child")
+                                print(f"      Due date: Day {pregnancy_data['due_date']} (in {pregnancy_data['gestation_days']} days)")
         
-        return new_births
+        return new_conceptions
+
+    def _process_births(self, verbose: bool = False) -> List[Dict[str, Any]]:
+        """Check for pregnancies that are due and deliver babies."""
+        births = self.family_manager.check_pregnancies(self.world.current_day, self)
+        
+        for birth in births:
+            # Update statistics
+            self.stats["agent_births"] += 1
+            
+            if verbose:
+                if birth["is_multiple"]:
+                    print(f"   👶👶 Multiple birth: {birth['child_name']} (baby {birth['baby_number']} of {birth['total_babies']}) born to {birth['parents'][0]} and {birth['parents'][1]}")
+                else:
+                    print(f"   👶 Birth: {birth['child_name']} born to {birth['parents'][0]} and {birth['parents'][1]} after {birth['pregnancy_duration']} days")
+        
+        return births
+
+    def _normalize_events(self, events: List[Any]) -> List[Dict[str, Any]]:
+        """Normalize events to ensure they're all dictionaries, not strings or other types."""
+        normalized = []
+        for event in events:
+            if isinstance(event, dict):
+                normalized.append(event)
+            elif isinstance(event, str):
+                # Convert string to a basic dictionary format
+                normalized.append({
+                    "type": "string_event",
+                    "description": event,
+                    "participants": [],
+                    "location": "unknown",
+                    "importance": 0.5
+                })
+            elif hasattr(event, '__dict__'):
+                # Convert object to dictionary
+                event_dict = {
+                    "type": getattr(event, 'event_type', 'unknown'),
+                    "description": getattr(event, 'description', str(event)),
+                    "participants": getattr(event, 'participants', []),
+                    "location": getattr(event, 'location', 'unknown'),
+                    "importance": getattr(event, 'importance', 0.5)
+                }
+                normalized.append(event_dict)
+            else:
+                # Fallback for any other type
+                normalized.append({
+                    "type": "unknown_event",
+                    "description": str(event),
+                    "participants": [],
+                    "location": "unknown",
+                    "importance": 0.5
+                })
+        return normalized
 
     def run_simulation(self, days: int, verbose: bool = True, 
                       save_interval: int = 10) -> List[Dict[str, Any]]:

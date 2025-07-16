@@ -2,6 +2,7 @@
   "id": "agent_001",
   "name": "Lara",
   "age": 28,
+  "gender": "female",
   "traits": ["curious", "kind", "ambitious"],
   "personality_scores": {
     "openness": 0.8,

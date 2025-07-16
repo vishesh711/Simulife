@@ -783,20 +783,21 @@ class CrisisResponseSystem:
             days_elapsed = current_day - crisis.started_day
             intensity_change = self._calculate_intensity_change(crisis, days_elapsed)
             
-            # Update phase progression
-            old_phase = crisis.current_phase
-            new_phase = self._determine_crisis_phase(crisis, days_elapsed)
-            
-            if new_phase != old_phase:
-                crisis.current_phase = new_phase
-                events.append({
-                    "type": "crisis_phase_change",
-                    "crisis_id": crisis_id,
-                    "crisis_name": crisis.name,
-                    "old_phase": old_phase.value,
-                    "new_phase": new_phase.value,
-                    "day": current_day
-                })
+            # Update phase progression - only report every 3 days to reduce spam
+            if current_day % 3 == 0:
+                old_phase = crisis.current_phase
+                new_phase = self._determine_crisis_phase(crisis, days_elapsed)
+                
+                if new_phase != old_phase:
+                    crisis.current_phase = new_phase
+                    events.append({
+                        "type": "crisis_phase_change",
+                        "crisis_id": crisis_id,
+                        "crisis_name": crisis.name,
+                        "old_phase": old_phase.value,
+                        "new_phase": new_phase.value,
+                        "day": current_day
+                    })
             
             # Check for natural resolution
             if random.random() < crisis.resolution_probability:
@@ -804,8 +805,8 @@ class CrisisResponseSystem:
                 events.append(resolution_event)
                 del self.active_crises[crisis_id]
             
-            # Check for crisis escalation
-            elif intensity_change > 0.2:  # Significant escalation
+            # Check for crisis escalation - reduce frequency and increase threshold
+            elif intensity_change > 0.4 and current_day % 5 == 0:  # Major escalation only, check every 5 days
                 events.append({
                     "type": "crisis_escalation",
                     "crisis_id": crisis_id,

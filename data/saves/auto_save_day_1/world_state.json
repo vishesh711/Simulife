@@ -5,12 +5,38 @@
   "weather": "clear",
   "temperature": "mild",
   "resources": {
-    "food": 1.0190336125088704,
-    "water": 1.0034404744137182,
+    "food": 1.0191527818078991,
+    "water": 1.0098568190496338,
     "shelter": 1.0,
     "knowledge": 0.5
   },
-  "events": [],
+  "events": [
+    {
+      "event_id": "agent_event_0",
+      "day": 0,
+      "event_type": "general",
+      "description": "Lara questions {leader}'s authority",
+      "participants": [
+        "Lara"
+      ],
+      "location": "village_center",
+      "importance": 0.5,
+      "consequences": []
+    },
+    {
+      "event_id": "agent_event_1",
+      "day": 0,
+      "event_type": "conflict",
+      "description": "Kara and Lara had a heated debate that drew attention",
+      "participants": [
+        "Kara",
+        "Lara"
+      ],
+      "location": "village_center",
+      "importance": 0.6,
+      "consequences": []
+    }
+  ],
   "locations": {
     "village_center": "The heart of the community where people gather",
     "forest": "A mysterious woodland area rich with resources",
@@ -22,9 +48,9 @@
   "beliefs": {},
   "customs": [],
   "population_stats": {
-    "total_agents": 0,
+    "total_agents": 5,
     "births": 0,
     "deaths": 0,
-    "average_age": 0
+    "average_age": 31.4
   }
 }

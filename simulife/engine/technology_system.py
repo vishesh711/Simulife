@@ -42,6 +42,31 @@ class InnovationType(Enum):
     ADAPTATION = "adaptation"       # Modifying existing tech for new use
 
 
+class TechnologyGoalPriority(Enum):
+    """Priority levels for technology goals."""
+    LOW = "low"
+    MEDIUM = "medium"
+    HIGH = "high"
+    CRITICAL = "critical"
+
+
+class CompetitionType(Enum):
+    """Types of technology competition."""
+    RESEARCH_RACE = "research_race"     # Race to discover same technology
+    INNOVATION_WAR = "innovation_war"   # Competitive innovation development
+    KNOWLEDGE_THEFT = "knowledge_theft" # Attempting to steal technology
+    EMBARGO = "embargo"                 # Blocking technology transfer
+
+
+class ResearchFailureType(Enum):
+    """Types of research failures."""
+    RESOURCE_DEPLETION = "resource_depletion"   # Ran out of resources
+    SKILL_INADEQUACY = "skill_inadequacy"       # Insufficient skills
+    COLLABORATION_BREAKDOWN = "collaboration_breakdown"  # Team conflicts
+    ACCIDENTAL_DESTRUCTION = "accidental_destruction"   # Destroyed research
+    EXTERNAL_INTERFERENCE = "external_interference"     # Sabotage or theft
+
+
 @dataclass
 class Technology:
     """Represents a technology that can be researched and developed."""
@@ -94,6 +119,70 @@ class Innovation:
     knowledge_requirements: Dict[str, float]
 
 
+@dataclass
+class TechnologyGoal:
+    """Represents a technology research goal for an agent or group."""
+    id: str
+    target_technology: str
+    goal_setter: str                # Agent or group who set the goal
+    priority: TechnologyGoalPriority
+    set_day: int
+    target_completion_day: Optional[int]
+    resources_allocated: Dict[str, float]
+    motivation: str                 # Why this goal was set
+    completion_reward: Dict[str, Any]
+    is_completed: bool = False
+    completion_day: Optional[int] = None
+
+
+@dataclass
+class TechnologyCompetition:
+    """Represents competitive technology development between groups."""
+    id: str
+    competition_type: CompetitionType
+    target_technology: str
+    participants: List[str]         # Groups or agents competing
+    start_day: int
+    current_leader: Optional[str]
+    leader_progress: float
+    stakes: Dict[str, Any]          # What's at stake
+    sabotage_attempts: List[str]    # Record of interference attempts
+    is_active: bool = True
+    winner: Optional[str] = None
+    end_day: Optional[int] = None
+
+
+@dataclass
+class ResearchFailure:
+    """Represents a failed research attempt."""
+    id: str
+    project_id: str
+    failure_type: ResearchFailureType
+    failure_day: int
+    lead_researcher: str
+    resources_lost: Dict[str, float]
+    skill_penalties: Dict[str, float]
+    description: str
+    consequences: List[str]         # Long-term effects
+    lessons_learned: Dict[str, float]  # Skill bonuses from failure
+
+
+@dataclass
+class TechnologyConflict:
+    """Represents conflicts arising from technology disparities."""
+    id: str
+    conflict_type: str
+    advantaged_side: str            # Group with tech advantage
+    disadvantaged_side: str         # Group without tech advantage
+    technology_gap: List[str]       # Technologies creating the advantage
+    conflict_intensity: float       # 0.1 to 1.0
+    start_day: int
+    resolution_attempts: List[str]
+    is_resolved: bool = False
+    resolution_day: Optional[int] = None
+    outcome: Optional[str] = None
+
+
 class TechnologySystem:
     """
     Manages technological research, development, and innovation in SimuLife.
@@ -106,6 +195,13 @@ class TechnologySystem:
         self.agent_knowledge: Dict[str, Dict[str, float]] = {}  # agent -> tech -> knowledge_level
         self.group_technologies: Dict[str, Set[str]] = {}  # group -> set of known technologies
         self.technology_tree = {}
+        
+        # Phase 6 Enhancements
+        self.technology_goals: Dict[str, TechnologyGoal] = {}
+        self.technology_competitions: Dict[str, TechnologyCompetition] = {}
+        self.research_failures: Dict[str, ResearchFailure] = {}
+        self.technology_conflicts: Dict[str, TechnologyConflict] = {}
+        self.technology_advantages: Dict[str, Dict[str, float]] = {}  # tech -> advantage_type -> bonus
         
         # Initialize the technology tree
         self._initialize_technology_tree()
@@ -344,8 +440,202 @@ class TechnologySystem:
             )
         })
         
+        # Advanced Technologies (Phase 6 Enhancement)
+        self.technologies.update({
+            # Advanced Knowledge Technologies
+            "astronomy": Technology(
+                id="astronomy",
+                name="Astronomy", 
+                category=TechnologyCategory.KNOWLEDGE,
+                description="Study of celestial bodies and their movements",
+                prerequisites=["written_language", "advanced_mathematics"],
+                required_skills={"intellectual": 0.9, "observation": 0.8},
+                research_complexity=0.95,
+                discovery_chance=0.01,
+                benefits={"navigation": 2.5, "calendar_precision": 3.0, "wisdom": 1.5},
+                unlock_actions=["observe_stars", "predict_eclipses", "create_calendar"]
+            ),
+            "advanced_mathematics": Technology(
+                id="advanced_mathematics",
+                name="Advanced Mathematics",
+                category=TechnologyCategory.KNOWLEDGE,
+                description="Complex mathematical concepts and calculations",
+                prerequisites=["written_language"],
+                required_skills={"intellectual": 0.85, "logic": 0.8},
+                research_complexity=0.9,
+                discovery_chance=0.02,
+                benefits={"engineering_precision": 2.0, "trade_calculations": 2.5},
+                unlock_actions=["perform_calculations", "solve_complex_problems"]
+            ),
+            "philosophy": Technology(
+                id="philosophy",
+                name="Philosophy",
+                category=TechnologyCategory.KNOWLEDGE,
+                description="Deep thinking about existence, ethics, and knowledge",
+                prerequisites=["written_language"],
+                required_skills={"wisdom": 0.8, "intellectual": 0.7},
+                research_complexity=0.8,
+                discovery_chance=0.05,
+                benefits={"wisdom": 2.0, "decision_making": 1.8, "social_harmony": 1.5},
+                unlock_actions=["contemplate_existence", "teach_ethics", "resolve_moral_dilemmas"]
+            ),
+            
+            # Advanced Medicine Technologies
+            "advanced_surgery": Technology(
+                id="advanced_surgery",
+                name="Advanced Surgery",
+                category=TechnologyCategory.MEDICINE,
+                description="Complex surgical procedures and techniques",
+                prerequisites=["surgical_techniques", "metalworking"],
+                required_skills={"medicine": 0.95, "precision": 0.9},
+                research_complexity=0.95,
+                discovery_chance=0.01,
+                benefits={"complex_treatment": 3.0, "survival_rate": 2.5},
+                unlock_actions=["perform_advanced_surgery", "train_surgeons"]
+            ),
+            "disease_theory": Technology(
+                id="disease_theory",
+                name="Disease Theory",
+                category=TechnologyCategory.MEDICINE,
+                description="Understanding of how diseases spread and can be prevented",
+                prerequisites=["herbal_medicine", "written_language"],
+                required_skills={"medicine": 0.8, "observation": 0.7},
+                research_complexity=0.85,
+                discovery_chance=0.03,
+                benefits={"epidemic_prevention": 3.0, "public_health": 2.5},
+                unlock_actions=["quarantine_disease", "prevent_epidemics"]
+            ),
+            
+            # Advanced Military Technologies
+            "metallurgy": Technology(
+                id="metallurgy",
+                name="Metallurgy",
+                category=TechnologyCategory.MILITARY,
+                description="Advanced metal working and alloy creation",
+                prerequisites=["metalworking", "fire_advanced"],
+                required_skills={"crafting": 0.9, "chemistry": 0.7},
+                research_complexity=0.9,
+                discovery_chance=0.02,
+                benefits={"weapon_quality": 3.0, "tool_durability": 2.5, "armor_protection": 2.0},
+                unlock_actions=["forge_advanced_weapons", "create_alloys"]
+            ),
+            "fire_advanced": Technology(
+                id="fire_advanced",
+                name="Advanced Fire Control",
+                category=TechnologyCategory.CRAFTING,
+                description="High-temperature fires and advanced combustion",
+                prerequisites=["fire_making", "construction_basic"],
+                required_skills={"crafting": 0.7, "engineering": 0.6},
+                research_complexity=0.7,
+                discovery_chance=0.05,
+                benefits={"smelting": 2.0, "metalworking": 1.8},
+                unlock_actions=["build_furnaces", "smelt_metals"]
+            ),
+            "tactical_warfare": Technology(
+                id="tactical_warfare",
+                name="Tactical Warfare",
+                category=TechnologyCategory.MILITARY,
+                description="Advanced military strategy and battlefield tactics",
+                prerequisites=["written_language", "metallurgy"],
+                required_skills={"strategy": 0.8, "leadership": 0.7},
+                research_complexity=0.8,
+                discovery_chance=0.03,
+                benefits={"military_effectiveness": 3.0, "conquest_ability": 2.5},
+                unlock_actions=["plan_military_campaigns", "train_armies"]
+            ),
+            
+            # Advanced Social Technologies
+            "diplomacy": Technology(
+                id="diplomacy",
+                name="Diplomacy",
+                category=TechnologyCategory.SOCIAL,
+                description="Formal diplomatic relations and treaty making",
+                prerequisites=["legal_system", "currency_system"],
+                required_skills={"negotiation": 0.8, "persuasion": 0.7},
+                research_complexity=0.8,
+                discovery_chance=0.04,
+                benefits={"peace_agreements": 2.5, "trade_relations": 2.0},
+                unlock_actions=["negotiate_treaties", "establish_embassies"]
+            ),
+            "complex_governance": Technology(
+                id="complex_governance",
+                name="Complex Governance",
+                category=TechnologyCategory.SOCIAL,
+                description="Advanced governmental structures and administration",
+                prerequisites=["legal_system", "written_language"],
+                required_skills={"leadership": 0.85, "organization": 0.8},
+                research_complexity=0.9,
+                discovery_chance=0.02,
+                benefits={"administrative_efficiency": 3.0, "large_scale_coordination": 2.5},
+                unlock_actions=["establish_bureaucracy", "coordinate_large_projects"]
+            ),
+            
+            # Advanced Spiritual Technologies
+            "organized_religion": Technology(
+                id="organized_religion",
+                name="Organized Religion",
+                category=TechnologyCategory.SPIRITUAL,
+                description="Formal religious institutions and practices",
+                prerequisites=["written_language", "construction_basic"],
+                required_skills={"spiritual": 0.8, "leadership": 0.6},
+                research_complexity=0.7,
+                discovery_chance=0.05,
+                benefits={"social_cohesion": 2.0, "moral_guidance": 2.5},
+                unlock_actions=["build_temples", "conduct_ceremonies", "train_priests"]
+            ),
+            "mysticism": Technology(
+                id="mysticism",
+                name="Mysticism",
+                category=TechnologyCategory.SPIRITUAL,
+                description="Deep spiritual practices and esoteric knowledge",
+                prerequisites=["organized_religion", "philosophy"],
+                required_skills={"spiritual": 0.9, "wisdom": 0.8},
+                research_complexity=0.85,
+                discovery_chance=0.02,
+                benefits={"spiritual_insight": 3.0, "inner_peace": 2.0},
+                unlock_actions=["practice_mysticism", "achieve_enlightenment"]
+            )
+        })
+        
+        # Initialize technology advantages
+        self._initialize_technology_advantages()
+        
         # Build technology tree relationships
         self._build_technology_tree()
+    
+    def _initialize_technology_advantages(self):
+        """Initialize technology advantages for various activities."""
+        self.technology_advantages = {
+            # Military advantages
+            "metallurgy": {"combat_effectiveness": 2.0, "weapon_damage": 3.0, "armor_defense": 2.5},
+            "tactical_warfare": {"military_strategy": 3.0, "battlefield_coordination": 2.5, "victory_chance": 2.0},
+            
+            # Economic advantages  
+            "currency_system": {"trade_efficiency": 2.5, "wealth_accumulation": 2.0, "market_development": 1.8},
+            "advanced_mathematics": {"trade_calculations": 2.0, "construction_precision": 1.8, "resource_efficiency": 1.5},
+            
+            # Social advantages
+            "diplomacy": {"negotiation_success": 2.5, "peace_treaty_duration": 2.0, "alliance_stability": 1.8},
+            "complex_governance": {"organization_efficiency": 3.0, "large_project_success": 2.5, "social_stability": 2.0},
+            "legal_system": {"conflict_resolution": 2.5, "social_order": 2.0, "crime_prevention": 1.8},
+            
+            # Knowledge advantages
+            "written_language": {"knowledge_preservation": 3.0, "learning_speed": 2.0, "cultural_transmission": 2.5},
+            "philosophy": {"wisdom_development": 2.0, "ethical_decision_making": 2.5, "moral_leadership": 1.8},
+            "astronomy": {"navigation_accuracy": 2.5, "calendar_precision": 3.0, "prediction_ability": 2.0},
+            
+            # Medical advantages
+            "advanced_surgery": {"healing_effectiveness": 3.0, "trauma_survival": 2.5, "medical_reputation": 2.0},
+            "disease_theory": {"epidemic_prevention": 3.0, "public_health": 2.5, "population_health": 2.0},
+            
+            # Construction advantages
+            "advanced_architecture": {"building_quality": 3.0, "monument_construction": 2.5, "city_planning": 2.0},
+            "construction_basic": {"shelter_quality": 1.5, "infrastructure_development": 1.8, "durability": 1.3},
+            
+            # Spiritual advantages
+            "organized_religion": {"social_cohesion": 2.0, "moral_authority": 2.5, "cultural_unity": 1.8},
+            "mysticism": {"spiritual_insight": 3.0, "inner_peace": 2.0, "wisdom_teaching": 2.5}
+        }
     
     def _build_technology_tree(self):
         """Build the technology dependency tree."""
@@ -388,7 +678,24 @@ class TechnologySystem:
         initiation_events = self._check_research_initiation(agents, groups, current_day)
         events.extend(initiation_events)
         
-        # 6. Update agent and group technology knowledge
+        # Phase 6 Enhancements
+        # 6. Process technology goals
+        goal_events = self._process_technology_goals(agents, groups, current_day)
+        events.extend(goal_events)
+        
+        # 7. Process technology competitions
+        competition_events = self._process_technology_competitions(agents, groups, current_day)
+        events.extend(competition_events)
+        
+        # 8. Process research failures
+        failure_events = self._process_research_failures(agents, current_day)
+        events.extend(failure_events)
+        
+        # 9. Process technology-based conflicts
+        conflict_events = self._process_technology_conflicts(agents, groups, current_day)
+        events.extend(conflict_events)
+        
+        # 10. Update agent and group technology knowledge
         self._update_technology_knowledge(agents, groups, current_day)
         
         return events
@@ -542,7 +849,7 @@ class TechnologySystem:
                 
                 # Personality-based multiplier
                 discovery_chance = base_chance * skill_multiplier
-                if hasattr(agent, 'personality'):
+                if hasattr(agent, 'personality') and isinstance(agent.personality, dict):
                     if 'openness' in agent.personality:
                         discovery_chance *= (1 + agent.personality['openness'])
                     if 'curiosity' in agent.personality:
@@ -707,7 +1014,21 @@ class TechnologySystem:
                         
                         # Factor in relationship
                         if hasattr(agent, 'relationships') and student.name in agent.relationships:
-                            relationship_strength = agent.relationships[student.name].get('strength', 0)
+                            relationship = agent.relationships[student.name]
+                            # Convert relationship string to numeric strength
+                            if isinstance(relationship, dict):
+                                relationship_strength = relationship.get('strength', 0)
+                            else:
+                                # Map relationship strings to numeric values
+                                relationship_mapping = {
+                                    "family": 0.8,
+                                    "friend": 0.6,
+                                    "mentor": 0.7,
+                                    "student": 0.7,
+                                    "acquaintance": 0.3,
+                                    "stranger": 0.1
+                                }
+                                relationship_strength = relationship_mapping.get(relationship, 0.1)
                             success_chance += relationship_strength * 0.2
                         
                         if random.random() < success_chance:
@@ -1112,4 +1433,456 @@ class TechnologySystem:
             "average_advancement": avg_advancement,
             "recent_innovations": recent_innovations,
             "technology_complexity": min(1.0, discovered_techs / len(self.technologies))
-        } 
+        }
+    
+    # ===== PHASE 6 ENHANCEMENTS =====
+    
+    def _process_technology_goals(self, agents: List[Any], groups: Dict[str, Any], 
+                                current_day: int) -> List[Dict[str, Any]]:
+        """Process technology goals and their progress."""
+        events = []
+        
+        # Check for new technology goal creation
+        if random.random() < 0.1:  # 10% chance per day
+            goal_event = self._create_technology_goal(agents, groups, current_day)
+            if goal_event:
+                events.append(goal_event)
+        
+        # Process existing goals
+        for goal_id, goal in list(self.technology_goals.items()):
+            if goal.is_completed:
+                continue
+                
+            # Check if target technology has been discovered
+            target_tech = self.technologies.get(goal.target_technology)
+            if target_tech and target_tech.is_discovered:
+                goal.is_completed = True
+                goal.completion_day = current_day
+                
+                events.append({
+                    "type": "technology_goal_completed",
+                    "goal_id": goal_id,
+                    "goal_setter": goal.goal_setter,
+                    "target_technology": goal.target_technology,
+                    "completion_day": current_day,
+                    "days_taken": current_day - goal.set_day,
+                    "priority": goal.priority.value,
+                    "reward": goal.completion_reward
+                })
+            
+            # Check for goal deadline
+            elif goal.target_completion_day and current_day >= goal.target_completion_day:
+                events.append({
+                    "type": "technology_goal_failed",
+                    "goal_id": goal_id,
+                    "goal_setter": goal.goal_setter,
+                    "target_technology": goal.target_technology,
+                    "failure_day": current_day,
+                    "priority": goal.priority.value
+                })
+        
+        return events
+    
+    def _create_technology_goal(self, agents: List[Any], groups: Dict[str, Any], 
+                              current_day: int) -> Optional[Dict[str, Any]]:
+        """Create a new technology goal."""
+        # Select goal setter (agent or group)
+        all_entities = [agent.name for agent in agents if agent.is_alive]
+        all_entities.extend(groups.keys())
+        
+        if not all_entities:
+            return None
+        
+        goal_setter = random.choice(all_entities)
+        
+        # Select target technology
+        available_techs = [tech_id for tech_id, tech in self.technologies.items() 
+                          if not tech.is_discovered]
+        
+        if not available_techs:
+            return None
+        
+        target_tech = random.choice(available_techs)
+        technology = self.technologies[target_tech]
+        
+        # Determine priority based on technology complexity
+        if technology.research_complexity > 0.8:
+            priority = TechnologyGoalPriority.HIGH
+        elif technology.research_complexity > 0.5:
+            priority = TechnologyGoalPriority.MEDIUM  
+        else:
+            priority = TechnologyGoalPriority.LOW
+        
+        # Set target completion time
+        base_days = int(technology.research_complexity * 200)
+        target_days = current_day + random.randint(base_days, base_days * 2)
+        
+        # Create goal
+        goal_id = f"goal_{target_tech}_{current_day}"
+        goal = TechnologyGoal(
+            id=goal_id,
+            target_technology=target_tech,
+            goal_setter=goal_setter,
+            priority=priority,
+            set_day=current_day,
+            target_completion_day=target_days,
+            resources_allocated={"research_focus": 2.0, "time": 1.5},
+            motivation=f"Seeking to discover {technology.name} for {goal_setter}",
+            completion_reward={"reputation": 2.0, "knowledge": 1.5}
+        )
+        
+        self.technology_goals[goal_id] = goal
+        
+        return {
+            "type": "technology_goal_created",
+            "goal_id": goal_id,
+            "goal_setter": goal_setter,
+            "target_technology": target_tech,
+            "priority": priority.value,
+            "target_completion": target_days,
+            "motivation": goal.motivation
+        }
+    
+    def _process_technology_competitions(self, agents: List[Any], groups: Dict[str, Any], 
+                                       current_day: int) -> List[Dict[str, Any]]:
+        """Process technology competitions between groups."""
+        events = []
+        
+        # Check for new competition creation
+        if random.random() < 0.05:  # 5% chance per day
+            competition_event = self._create_technology_competition(agents, groups, current_day)
+            if competition_event:
+                events.append(competition_event)
+        
+        # Process existing competitions
+        for comp_id, competition in list(self.technology_competitions.items()):
+            if not competition.is_active:
+                continue
+            
+            target_tech = self.technologies.get(competition.target_technology)
+            if target_tech and target_tech.is_discovered:
+                # Competition ends - someone won
+                winner = target_tech.discovered_by or "unknown"
+                competition.is_active = False
+                competition.winner = winner
+                competition.end_day = current_day
+                
+                events.append({
+                    "type": "technology_competition_ended",
+                    "competition_id": comp_id,
+                    "winner": winner,
+                    "target_technology": competition.target_technology,
+                    "competition_type": competition.competition_type.value,
+                    "participants": competition.participants,
+                    "duration": current_day - competition.start_day
+                })
+            
+            # Check for sabotage attempts
+            elif random.random() < 0.02:  # 2% chance for sabotage
+                sabotage_event = self._attempt_sabotage(competition, current_day)
+                if sabotage_event:
+                    events.append(sabotage_event)
+        
+        return events
+    
+    def _create_technology_competition(self, agents: List[Any], groups: Dict[str, Any], 
+                                     current_day: int) -> Optional[Dict[str, Any]]:
+        """Create a new technology competition."""
+        # Find groups with research capabilities
+        research_groups = [group_name for group_name, group_data in groups.items()
+                          if group_data.get("type") in ["institution", "guild"] and
+                          len(group_data.get("members", [])) >= 2]
+        
+        if len(research_groups) < 2:
+            return None
+        
+        # Select competing groups
+        participants = random.sample(research_groups, min(3, len(research_groups)))
+        
+        # Select target technology
+        available_techs = [tech_id for tech_id, tech in self.technologies.items() 
+                          if not tech.is_discovered and tech.research_complexity > 0.6]
+        
+        if not available_techs:
+            return None
+        
+        target_tech = random.choice(available_techs)
+        
+        # Determine competition type
+        comp_type = random.choice([CompetitionType.RESEARCH_RACE, CompetitionType.INNOVATION_WAR])
+        
+        # Create competition
+        comp_id = f"competition_{target_tech}_{current_day}"
+        competition = TechnologyCompetition(
+            id=comp_id,
+            competition_type=comp_type,
+            target_technology=target_tech,
+            participants=participants,
+            start_day=current_day,
+            current_leader=None,
+            leader_progress=0.0,
+            stakes={"reputation": 3.0, "resources": 2.0, "knowledge": 2.5},
+            sabotage_attempts=[]
+        )
+        
+        self.technology_competitions[comp_id] = competition
+        
+        return {
+            "type": "technology_competition_started",
+            "competition_id": comp_id,
+            "competition_type": comp_type.value,
+            "target_technology": target_tech,
+            "participants": participants,
+            "stakes": competition.stakes
+        }
+    
+    def _attempt_sabotage(self, competition: TechnologyCompetition, current_day: int) -> Optional[Dict[str, Any]]:
+        """Attempt sabotage in a technology competition."""
+        if len(competition.participants) < 2:
+            return None
+        
+        saboteur = random.choice(competition.participants)
+        target = random.choice([p for p in competition.participants if p != saboteur])
+        
+        # Record sabotage attempt
+        sabotage_record = f"{saboteur} vs {target} on day {current_day}"
+        competition.sabotage_attempts.append(sabotage_record)
+        
+        return {
+            "type": "technology_sabotage_attempt",
+            "competition_id": competition.id,
+            "saboteur": saboteur,
+            "target": target,
+            "target_technology": competition.target_technology,
+            "success": random.random() < 0.3  # 30% success rate
+        }
+    
+    def _process_research_failures(self, agents: List[Any], current_day: int) -> List[Dict[str, Any]]:
+        """Process research project failures and their consequences."""
+        events = []
+        
+        for project_id, project in list(self.research_projects.items()):
+            if project.status != ResearchStatus.IN_PROGRESS:
+                continue
+            
+            # Check for various failure conditions
+            failure_chance = 0.02  # 2% base failure chance per day
+            
+            # Increase failure chance based on project complexity
+            technology = self.technologies[project.technology_id]
+            failure_chance += technology.research_complexity * 0.01
+            
+            # Check for failure
+            if random.random() < failure_chance:
+                failure_event = self._handle_research_failure(project, current_day)
+                if failure_event:
+                    events.append(failure_event)
+        
+        return events
+    
+    def _handle_research_failure(self, project: ResearchProject, current_day: int) -> Optional[Dict[str, Any]]:
+        """Handle a research project failure."""
+        # Determine failure type
+        failure_types = [
+            ResearchFailureType.RESOURCE_DEPLETION,
+            ResearchFailureType.SKILL_INADEQUACY,
+            ResearchFailureType.COLLABORATION_BREAKDOWN,
+            ResearchFailureType.ACCIDENTAL_DESTRUCTION
+        ]
+        
+        failure_type = random.choice(failure_types)
+        
+        # Calculate consequences
+        resources_lost = {
+            "time": project.progress * 0.5,
+            "materials": random.uniform(0.2, 0.8),
+            "reputation": random.uniform(0.1, 0.3)
+        }
+        
+        skill_penalties = {
+            "research_confidence": -0.1,
+            "collaboration": -0.05 if failure_type == ResearchFailureType.COLLABORATION_BREAKDOWN else 0.0
+        }
+        
+        lessons_learned = {
+            "failure_recovery": 0.1,
+            "risk_assessment": 0.05
+        }
+        
+        # Create failure record
+        failure_id = f"failure_{project.id}_{current_day}"
+        failure = ResearchFailure(
+            id=failure_id,
+            project_id=project.id,
+            failure_type=failure_type,
+            failure_day=current_day,
+            lead_researcher=project.lead_researcher,
+            resources_lost=resources_lost,
+            skill_penalties=skill_penalties,
+            description=f"{failure_type.value} caused research failure",
+            consequences=[f"Lost {resources_lost['materials']:.1f} materials", 
+                         f"Reputation decreased by {resources_lost['reputation']:.1f}"],
+            lessons_learned=lessons_learned
+        )
+        
+        self.research_failures[failure_id] = failure
+        
+        # Update project status
+        project.status = ResearchStatus.ABANDONED
+        
+        return {
+            "type": "research_failure",
+            "failure_id": failure_id,
+            "project_id": project.id,
+            "failure_type": failure_type.value,
+            "lead_researcher": project.lead_researcher,
+            "technology": project.technology_id,
+            "resources_lost": resources_lost,
+            "lessons_learned": lessons_learned
+        }
+    
+    def _process_technology_conflicts(self, agents: List[Any], groups: Dict[str, Any], 
+                                    current_day: int) -> List[Dict[str, Any]]:
+        """Process conflicts arising from technology disparities."""
+        events = []
+        
+        # Check for new technology conflicts
+        if random.random() < 0.03:  # 3% chance per day
+            conflict_event = self._create_technology_conflict(groups, current_day)
+            if conflict_event:
+                events.append(conflict_event)
+        
+        # Process existing conflicts
+        for conflict_id, conflict in list(self.technology_conflicts.items()):
+            if conflict.is_resolved:
+                continue
+            
+            # Check for conflict escalation
+            if random.random() < 0.1:  # 10% chance for escalation
+                conflict.conflict_intensity = min(1.0, conflict.conflict_intensity + 0.1)
+                
+                events.append({
+                    "type": "technology_conflict_escalation",
+                    "conflict_id": conflict_id,
+                    "advantaged_side": conflict.advantaged_side,
+                    "disadvantaged_side": conflict.disadvantaged_side,
+                    "new_intensity": conflict.conflict_intensity
+                })
+            
+            # Check for conflict resolution
+            elif random.random() < 0.05:  # 5% chance for resolution
+                resolution_event = self._resolve_technology_conflict(conflict, current_day)
+                if resolution_event:
+                    events.append(resolution_event)
+        
+        return events
+    
+    def _create_technology_conflict(self, groups: Dict[str, Any], current_day: int) -> Optional[Dict[str, Any]]:
+        """Create a new technology-based conflict."""
+        group_names = list(groups.keys())
+        if len(group_names) < 2:
+            return None
+        
+        # Find groups with significant technology disparities
+        group_a, group_b = random.sample(group_names, 2)
+        
+        techs_a = self.group_technologies.get(group_a, set())
+        techs_b = self.group_technologies.get(group_b, set())
+        
+        # Calculate technology gap
+        tech_gap = list(techs_a - techs_b) if len(techs_a) > len(techs_b) else list(techs_b - techs_a)
+        
+        if len(tech_gap) < 2:  # Need significant gap
+            return None
+        
+        advantaged_side = group_a if len(techs_a) > len(techs_b) else group_b
+        disadvantaged_side = group_b if advantaged_side == group_a else group_a
+        
+        # Create conflict
+        conflict_id = f"tech_conflict_{advantaged_side}_{disadvantaged_side}_{current_day}"
+        conflict = TechnologyConflict(
+            id=conflict_id,
+            conflict_type="technology_disparity",
+            advantaged_side=advantaged_side,
+            disadvantaged_side=disadvantaged_side,
+            technology_gap=tech_gap,
+            conflict_intensity=random.uniform(0.3, 0.7),
+            start_day=current_day,
+            resolution_attempts=[]
+        )
+        
+        self.technology_conflicts[conflict_id] = conflict
+        
+        return {
+            "type": "technology_conflict_started",
+            "conflict_id": conflict_id,
+            "advantaged_side": advantaged_side,
+            "disadvantaged_side": disadvantaged_side,
+            "technology_gap": tech_gap,
+            "conflict_intensity": conflict.conflict_intensity
+        }
+    
+    def _resolve_technology_conflict(self, conflict: TechnologyConflict, current_day: int) -> Optional[Dict[str, Any]]:
+        """Resolve a technology conflict."""
+        resolution_methods = [
+            "technology_sharing", "peaceful_negotiation", "technology_trade", 
+            "research_collaboration", "diplomatic_solution"
+        ]
+        
+        resolution = random.choice(resolution_methods)
+        conflict.resolution_attempts.append(f"{resolution} on day {current_day}")
+        
+        # Mark as resolved
+        conflict.is_resolved = True
+        conflict.resolution_day = current_day
+        conflict.outcome = resolution
+        
+        return {
+            "type": "technology_conflict_resolved",
+            "conflict_id": conflict.id,
+            "resolution_method": resolution,
+            "advantaged_side": conflict.advantaged_side,
+            "disadvantaged_side": conflict.disadvantaged_side,
+            "duration": current_day - conflict.start_day
+        }
+    
+    def get_technology_advantage(self, entity_name: str, advantage_type: str) -> float:
+        """Get technology advantage bonus for an entity in a specific area."""
+        entity_techs = self.group_technologies.get(entity_name, set())
+        if not entity_techs:
+            # Try agent knowledge
+            entity_techs = set(self.agent_knowledge.get(entity_name, {}).keys())
+        
+        total_bonus = 1.0
+        
+        for tech_id in entity_techs:
+            if tech_id in self.technology_advantages:
+                tech_advantages = self.technology_advantages[tech_id]
+                if advantage_type in tech_advantages:
+                    total_bonus *= tech_advantages[advantage_type]
+        
+        return total_bonus
+    
+    def get_enhanced_technology_summary(self) -> Dict[str, Any]:
+        """Get comprehensive technology system summary including Phase 6 enhancements."""
+        base_summary = self.get_technology_summary()
+        
+        # Add Phase 6 metrics
+        active_goals = len([g for g in self.technology_goals.values() if not g.is_completed])
+        active_competitions = len([c for c in self.technology_competitions.values() if c.is_active])
+        total_failures = len(self.research_failures)
+        active_conflicts = len([c for c in self.technology_conflicts.values() if not c.is_resolved])
+        
+        enhanced_summary = base_summary.copy()
+        enhanced_summary.update({
+            "active_technology_goals": active_goals,
+            "active_competitions": active_competitions,
+            "research_failures": total_failures,
+            "technology_conflicts": active_conflicts,
+            "advanced_technologies": len([t for t in self.technologies.values() 
+                                        if t.research_complexity > 0.8 and t.is_discovered]),
+            "competition_intensity": sum(c.conflict_intensity for c in self.technology_conflicts.values() 
+                                       if not c.is_resolved) / max(1, active_conflicts)
+        })
+        
+        return enhanced_summary 

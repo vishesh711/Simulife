@@ -2,6 +2,7 @@
   "id": "agent_003",
   "name": "Kara",
   "age": 30,
+  "gender": "female",
   "traits": ["ambitious", "clever", "competitive"],
   "personality_scores": {
     "openness": 0.7,

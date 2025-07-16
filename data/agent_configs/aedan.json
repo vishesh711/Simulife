@@ -2,6 +2,7 @@
   "id": "agent_002",
   "name": "Aedan",
   "age": 32,
+  "gender": "male",
   "traits": ["protective", "practical", "loyal"],
   "personality_scores": {
     "openness": 0.4,

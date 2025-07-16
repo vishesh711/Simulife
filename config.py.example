@@ -1,0 +1,74 @@
+"""
+SimuLife Configuration
+Enhanced settings for GROQ API and advanced simulation features
+"""
+
+import os
+
+# LLM Configuration
+LLM_CONFIG = {
+    "provider_type": "groq",
+    "api_key": "your_groq_api_key_here",  # Replace with your actual Groq API key
+    "model": "mixtral-8x7b-32768"  # Fast and capable model
+    # Note: temperature and max_tokens are passed to generate_response(), not __init__()
+}
+
+# Enhanced Reproduction System Configuration
+REPRODUCTION_CONFIG = {
+    "enable_gender_system": True,
+    "minimum_reproduction_age": 16,  # Years
+    "maximum_reproduction_age": 45,  # Years
+    "fertility_rate": 0.15,  # Base fertility rate per year
+    "genetic_diversity_factor": 0.8,  # How much genetics vary from parents
+    "pregnancy_duration_days": 270,  # 9 months in simulation days
+    "twin_probability": 0.03,  # 3% chance of twins
+    "genetic_disease_probability": 0.02,  # 2% chance of genetic diseases
+}
+
+# Enhanced Genetic System Configuration  
+GENETIC_CONFIG = {
+    "mutation_rate": 0.01,  # 1% chance of mutations
+    "genetic_memory_influence": 0.3,  # How much genetics affect memory formation
+    "trait_inheritance_variance": 0.2,  # How much traits can vary from parents
+    "enable_complex_inheritance": True,  # Dominant/recessive traits
+}
+
+# Phase Detection Configuration
+PHASE_CONFIG = {
+    "enable_automatic_detection": True,
+    "detection_interval_days": 7,  # Check for phase transitions weekly
+    "phase_stability_threshold": 0.7,  # How stable conditions must be for phase change
+}
+
+# Cultural Evolution Configuration
+CULTURAL_CONFIG = {
+    "enable_artifacts": True,
+    "artifact_decay_rate": 0.1,  # How fast cultural artifacts lose influence
+    "cultural_transmission_rate": 0.5,  # How fast culture spreads between agents
+    "innovation_rate": 0.05,  # Base rate of cultural innovations
+}
+
+# Advanced Systems Configuration
+ADVANCED_CONFIG = {
+    "enable_consciousness_metrics": True,
+    "enable_meta_cognition": True,
+    "enable_self_awareness": True,
+    "consciousness_evolution_rate": 0.02,  # How fast consciousness develops
+    "metacognitive_threshold": 0.6,  # When agents become meta-cognitively aware
+}
+
+# Environmental Dynamics
+ENVIRONMENTAL_CONFIG = {
+    "enable_climate_change": True,
+    "seasonal_variation": True,
+    "resource_depletion_rate": 0.1,  # How fast resources get depleted
+    "environmental_stress_threshold": 0.8,  # When environment becomes stressful
+}
+
+# Economic System Configuration  
+ECONOMIC_CONFIG = {
+    "enable_currency": True,
+    "enable_trade": True,
+    "inflation_rate": 0.02,  # Annual inflation rate
+    "market_volatility": 0.1,  # How much prices fluctuate
+} 

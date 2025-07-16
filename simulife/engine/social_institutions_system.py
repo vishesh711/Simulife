@@ -1170,8 +1170,8 @@ class SocialInstitutionsSystem:
             satisfaction_change = self._calculate_satisfaction_change(institution, agents)
             institution.public_satisfaction = max(0.0, min(1.0, institution.public_satisfaction + satisfaction_change))
             
-            # Report significant changes
-            if abs(legitimacy_change) > 0.1 or abs(satisfaction_change) > 0.1:
+            # Report only MAJOR changes and only once per week to reduce event spam
+            if (abs(legitimacy_change) > 0.3 or abs(satisfaction_change) > 0.3) and current_day % 7 == 0:
                 events.append({
                     "type": "institutional_metrics_update",
                     "institution": institution.name,

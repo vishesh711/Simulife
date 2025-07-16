@@ -81,6 +81,58 @@ class GeneticSystem:
         
         return combined_scores
     
+    @staticmethod 
+    def combine_genetic_traits(parent1_genetics: Dict[str, Any], 
+                              parent2_genetics: Dict[str, Any]) -> Dict[str, Any]:
+        """
+        Combine genetic traits from two parents using realistic inheritance patterns.
+        """
+        combined_genetics = {}
+        
+        # Height - average with some variance
+        p1_height = parent1_genetics.get("height", 170)
+        p2_height = parent2_genetics.get("height", 170) 
+        base_height = (p1_height + p2_height) / 2
+        combined_genetics["height"] = random.uniform(base_height - 10, base_height + 10)
+        
+        # Build - inherit from one parent or be intermediate
+        builds = [parent1_genetics.get("build", "average"), parent2_genetics.get("build", "average")]
+        if random.random() < 0.3:  # 30% chance of intermediate build
+            combined_genetics["build"] = "average"
+        else:
+            combined_genetics["build"] = random.choice(builds)
+        
+        # Eye color - simple dominant/recessive model
+        eye_colors = [parent1_genetics.get("eye_color", "brown"), parent2_genetics.get("eye_color", "brown")]
+        if "brown" in eye_colors:
+            combined_genetics["eye_color"] = "brown" if random.random() < 0.7 else random.choice(eye_colors)
+        else:
+            combined_genetics["eye_color"] = random.choice(eye_colors)
+        
+        # Hair color - simple inheritance
+        hair_colors = [parent1_genetics.get("hair_color", "brown"), parent2_genetics.get("hair_color", "brown")]
+        combined_genetics["hair_color"] = random.choice(hair_colors)
+        
+        # Genetic predispositions - can inherit from either parent
+        p1_predispositions = parent1_genetics.get("genetic_predispositions", [])
+        p2_predispositions = parent2_genetics.get("genetic_predispositions", [])
+        all_predispositions = list(set(p1_predispositions + p2_predispositions))
+        # Inherit 50-80% of parental predispositions
+        num_inherit = int(len(all_predispositions) * random.uniform(0.5, 0.8))
+        combined_genetics["genetic_predispositions"] = random.sample(
+            all_predispositions, min(num_inherit, len(all_predispositions))
+        )
+        
+        # Genetic weaknesses - unfortunately, can also be inherited
+        p1_weaknesses = parent1_genetics.get("genetic_weaknesses", [])
+        p2_weaknesses = parent2_genetics.get("genetic_weaknesses", [])
+        all_weaknesses = list(set(p1_weaknesses + p2_weaknesses))
+        # 30% chance to inherit each weakness
+        inherited_weaknesses = [w for w in all_weaknesses if random.random() < 0.3]
+        combined_genetics["genetic_weaknesses"] = inherited_weaknesses
+        
+        return combined_genetics
+    
     @staticmethod
     def inherit_goals(parent1_goals: List[str], parent2_goals: List[str],
                      agent_traits: List[str]) -> List[str]:
@@ -128,6 +180,7 @@ class FamilyManager:
     def __init__(self):
         self.next_agent_id = 1000  # Start offspring IDs from 1000
         self.family_trees = {}  # agent_id -> family tree data
+        self.pregnancy_manager = PregnancyManager()  # Manage pregnancies
         
     def can_reproduce(self, agent1: Any, agent2: Any, world_day: int) -> Tuple[bool, str]:
         """
@@ -139,6 +192,10 @@ class FamilyManager:
         # Basic requirements
         if not (agent1.is_alive and agent2.is_alive):
             return False, "One or both agents are not alive"
+        
+        # Gender requirements (need male and female)
+        if agent1.gender == agent2.gender:
+            return False, "Both agents are the same gender"
         
         # Age requirements (must be adults)
         if agent1.age < 18 or agent2.age < 18:
@@ -156,6 +213,11 @@ class FamilyManager:
         # Check for family relations (prevent incest)
         if self._are_related(agent1, agent2):
             return False, "Agents are too closely related"
+        
+        # Check if female agent is already pregnant
+        female_agent = agent1 if agent1.gender == "female" else agent2
+        if self.pregnancy_manager.is_pregnant(female_agent.name):
+            return False, f"{female_agent.name} is already pregnant"
         
         # Check if either agent has reproduced recently (cooldown period)
         if self._recently_reproduced(agent1, world_day) or self._recently_reproduced(agent2, world_day):
@@ -203,18 +265,46 @@ class FamilyManager:
         child_id = f"agent_{self.next_agent_id}"
         self.next_agent_id += 1
         
-        # Choose name (could be more sophisticated)
-        possible_names = [
-            "Alex", "Jordan", "Riley", "Casey", "Avery", "Quinn", "Sage", "River",
-            "Emery", "Rowan", "Skyler", "Phoenix", "Blair", "Reese", "Cameron"
+        # Generate child gender
+        child_gender = random.choice(["male", "female"])
+        
+        # Choose name based on gender and cultural preferences
+        male_names = [
+            "Aiden", "Caleb", "Ethan", "Finn", "Gabriel", "Isaac", "Jasper", "Knox",
+            "Liam", "Miles", "Noah", "Owen", "Phoenix", "River", "Sage", "Theo"
         ]
-        child_name = random.choice(possible_names)
+        female_names = [
+            "Aria", "Blair", "Clara", "Eden", "Fiona", "Grace", "Harper", "Iris", 
+            "Jade", "Kira", "Luna", "Maya", "Nora", "Olive", "Quinn", "River"
+        ]
+        
+        if child_gender == "male":
+            child_name = random.choice(male_names)
+        else:
+            child_name = random.choice(female_names)
         
         # Ensure unique name
         if simulation_engine:
             existing_names = [agent.name for agent in simulation_engine.agents]
             while child_name in existing_names:
-                child_name = random.choice(possible_names) + str(random.randint(1, 99))
+                base_name = random.choice(male_names if child_gender == "male" else female_names)
+                child_name = f"{base_name}{random.randint(1, 99)}"
+        
+        # Determine family name inheritance 
+        # Children inherit family name from one parent (traditionally from father, but can vary)
+        family_names = []
+        if hasattr(parent1, 'family_name'):
+            family_names.append(parent1.family_name)
+        if hasattr(parent2, 'family_name'):
+            family_names.append(parent2.family_name)
+        
+        if family_names:
+            child_family_name = random.choice(family_names)
+        else:
+            # Create new family name if parents don't have one
+            prefixes = ["Stone", "River", "Mountain", "Forest", "Star", "Moon", "Sun", "Wind"]
+            suffixes = ["heart", "walker", "keeper", "born", "wise", "strong", "bright", "clan"]
+            child_family_name = f"{random.choice(prefixes)}{random.choice(suffixes)}"
         
         # Genetic combination
         child_traits = GeneticSystem.combine_traits(parent1.traits, parent2.traits)
@@ -222,6 +312,16 @@ class FamilyManager:
             parent1.personality_scores, parent2.personality_scores
         )
         child_goals = GeneticSystem.inherit_goals(parent1.goals, parent2.goals, child_traits)
+        
+        # Combine genetic traits from parents
+        parent1_genetics = getattr(parent1, 'genetic_traits', {})
+        parent2_genetics = getattr(parent2, 'genetic_traits', {})
+        child_genetic_traits = GeneticSystem.combine_genetic_traits(parent1_genetics, parent2_genetics)
+        
+        # Calculate generation
+        parent1_gen = getattr(parent1, 'generation', 1)
+        parent2_gen = getattr(parent2, 'generation', 1) 
+        child_generation = max(parent1_gen, parent2_gen) + 1
         
         # Determine location (same as parents initially)
         child_location = parent1.location
@@ -232,6 +332,17 @@ class FamilyManager:
             "name": child_name,
             "age": 0,  # Newborn
             "birth_day": world_day,
+            
+            # Biological attributes
+            "gender": child_gender,
+            "fertility": 0.0,  # Infertile until maturity
+            "genetic_traits": child_genetic_traits,
+            "generation": child_generation,
+            "family_name": child_family_name,
+            "parents": [parent1.name, parent2.name],
+            "children": [],
+            
+            # Inherited traits and personality
             "traits": child_traits,
             "personality_scores": child_personality,
             "goals": child_goals,
@@ -314,7 +425,7 @@ class FamilyManager:
         Attempt reproduction between two agents.
         
         Returns:
-            New agent config if successful, None if failed
+            Pregnancy data if conception successful, None if failed
         """
         can_reproduce, reason = self.can_reproduce(agent1, agent2, world_day)
         
@@ -331,23 +442,49 @@ class FamilyManager:
         elif relationship == "partner":
             base_chance *= 1.2
         
-        # Modify chance based on health and age
+        # Modify chance based on health, age, and fertility
         health_modifier = (agent1.health + agent2.health) / 2
         age_modifier = max(0.5, 1.0 - (max(agent1.age, agent2.age) - 25) * 0.02)
+        fertility_modifier = (agent1.fertility + agent2.fertility) / 2
         
-        final_chance = base_chance * health_modifier * age_modifier
+        final_chance = base_chance * health_modifier * age_modifier * fertility_modifier
         
         if random.random() < final_chance:
-            child_config = self.create_offspring(agent1, agent2, world_day, simulation_engine)
+            # Conception successful! Start pregnancy
+            mother = agent1 if agent1.gender == "female" else agent2
+            father = agent2 if mother == agent1 else agent1
             
-            # Store memories of the birth
-            birth_memory = f"Had a child named {child_config['name']} with {agent2.name if agent1 else agent1.name}"
-            agent1.memory.store_memory(birth_memory, importance=0.9, emotion="joyful", memory_type="experience")
-            agent2.memory.store_memory(birth_memory, importance=0.9, emotion="joyful", memory_type="experience")
+            pregnancy_data = self.pregnancy_manager.start_pregnancy(mother, father, world_day)
             
-            return child_config
+            # Store memories of conception
+            conception_memory = f"Conceived a child with {father.name if mother else mother.name}"
+            mother.memory.store_memory(conception_memory, importance=0.8, emotion="hopeful", memory_type="experience")
+            father.memory.store_memory(f"My partner {mother.name} is pregnant with our child", importance=0.8, emotion="excited", memory_type="experience")
+            
+            return pregnancy_data
         
         return None
+    
+    def check_pregnancies(self, current_day: int, simulation_engine: Any = None) -> List[Dict[str, Any]]:
+        """
+        Check for pregnancies that are due and deliver babies.
+        
+        Returns:
+            List of birth events
+        """
+        return self.pregnancy_manager.check_due_pregnancies(current_day, simulation_engine)
+    
+    def get_pregnancy_info(self, agent_name: str) -> Optional[Dict[str, Any]]:
+        """Get pregnancy information for an agent."""
+        return self.pregnancy_manager.get_pregnancy_status(agent_name)
+    
+    def is_agent_pregnant(self, agent_name: str) -> bool:
+        """Check if an agent is currently pregnant."""
+        return self.pregnancy_manager.is_pregnant(agent_name)
+    
+    def get_all_pregnancies(self) -> Dict[str, Dict[str, Any]]:
+        """Get all active pregnancies."""
+        return self.pregnancy_manager.get_all_pregnancies()
     
     def get_family_tree(self, agent_id: str, depth: int = 3) -> Dict[str, Any]:
         """
@@ -419,3 +556,155 @@ class FamilyManager:
         stats["max_generation"] = max(stats["generations"]) if stats["generations"] else 0
         
         return stats 
+
+
+class PregnancyManager:
+    """
+    Manages pregnancies with realistic 9-month gestation periods.
+    """
+    
+    def __init__(self):
+        self.active_pregnancies = {}  # agent_name -> pregnancy_data
+    
+    def start_pregnancy(self, mother: Any, father: Any, conception_day: int) -> Dict[str, Any]:
+        """
+        Start a pregnancy for a female agent.
+        
+        Returns:
+            Pregnancy data dictionary
+        """
+        pregnancy_id = f"pregnancy_{conception_day}_{mother.name}_{father.name}"
+        gestation_days = 270  # 9 months (30 days per month)
+        due_date = conception_day + gestation_days
+        
+        pregnancy_data = {
+            "id": pregnancy_id,
+            "mother": mother.name,
+            "father": father.name,
+            "conception_day": conception_day,
+            "due_date": due_date,
+            "gestation_days": gestation_days,
+            "status": "active",  # active, completed, miscarried
+            "complications": [],
+            "multiple_birth": random.random() < 0.03,  # 3% chance of twins
+            "baby_gender": None,  # Determined later
+            "baby_count": 2 if random.random() < 0.03 else 1
+        }
+        
+        # Store pregnancy
+        self.active_pregnancies[mother.name] = pregnancy_data
+        
+        # Update mother's status
+        if not hasattr(mother, 'pregnancies'):
+            mother.pregnancies = []
+        mother.pregnancies.append(pregnancy_data)
+        
+        return pregnancy_data
+    
+    def check_due_pregnancies(self, current_day: int, simulation_engine: Any = None) -> List[Dict[str, Any]]:
+        """
+        Check for pregnancies that are due and deliver babies.
+        
+        Returns:
+            List of birth events
+        """
+        births = []
+        completed_pregnancies = []
+        
+        for mother_name, pregnancy_data in self.active_pregnancies.items():
+            if pregnancy_data["status"] != "active":
+                continue
+                
+            if current_day >= pregnancy_data["due_date"]:
+                # Time to give birth!
+                birth_events = self._deliver_baby(pregnancy_data, current_day, simulation_engine)
+                births.extend(birth_events)
+                completed_pregnancies.append(mother_name)
+        
+        # Remove completed pregnancies
+        for mother_name in completed_pregnancies:
+            self.active_pregnancies[mother_name]["status"] = "completed"
+            del self.active_pregnancies[mother_name]
+        
+        return births
+    
+    def _deliver_baby(self, pregnancy_data: Dict[str, Any], birth_day: int, 
+                     simulation_engine: Any = None) -> List[Dict[str, Any]]:
+        """
+        Deliver baby(ies) from a pregnancy.
+        
+        Returns:
+            List of birth events
+        """
+        if not simulation_engine:
+            return []
+        
+        # Find the parents
+        mother = None
+        father = None
+        for agent in simulation_engine.agents:
+            if agent.name == pregnancy_data["mother"]:
+                mother = agent
+            elif agent.name == pregnancy_data["father"]:
+                father = agent
+        
+        if not (mother and father):
+            return []
+        
+        birth_events = []
+        baby_count = pregnancy_data["baby_count"]
+        
+        for baby_num in range(baby_count):
+            # Create baby using existing offspring creation system
+            family_manager = simulation_engine.family_manager
+            child_config = family_manager.create_offspring(mother, father, birth_day, simulation_engine)
+            
+            # Create new agent and add to simulation
+            new_agent = type(mother)(child_config, birth_day)
+            
+            # Initialize systems for child
+            if hasattr(simulation_engine, 'genetic_disease_system'):
+                child_genetics = simulation_engine.genetic_disease_system.inherit_diseases_from_parents(
+                    new_agent, mother, father)
+            
+            if hasattr(simulation_engine, 'generational_culture_system'):
+                child_culture = simulation_engine.generational_culture_system.initialize_agent_culture(
+                    new_agent, birth_day)
+            
+            simulation_engine.agents.append(new_agent)
+            
+            # Log the birth event
+            birth_event = {
+                "child_name": child_config["name"],
+                "parents": [mother.name, father.name],
+                "location": mother.location,
+                "birth_day": birth_day,
+                "pregnancy_duration": birth_day - pregnancy_data["conception_day"],
+                "baby_number": baby_num + 1,
+                "total_babies": baby_count,
+                "is_multiple": baby_count > 1
+            }
+            
+            birth_events.append(birth_event)
+            
+            # Store memories of the birth
+            birth_memory = f"Gave birth to {child_config['name']} after 9 months of pregnancy"
+            mother.memory.store_memory(birth_memory, importance=0.95, emotion="joyful", memory_type="experience")
+            
+            father_memory = f"My child {child_config['name']} was born to {mother.name} after 9 months"
+            father.memory.store_memory(father_memory, importance=0.9, emotion="joyful", memory_type="experience")
+        
+        return birth_events
+    
+    def get_pregnancy_status(self, agent_name: str) -> Optional[Dict[str, Any]]:
+        """Get current pregnancy status for an agent."""
+        return self.active_pregnancies.get(agent_name)
+    
+    def is_pregnant(self, agent_name: str) -> bool:
+        """Check if an agent is currently pregnant."""
+        pregnancy = self.active_pregnancies.get(agent_name)
+        return pregnancy is not None and pregnancy["status"] == "active"
+    
+    def get_all_pregnancies(self) -> Dict[str, Dict[str, Any]]:
+        """Get all active pregnancies."""
+        return self.active_pregnancies.copy() 

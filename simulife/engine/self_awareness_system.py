@@ -653,7 +653,7 @@ class SelfAwarenessSystem:
             self_model.identity_coherence = min(1.0, self_model.identity_coherence + 0.03)
         
         elif reflection.reflection_type == SelfReflectionType.PURPOSE_SEEKING:
-            self_model.past_life_understanding = min(1.0, self_model.past_life_understanding + 0.02)
+            self_model.past_self_understanding = min(1.0, self_model.past_self_understanding + 0.02)
         
         # Improve overall self-acceptance slightly
         self_model.self_acceptance = min(1.0, self_model.self_acceptance + 0.01)

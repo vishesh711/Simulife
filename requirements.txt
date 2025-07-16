@@ -10,7 +10,7 @@ torch>=2.0.0                     # PyTorch backend for sentence-transformers
 # Optional LLM integrations (choose one or more)
 # openai>=1.3.0                  # OpenAI GPT models
 # anthropic>=0.7.0               # Claude models  
-# groq>=0.4.0                    # Groq models (fast inference)
+groq>=0.4.0                     # Groq models (fast inference)
 # langchain>=0.1.0               # LLM framework and tools
 # langchain-community>=0.0.10    # Additional LangChain integrations
 

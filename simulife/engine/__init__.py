@@ -20,7 +20,10 @@ from .cultural_artifacts import CulturalArtifactSystem, ArtifactType, CulturalAr
 from .group_dynamics import GroupDynamicsSystem, GroupType, GroupStatus, AllianceType
 
 # Phase 6: Technology and Innovation Systems
-from .technology_system import TechnologySystem, TechnologyCategory, ResearchStatus, InnovationType, Technology, ResearchProject, Innovation
+from .technology_system import (TechnologySystem, TechnologyCategory, ResearchStatus, InnovationType, 
+                               Technology, ResearchProject, Innovation, TechnologyGoalPriority, 
+                               CompetitionType, ResearchFailureType, TechnologyGoal, TechnologyCompetition, 
+                               ResearchFailure, TechnologyConflict)
 
 # Phase 7: Population Dynamics Systems
 from .mortality_system import MortalitySystem, DeathCause, LifeStage, DeathRecord, AgingEffect
@@ -41,8 +44,11 @@ from .self_awareness_system import SelfAwarenessSystem, IdentityAspect, SelfRefl
 from .meta_cognition_system import MetaCognitionSystem, CognitiveProcess, MetaCognitiveSkill, CognitiveBias, MetaCognitiveInsight, CognitiveBiasRecognition, MetaCognitiveStrategy, ThinkingPattern, MetaCognitiveProfile
 from .consciousness_metrics_system import ConsciousnessMetricsSystem, ConsciousnessAspect, ConsciousnessEvent, ConsciousnessProfile, ConsciousnessBreakthrough, ExistentialMoment, CollectiveConsciousnessEvent
 
-# Phase 10: Love & Romance System
+# Phase 10: Deep Human Emotions & Life Purpose Systems
 from .love_romance_system import LoveRomanceSystem, RelationshipStatus, CourtshipStyle, LoveLanguage, RomanticAttraction, RomanticRelationship, MarriageEvent
+from .life_purpose_system import LifePurposeSystem, PurposeCategory, PurposeStage, LifePurpose, ExistentialMoment, MentorshipRelation
+from .family_bonds_system import DeepFamilyBondsSystem, FamilyRole, BondType, TraditionType, FamilyBond, FamilyTradition, WisdomTransmission
+from .emotional_complexity_system import EmotionalComplexitySystem, EmotionType, ComplexEmotionType, EmotionalState, EmotionalGrowthEvent, EmpathyEvent
 
 # Phase Detection and Civilization Progression System
 from .phase_detector import PhaseDetector, Milestone, PhaseState, PhaseTransition, CivilizationMetrics, MilestoneTracker
@@ -82,6 +88,13 @@ __all__ = [
     'Technology',
     'ResearchProject',
     'Innovation',
+    'TechnologyGoalPriority',
+    'CompetitionType',
+    'ResearchFailureType',
+    'TechnologyGoal',
+    'TechnologyCompetition',
+    'ResearchFailure',
+    'TechnologyConflict',
     # Phase 7 Systems
     'MortalitySystem',
     'DeathCause',
@@ -187,6 +200,24 @@ __all__ = [
     'RomanticAttraction',
     'RomanticRelationship',
     'MarriageEvent',
+    'LifePurposeSystem',
+    'PurposeCategory',
+    'PurposeStage',
+    'LifePurpose',
+    'MentorshipRelation',
+    'DeepFamilyBondsSystem',
+    'FamilyRole',
+    'BondType',
+    'TraditionType',
+    'FamilyBond',
+    'FamilyTradition',
+    'WisdomTransmission',
+    'EmotionalComplexitySystem',
+    'EmotionType',
+    'ComplexEmotionType',
+    'EmotionalState',
+    'EmotionalGrowthEvent',
+    'EmpathyEvent',
     # Phase Detection Systems
     'PhaseDetector',
     'Milestone',

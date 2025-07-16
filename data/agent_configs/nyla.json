@@ -2,6 +2,7 @@
   "id": "agent_004",
   "name": "Nyla",
   "age": 45,
+  "gender": "female",
   "traits": ["wise", "empathetic", "patient"],
   "personality_scores": {
     "openness": 0.6,
