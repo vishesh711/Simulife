@@ -1,10 +1,10 @@
 {
   "days_simulated": 2,
   "total_interactions": 2,
-  "total_events": 2,
+  "total_events": 1,
   "agent_births": 0,
   "agent_deaths": 0,
-  "cultural_activities": 0,
+  "cultural_activities": 1,
   "resource_transactions": 0,
   "environmental_impacts": 0,
   "skill_developments": 0,
@@ -12,5 +12,15 @@
   "conflicts_processed": 0,
   "artifacts_created": 0,
   "group_activities": 0,
-  "technology_activities": 0
+  "technology_activities": 1,
+  "aging_events": 1,
+  "disease_events": 0,
+  "population_events": 2,
+  "cultural_transmission_events": 1,
+  "institutional_events": 2,
+  "economic_events": 13,
+  "movement_events": 0,
+  "milestone_events": 0,
+  "crisis_events": 1,
+  "diplomacy_events": 0
 }

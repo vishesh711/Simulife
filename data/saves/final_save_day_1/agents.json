@@ -24,7 +24,7 @@
     "current_goal": "gain political power",
     "life_satisfaction": 0.4,
     "emotion": "confident",
-    "emotion_intensity": 0.7200000000000001,
+    "emotion_intensity": 0.8,
     "mood": "stable",
     "relationships": {
       "Lara": "rival",
@@ -42,7 +42,7 @@
     "reputation": 0.5,
     "location": "village_center",
     "health": 0.9,
-    "energy": 0.8051248997730767,
+    "energy": 0.9,
     "skills": {
       "politics": 0.8,
       "persuasion": 0.9,
@@ -61,10 +61,8 @@
       "excellence"
     ],
     "is_alive": true,
-    "last_action": "Kara practices skills to improve and learn new things",
-    "action_history": [
-      "Kara practices skills to improve and learn new things"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_005",
@@ -91,7 +89,7 @@
     "current_goal": "explore unknown lands",
     "life_satisfaction": 0.9,
     "emotion": "excited",
-    "emotion_intensity": 0.7200000000000001,
+    "emotion_intensity": 0.8,
     "mood": "stable",
     "relationships": {
       "Kara": "ally",
@@ -108,7 +106,7 @@
     "reputation": 0.6,
     "location": "mountains",
     "health": 0.9,
-    "energy": 0.9401834458876328,
+    "energy": 1.0,
     "skills": {
       "exploration": 0.9,
       "survival": 0.7,
@@ -127,10 +125,8 @@
       "experience"
     ],
     "is_alive": true,
-    "last_action": "Theron seeks out others to chat and build relationships",
-    "action_history": [
-      "Theron seeks out others to chat and build relationships"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_001",
@@ -157,7 +153,7 @@
     "current_goal": "learn magic",
     "life_satisfaction": 0.6,
     "emotion": "hopeful",
-    "emotion_intensity": 0.63,
+    "emotion_intensity": 0.7,
     "mood": "stable",
     "relationships": {
       "Aedan": "brother",
@@ -177,7 +173,7 @@
     "reputation": 0.7,
     "location": "village_center",
     "health": 0.9,
-    "energy": 0.9909092565873518,
+    "energy": 0.8,
     "skills": {
       "magic_theory": 0.6,
       "herbalism": 0.4,
@@ -196,10 +192,8 @@
       "family"
     ],
     "is_alive": true,
-    "last_action": "Lara looks for someone who needs assistance",
-    "action_history": [
-      "Lara looks for someone who needs assistance"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_004",
@@ -226,7 +220,7 @@
     "current_goal": "heal the sick",
     "life_satisfaction": 0.8,
     "emotion": "calm",
-    "emotion_intensity": 0.36000000000000004,
+    "emotion_intensity": 0.4,
     "mood": "stable",
     "relationships": {
       "Aedan": "friend",
@@ -245,13 +239,13 @@
     "faction": null,
     "reputation": 0.9,
     "location": "forest",
-    "health": 0.8,
-    "energy": 0.6096510809986979,
+    "health": 0.7891638017700523,
+    "energy": 0.6942477756760235,
     "skills": {
-      "healing": 0.9,
-      "herbalism": 0.9,
-      "wisdom": 0.8,
-      "meditation": 0.8
+      "healing": 0.8993876755601199,
+      "herbalism": 0.8985034340538047,
+      "wisdom": 0.7994964802808112,
+      "meditation": 0.7994877830176368
     },
     "beliefs": {
       "all_life_is_sacred": 0.9,
@@ -265,10 +259,8 @@
       "life"
     ],
     "is_alive": true,
-    "last_action": "Nyla seeks out others to chat and build relationships",
-    "action_history": [
-      "Nyla seeks out others to chat and build relationships"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_002",
@@ -295,7 +287,7 @@
     "current_goal": "protect family",
     "life_satisfaction": 0.7,
     "emotion": "determined",
-    "emotion_intensity": 0.54,
+    "emotion_intensity": 0.6,
     "mood": "stable",
     "relationships": {
       "Lara": "sister",
@@ -315,13 +307,13 @@
     "faction": null,
     "reputation": 0.8,
     "location": "village_center",
-    "health": 1.0,
-    "energy": 0.8607213971525891,
+    "health": 0.9889815880952513,
+    "energy": 0.8933275723947519,
     "skills": {
-      "combat": 0.8,
-      "crafting": 0.7,
-      "leadership": 0.6,
-      "survival": 0.8
+      "combat": 0.7989534767191278,
+      "crafting": 0.69943572111154,
+      "leadership": 0.59873870417125,
+      "survival": 0.7990905910744188
     },
     "beliefs": {
       "family_first": 0.9,
@@ -335,9 +327,7 @@
       "tradition"
     ],
     "is_alive": true,
-    "last_action": "Aedan finds a quiet spot to rest and contemplate life",
-    "action_history": [
-      "Aedan finds a quiet spot to rest and contemplate life"
-    ]
+    "last_action": "",
+    "action_history": []
   }
 ]

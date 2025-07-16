@@ -23,8 +23,8 @@
     ],
     "current_goal": "gain political power",
     "life_satisfaction": 0.4,
-    "emotion": "worried",
-    "emotion_intensity": 0.9832000000000002,
+    "emotion": "confident",
+    "emotion_intensity": 0.8,
     "mood": "stable",
     "relationships": {
       "Lara": "rival",
@@ -42,7 +42,7 @@
     "reputation": 0.5,
     "location": "village_center",
     "health": 0.9,
-    "energy": 1.0,
+    "energy": 0.9,
     "skills": {
       "politics": 0.8,
       "persuasion": 0.9,
@@ -61,12 +61,8 @@
       "excellence"
     ],
     "is_alive": true,
-    "last_action": "Kara contemplates the situation carefully and considers their options",
-    "action_history": [
-      "Kara contemplates the situation carefully and considers their options",
-      "Kara contemplates the situation carefully and considers their options",
-      "Kara contemplates the situation carefully and considers their options"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_005",
@@ -92,8 +88,8 @@
     ],
     "current_goal": "explore unknown lands",
     "life_satisfaction": 0.9,
-    "emotion": "worried",
-    "emotion_intensity": 0.9832000000000002,
+    "emotion": "excited",
+    "emotion_intensity": 0.8,
     "mood": "stable",
     "relationships": {
       "Kara": "ally",
@@ -129,12 +125,8 @@
       "experience"
     ],
     "is_alive": true,
-    "last_action": "Theron contemplates the situation carefully and considers their options",
-    "action_history": [
-      "Theron contemplates the situation carefully and considers their options",
-      "Theron contemplates the situation carefully and considers their options",
-      "Theron contemplates the situation carefully and considers their options"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_001",
@@ -160,8 +152,8 @@
     ],
     "current_goal": "learn magic",
     "life_satisfaction": 0.6,
-    "emotion": "worried",
-    "emotion_intensity": 0.9103000000000001,
+    "emotion": "hopeful",
+    "emotion_intensity": 0.7,
     "mood": "stable",
     "relationships": {
       "Aedan": "brother",
@@ -180,8 +172,8 @@
     "faction": null,
     "reputation": 0.7,
     "location": "village_center",
-    "health": 0.885,
-    "energy": 0.7074581266920097,
+    "health": 0.9,
+    "energy": 0.8,
     "skills": {
       "magic_theory": 0.6,
       "herbalism": 0.4,
@@ -200,12 +192,8 @@
       "family"
     ],
     "is_alive": true,
-    "last_action": "Lara contemplates the situation carefully and considers their options",
-    "action_history": [
-      "Lara contemplates the situation carefully and considers their options",
-      "Lara contemplates the situation carefully and considers their options",
-      "Lara contemplates the situation carefully and considers their options"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_004",
@@ -232,7 +220,7 @@
     "current_goal": "heal the sick",
     "life_satisfaction": 0.8,
     "emotion": "worried",
-    "emotion_intensity": 0.6916000000000001,
+    "emotion_intensity": 0.6000000000000001,
     "mood": "stable",
     "relationships": {
       "Aedan": "friend",
@@ -251,13 +239,13 @@
     "faction": null,
     "reputation": 0.9,
     "location": "forest",
-    "health": 0.8,
-    "energy": 0.8026854288908395,
+    "health": 0.7547457094002658,
+    "energy": 0.6733641207491137,
     "skills": {
-      "healing": 0.9,
-      "herbalism": 0.9,
-      "wisdom": 0.8,
-      "meditation": 0.8
+      "healing": 0.8970058944019884,
+      "herbalism": 0.8962929848741781,
+      "wisdom": 0.7969308025300464,
+      "meditation": 0.7967502516957252
     },
     "beliefs": {
       "all_life_is_sacred": 0.9,
@@ -271,12 +259,8 @@
       "life"
     ],
     "is_alive": true,
-    "last_action": "Nyla contemplates the situation carefully and considers their options",
-    "action_history": [
-      "Nyla contemplates the situation carefully and considers their options",
-      "Nyla contemplates the situation carefully and considers their options",
-      "Nyla contemplates the situation carefully and considers their options"
-    ]
+    "last_action": "",
+    "action_history": []
   },
   {
     "id": "agent_002",
@@ -302,8 +286,8 @@
     ],
     "current_goal": "protect family",
     "life_satisfaction": 0.7,
-    "emotion": "worried",
-    "emotion_intensity": 0.8374000000000001,
+    "emotion": "determined",
+    "emotion_intensity": 0.6,
     "mood": "stable",
     "relationships": {
       "Lara": "sister",
@@ -323,13 +307,13 @@
     "faction": null,
     "reputation": 0.8,
     "location": "village_center",
-    "health": 1.0,
-    "energy": 1.0,
+    "health": 0.969635858544771,
+    "energy": 0.8649453740001215,
     "skills": {
-      "combat": 0.8,
-      "crafting": 0.7,
-      "leadership": 0.6,
-      "survival": 0.8
+      "combat": 0.7972601128554212,
+      "crafting": 0.6973735160424275,
+      "leadership": 0.5966999359569569,
+      "survival": 0.7973043043507312
     },
     "beliefs": {
       "family_first": 0.9,
@@ -343,11 +327,7 @@
       "tradition"
     ],
     "is_alive": true,
-    "last_action": "Aedan contemplates the situation carefully and considers their options",
-    "action_history": [
-      "Aedan contemplates the situation carefully and considers their options",
-      "Aedan contemplates the situation carefully and considers their options",
-      "Aedan contemplates the situation carefully and considers their options"
-    ]
+    "last_action": "",
+    "action_history": []
   }
 ]

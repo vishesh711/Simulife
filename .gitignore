@@ -1,0 +1,36 @@
+# Python cache files
+__pycache__/
+*.py[cod]
+*$py.class
+*.so
+
+# FAISS index files (large binary ML index files)
+*.faiss
+
+# Memory data files (can be regenerated)
+data/memory_faiss/
+
+# Auto-generated save files (keep manual saves but exclude auto-saves)
+data/saves/auto_save_*/
+
+# IDE files
+.vscode/
+.idea/
+*.swp
+*.swo
+
+# OS files
+.DS_Store
+Thumbs.db
+
+# Virtual environment
+venv/
+env/
+.env
+
+# Logs
+*.log
+
+# Temporary files
+*.tmp
+*.temp 

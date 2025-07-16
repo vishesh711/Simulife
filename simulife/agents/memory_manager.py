@@ -126,6 +126,13 @@ class MemoryManager:
         
         return important[:limit]
 
+    def get_memories_by_type(self, memory_type: str, limit: int = 10) -> List[Memory]:
+        """Get memories of a specific type."""
+        type_memories = [m for m in self.memories if m.memory_type == memory_type]
+        type_memories.sort(key=lambda x: (x.day, x.importance), reverse=True)
+        
+        return type_memories[:limit]
+
     def reflect_on_memories(self, reflection_prompt: str) -> str:
         """Create a reflection based on stored memories."""
         recent_memories = self.get_recent_memories(days=7)

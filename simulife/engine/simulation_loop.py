@@ -24,6 +24,22 @@ from .cultural_artifacts import CulturalArtifactSystem
 from .group_dynamics import GroupDynamicsSystem
 # Phase 6: Technology and Innovation Systems
 from .technology_system import TechnologySystem
+# Phase 7: Population Dynamics Systems
+from .mortality_system import MortalitySystem
+from .genetic_disease_system import GeneticDiseaseSystem
+from .population_pressure_system import PopulationPressureSystem
+from .generational_culture_system import GenerationalCultureSystem
+# Phase 8: Emergent Phenomena Systems
+from .social_institutions_system import SocialInstitutionsSystem
+from .economic_emergence_system import EconomicEmergenceSystem
+from .cultural_movements_system import CulturalMovementsSystem
+from .civilizational_milestones_system import CivilizationalMilestonesSystem
+from .crisis_response_system import CrisisResponseSystem
+from .inter_group_diplomacy_system import InterGroupDiplomacySystem
+# Phase 9: Advanced AI & Meta-Cognition Systems
+from .self_awareness_system import SelfAwarenessSystem
+from .meta_cognition_system import MetaCognitionSystem
+from .consciousness_metrics_system import ConsciousnessMetricsSystem
 
 
 class SimulationEngine:
@@ -65,6 +81,25 @@ class SimulationEngine:
         
         # Initialize Phase 6: Technology and Innovation systems
         self.technology_system = TechnologySystem()
+        
+        # Initialize Phase 7: Population Dynamics systems
+        self.mortality_system = MortalitySystem()
+        self.genetic_disease_system = GeneticDiseaseSystem()
+        self.population_pressure_system = PopulationPressureSystem()
+        self.generational_culture_system = GenerationalCultureSystem()
+        
+        # Initialize Phase 8: Emergent Phenomena systems
+        self.social_institutions_system = SocialInstitutionsSystem()
+        self.economic_emergence_system = EconomicEmergenceSystem()
+        self.cultural_movements_system = CulturalMovementsSystem()
+        self.civilizational_milestones_system = CivilizationalMilestonesSystem()
+        self.crisis_response_system = CrisisResponseSystem()
+        self.inter_group_diplomacy_system = InterGroupDiplomacySystem()
+        
+        # Initialize Phase 9: Advanced AI & Meta-Cognition systems
+        self.self_awareness_system = SelfAwarenessSystem()
+        self.meta_cognition_system = MetaCognitionSystem()
+        self.consciousness_metrics_system = ConsciousnessMetricsSystem()
         
         # Create save directory
         os.makedirs(save_dir, exist_ok=True)
@@ -195,55 +230,126 @@ class SimulationEngine:
             self.agents, self.world, self.world.current_day)
         day_summary["environmental_events"] = environmental_events
         
-        # Step 4: Apply daily aging and maintenance for all agents
-        for agent in self.agents:
-            if agent.is_alive:
-                agent.age_one_day(self.world.current_day)
-        
-        # Step 5: Process Phase 4: Advanced Behaviors systems
-        # 5a: Process skill development and practice
+        # Step 4: Process Phase 4: Advanced Behaviors systems
+        # 4a: Process skill development and practice
         skill_events = self.skill_system.process_daily_skill_activities(
             self.agents, self.world.current_day)
         day_summary["skill_events"] = skill_events
         
-        # 5b: Process specialization activities and advancement
+        # 4b: Process specialization activities and advancement
         specialization_events = self.specialization_system.process_specialization_activities(
             self.agents, self.world.current_day)
         day_summary["specialization_events"] = specialization_events
         
-        # 5c: Process conflicts and resolution attempts
+        # 4c: Process conflicts and resolution attempts
         conflict_events = self.conflict_system.process_daily_conflicts(
             self.agents, self.world.current_day)
         day_summary["conflict_events"] = conflict_events
         
-        # 5d: Process cultural artifact creation and preservation
+        # 4d: Process cultural artifact creation and preservation
         artifact_events = self.cultural_artifact_system.process_daily_artifacts(
             self.agents, self.world.current_day)
         day_summary["artifact_events"] = artifact_events
         
-        # Step 5e: Process Phase 5: Group Dynamics systems
+        # Step 5: Process Phase 5: Group Dynamics systems
         group_events = self.group_dynamics_system.process_daily_group_activities(
             self.agents, self.world.current_day)
         day_summary["group_events"] = group_events
         
-        # Step 5f: Process Phase 6: Technology and Innovation systems
+        # Step 6: Process Phase 6: Technology and Innovation systems
         technology_events = self.technology_system.process_daily_technology_activities(
             self.agents, self.group_dynamics_system.groups, self.world.current_day)
         day_summary["technology_events"] = technology_events
         
-        # Step 6: Check for emergent phenomena (factions, beliefs, etc.)
+        # Step 7: Process Phase 7: Population Dynamics systems
+        # 7a: Process aging, death, and mortality
+        aging_events = self.mortality_system.process_daily_aging(
+            self.agents, self.world.current_day)
+        day_summary["aging_events"] = aging_events
+        
+        # 7b: Process genetic diseases and health effects
+        disease_events = self.genetic_disease_system.process_daily_disease_effects(
+            self.agents, self.world.current_day)
+        day_summary["disease_events"] = disease_events
+        
+        # 7c: Process population pressure and migration
+        population_events = self.population_pressure_system.process_daily_population_pressure(
+            self.agents, self.world.resources, self.world.current_day)
+        day_summary["population_events"] = population_events
+        
+        # 7d: Process generational cultural transmission
+        cultural_transmission_events = self.generational_culture_system.process_daily_cultural_transmission(
+            self.agents, self.world.current_day)
+        day_summary["cultural_transmission_events"] = cultural_transmission_events
+        
+        # Step 8: Process Phase 8: Emergent Phenomena systems
+        # 8a: Process emergent social institutions (governments, schools, religions)
+        institutional_events = self.social_institutions_system.process_daily_institutional_emergence(
+            self.agents, self.group_dynamics_system.groups, self.world, self.world.current_day)
+        day_summary["institutional_events"] = institutional_events
+        
+        # 8b: Process economic emergence (markets, currency, trade networks)
+        economic_events = self.economic_emergence_system.process_daily_economic_emergence(
+            self.agents, self.group_dynamics_system.groups, self.world, self.world.current_day)
+        day_summary["economic_events"] = economic_events
+        
+        # 8c: Process cultural movements (ideologies, belief systems, social movements)
+        movement_events = self.cultural_movements_system.process_daily_cultural_movements(
+            self.agents, self.group_dynamics_system.groups, world_events, self.world.current_day)
+        day_summary["movement_events"] = movement_events
+        
+        # 8d: Process civilizational milestones (major achievements and progress)
+        milestone_events = self.civilizational_milestones_system.process_daily_milestone_analysis(
+            self.agents, self.group_dynamics_system.groups, 
+            getattr(self.social_institutions_system, 'institutions', {}),
+            getattr(self.cultural_movements_system, 'movements', {}),
+            self.economic_emergence_system.get_economic_summary(),
+            self.technology_system.get_technology_summary(),
+            self.world, self.world.current_day)
+        day_summary["milestone_events"] = milestone_events
+        
+        # 8e: Process crisis response (collective adaptation to challenges)
+        crisis_events = self.crisis_response_system.process_daily_crisis_response(
+            self.agents, getattr(self.social_institutions_system, 'institutions', {}),
+            self.group_dynamics_system.groups, world_events, self.world, self.world.current_day)
+        day_summary["crisis_events"] = crisis_events
+        
+        # 8f: Process inter-group diplomacy (international relations and treaties)
+        diplomacy_events = self.inter_group_diplomacy_system.process_daily_diplomacy(
+            self.agents, self.group_dynamics_system.groups,
+            getattr(self.social_institutions_system, 'institutions', {}),
+            world_events, self.world.current_day)
+        day_summary["diplomacy_events"] = diplomacy_events
+        
+        # Step 9: Process Phase 9: Advanced AI & Meta-Cognition systems
+        # 9a: Process self-awareness and identity development
+        self_awareness_events = self.self_awareness_system.process_daily_self_awareness_development(
+            self.agents, self.world.current_day)
+        day_summary["self_awareness_events"] = self_awareness_events
+        
+        # 9b: Process meta-cognitive development (thinking about thinking)
+        metacognition_events = self.meta_cognition_system.process_daily_metacognitive_development(
+            self.agents, self.world.current_day)
+        day_summary["metacognition_events"] = metacognition_events
+        
+        # 9c: Process consciousness measurement and tracking
+        consciousness_events = self.consciousness_metrics_system.process_daily_consciousness_measurement(
+            self.agents, self.world.current_day)
+        day_summary["consciousness_events"] = consciousness_events
+        
+        # Step 10: Process reproduction attempts (with genetic and health considerations)
+        new_births = self._process_reproduction_attempts(verbose)
+        day_summary["new_births"] = new_births
+        
+        # Step 11: Check for emergent phenomena (factions, beliefs, etc.)
         emergent_events = self._check_emergent_phenomena()
         day_summary.update(emergent_events)
         
-        # Step 7: Process reproduction attempts
-        new_births = self._process_reproduction_attempts()
-        day_summary["new_births"] = new_births
-        
-        # Step 8: Advance world state
+        # Step 11: Advance world state and agent aging
         self.world.advance_day()
         self._update_population_stats()
         
-        # Step 9: Update statistics
+        # Step 12: Update statistics
         self.stats["days_simulated"] += 1
         self.stats["total_interactions"] += len(interactions)
         self.stats["total_events"] += len(world_events)
@@ -256,20 +362,42 @@ class SimulationEngine:
         self.stats["artifacts_created"] = len(artifact_events)
         self.stats["group_activities"] = len(group_events)
         self.stats["technology_activities"] = len(technology_events)
+        self.stats["aging_events"] = len(aging_events)
+        self.stats["disease_events"] = len(disease_events)
+        self.stats["population_events"] = len(population_events)
+        self.stats["cultural_transmission_events"] = len(cultural_transmission_events)
+        # Phase 8 statistics
+        self.stats["institutional_events"] = len(institutional_events)
+        self.stats["economic_events"] = len(economic_events)
+        self.stats["movement_events"] = len(movement_events)
+        self.stats["milestone_events"] = len(milestone_events)
+        self.stats["crisis_events"] = len(crisis_events)
+        self.stats["diplomacy_events"] = len(diplomacy_events)
         
-        # Step 10: Daily summary output
+        # Step 12: Daily summary output
         if verbose:
             total_activities = (len(interactions) + len(world_events) + len(cultural_events) + 
                               len(resource_events) + len(environmental_events) + len(skill_events) +
                               len(specialization_events) + len(conflict_events) + len(artifact_events) +
-                              len(group_events) + len(technology_events))
+                              len(group_events) + len(technology_events) + len(aging_events) +
+                              len(disease_events) + len(population_events) + len(cultural_transmission_events) +
+                              len(institutional_events) + len(economic_events) + len(movement_events) +
+                              len(milestone_events) + len(crisis_events) + len(diplomacy_events) +
+                              len(self_awareness_events) + len(metacognition_events) + len(consciousness_events))
             
             print(f"   📊 {total_activities} total activities: {len(interactions)} interactions, " +
                   f"{len(world_events)} events, {len(cultural_events)} cultural, " +
                   f"{len(resource_events)} resource, {len(environmental_events)} environmental, " +
                   f"{len(skill_events)} skill, {len(specialization_events)} specialization, " +
                   f"{len(conflict_events)} conflict, {len(artifact_events)} artifact, " +
-                  f"{len(group_events)} group, {len(technology_events)} technology")
+                  f"{len(group_events)} group, {len(technology_events)} technology, " +
+                  f"{len(aging_events)} aging, {len(disease_events)} disease, " +
+                  f"{len(population_events)} population, {len(cultural_transmission_events)} cultural transmission, " +
+                  f"{len(institutional_events)} institutional, {len(economic_events)} economic, " +
+                  f"{len(movement_events)} movement, {len(milestone_events)} milestone, " +
+                  f"{len(crisis_events)} crisis, {len(diplomacy_events)} diplomacy, " +
+                  f"{len(self_awareness_events)} self-awareness, {len(metacognition_events)} metacognition, " +
+                  f"{len(consciousness_events)} consciousness")
         
         return day_summary
 
@@ -556,8 +684,8 @@ class SimulationEngine:
             "new_customs": new_customs
         }
 
-    def _process_reproduction_attempts(self) -> List[Dict[str, Any]]:
-        """Process potential reproduction between agents."""
+    def _process_reproduction_attempts(self, verbose: bool = False) -> List[Dict[str, Any]]:
+        """Process potential reproduction between agents with genetic considerations."""
         new_births = []
         
         # Look for agents who might reproduce
@@ -569,37 +697,61 @@ class SimulationEngine:
                 relationship = agent1.relationships.get(agent2.name, "stranger")
                 
                 if relationship in ["friend", "partner", "spouse"]:
-                    # Small chance to attempt reproduction
-                    if random.random() < 0.05:  # 5% chance per day for suitable couples
-                        child_config = self.family_manager.attempt_reproduction(
-                            agent1, agent2, self.world.current_day, self
-                        )
+                    # Check genetic compatibility
+                    compatibility, risk_factor, warnings = self.genetic_disease_system.check_reproduction_compatibility(
+                        agent1, agent2)
+                    
+                    # Base reproduction chance
+                    base_chance = 0.05  # 5% chance per day for suitable couples
+                    
+                    # Modify chance based on genetic compatibility
+                    if not compatibility:
+                        base_chance *= 0.5  # Reduced chance if genetic issues
+                    
+                    # Health-based modifications
+                    health_factor = (agent1.health + agent2.health) / 2
+                    base_chance *= health_factor
+                    
+                    if random.random() < base_chance:
+                        # Attempt reproduction
+                        can_reproduce, reason = self.family_manager.can_reproduce(
+                            agent1, agent2, self.world.current_day)
                         
-                        if child_config:
+                        if can_reproduce:
+                            # Create child
+                            child_config = self.family_manager.create_offspring(
+                                agent1, agent2, self.world.current_day, self)
+                            
                             # Create new agent and add to simulation
                             new_agent = BaseAgent(child_config, self.world.current_day)
+                            
+                            # Initialize genetic profile for child
+                            child_genetics = self.genetic_disease_system.inherit_diseases_from_parents(
+                                new_agent, agent1, agent2)
+                            
+                            # Initialize cultural knowledge for child
+                            child_culture = self.generational_culture_system.initialize_agent_culture(
+                                new_agent, self.world.current_day)
+                            
                             self.agents.append(new_agent)
                             
                             # Log the birth event
-                            birth_event = self.world.add_agent_event(
-                                agent_names=[agent1.name, agent2.name, child_config["name"]],
-                                event_type="birth",
-                                description=f"{child_config['name']} was born to {agent1.name} and {agent2.name}",
-                                location=agent1.location,
-                                importance=0.8
-                            )
-                            
-                            new_births.append({
+                            birth_event = {
                                 "child_name": child_config["name"],
                                 "parents": [agent1.name, agent2.name],
                                 "location": agent1.location,
-                                "day": self.world.current_day
-                            })
+                                "day": self.world.current_day,
+                                "genetic_diseases": len(child_genetics),
+                                "cultural_elements": len(child_culture)
+                            }
+                            
+                            new_births.append(birth_event)
                             
                             # Update statistics
                             self.stats["agent_births"] += 1
                             
-                            print(f"👶 Birth: {child_config['name']} born to {agent1.name} and {agent2.name}")
+                            if verbose:
+                                print(f"   👶 Birth: {child_config['name']} born to {agent1.name} and {agent2.name}")
         
         return new_births
 

@@ -1082,4 +1082,34 @@ class TechnologySystem:
                 for category in TechnologyCategory
             },
             "discovery_rate": f"{(discovered_techs / len(self.technologies)) * 100:.1f}%"
+        }
+
+    def get_technology_summary(self) -> Dict[str, Any]:
+        """Get technology system summary for other systems."""
+        discovered_techs = sum(1 for tech in self.technologies.values() if tech.is_discovered)
+        active_projects = sum(1 for project in self.research_projects.values() 
+                            if project.status == ResearchStatus.IN_PROGRESS)
+        
+        # Calculate average advancement level
+        total_knowledge = 0.0
+        knowledge_count = 0
+        for agent_knowledge in self.agent_knowledge.values():
+            for knowledge_level in agent_knowledge.values():
+                total_knowledge += knowledge_level
+                knowledge_count += 1
+        
+        avg_advancement = total_knowledge / knowledge_count if knowledge_count > 0 else 0.0
+        
+        # Count recent innovations
+        recent_innovations = len([i for i in self.innovations.values() 
+                                if hasattr(i, 'creation_day') and 
+                                i.creation_day >= max(0, len(self.innovations) - 30)])
+        
+        return {
+            "total_technologies": len(self.technologies),
+            "discovered_technologies": discovered_techs,
+            "active_research_projects": active_projects,
+            "average_advancement": avg_advancement,
+            "recent_innovations": recent_innovations,
+            "technology_complexity": min(1.0, discovered_techs / len(self.technologies))
         } 

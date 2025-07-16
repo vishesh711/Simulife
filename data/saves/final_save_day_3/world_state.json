@@ -5,20 +5,20 @@
   "weather": "cloudy",
   "temperature": "mild",
   "resources": {
-    "food": 1.0484982210441205,
-    "water": 1.0425294748216032,
+    "food": 1.0617186177056739,
+    "water": 1.0319986482342949,
     "shelter": 1.0,
     "knowledge": 0.5
   },
   "events": [
     {
       "event_id": "agent_event_0",
-      "day": 2,
-      "event_type": "crisis",
-      "description": "A mysterious illness spreads among the community",
+      "day": 0,
+      "event_type": "general",
+      "description": "The community begins sharing stories and creating oral traditions",
       "participants": [],
-      "location": "village_center",
-      "importance": 0.8,
+      "location": 0.6,
+      "importance": 0.5,
       "consequences": []
     }
   ],

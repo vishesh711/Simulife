@@ -2,46 +2,24 @@
   "current_day": 2,
   "season": "spring",
   "year": 1,
-  "weather": "windy",
+  "weather": "clear",
   "temperature": "mild",
   "resources": {
-    "food": 1.0517014590301343,
-    "water": 1.0142363715671965,
+    "food": 1.0449536566161939,
+    "water": 1.0119968402913933,
     "shelter": 1.0,
     "knowledge": 0.5
   },
   "events": [
     {
-      "event_id": "world_event_0",
-      "day": 1,
-      "event_type": "resource_discovery",
-      "description": "New resources have been discovered in the area",
-      "participants": [],
-      "location": "forest",
-      "importance": 0.6856831034124105,
-      "consequences": []
-    },
-    {
-      "event_id": "agent_event_1",
-      "day": 1,
+      "event_id": "agent_event_0",
+      "day": 0,
       "event_type": "general",
-      "description": "{elder} begins teaching Nyla valuable skills",
+      "description": "Lara finds a mysterious artifact while exploring forest",
       "participants": [
-        "Nyla"
+        "Lara"
       ],
-      "location": 0.5,
-      "importance": 0.5,
-      "consequences": []
-    },
-    {
-      "event_id": "agent_event_2",
-      "day": 1,
-      "event_type": "general",
-      "description": "Kara questions {leader}'s authority",
-      "participants": [
-        "Kara"
-      ],
-      "location": 0.5,
+      "location": 0.6,
       "importance": 0.5,
       "consequences": []
     }

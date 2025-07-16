@@ -8,8 +8,19 @@
   "resource_transactions": 0,
   "environmental_impacts": 0,
   "skill_developments": 0,
-  "specialization_activities": 0,
+  "specialization_advancements": 0,
   "conflicts_processed": 0,
-  "artifact_activities": 0,
-  "group_activities": 0
+  "artifacts_created": 0,
+  "group_activities": 1,
+  "technology_activities": 0,
+  "aging_events": 2,
+  "disease_events": 0,
+  "population_events": 2,
+  "cultural_transmission_events": 0,
+  "institutional_events": 2,
+  "economic_events": 9,
+  "movement_events": 0,
+  "milestone_events": 0,
+  "crisis_events": 2,
+  "diplomacy_events": 0
 }

@@ -24,7 +24,7 @@
     "current_goal": "gain political power",
     "life_satisfaction": 0.4,
     "emotion": "confident",
-    "emotion_intensity": 0.6480000000000001,
+    "emotion_intensity": 0.8,
     "mood": "stable",
     "relationships": {
       "Lara": "rival",
@@ -42,7 +42,7 @@
     "reputation": 0.5,
     "location": "village_center",
     "health": 0.9,
-    "energy": 1.0,
+    "energy": 0.9,
     "skills": {
       "politics": 0.8,
       "persuasion": 0.9,
@@ -89,7 +89,7 @@
     "current_goal": "explore unknown lands",
     "life_satisfaction": 0.9,
     "emotion": "excited",
-    "emotion_intensity": 0.6480000000000001,
+    "emotion_intensity": 0.8,
     "mood": "stable",
     "relationships": {
       "Kara": "ally",
@@ -153,7 +153,7 @@
     "current_goal": "learn magic",
     "life_satisfaction": 0.6,
     "emotion": "hopeful",
-    "emotion_intensity": 0.5670000000000001,
+    "emotion_intensity": 0.7,
     "mood": "stable",
     "relationships": {
       "Aedan": "brother",
@@ -170,10 +170,10 @@
       "children": []
     },
     "faction": null,
-    "reputation": 0.7,
+    "reputation": 0.7999999999999999,
     "location": "village_center",
     "health": 0.9,
-    "energy": 0.8009588721984918,
+    "energy": 0.8,
     "skills": {
       "magic_theory": 0.6,
       "herbalism": 0.4,
@@ -220,7 +220,7 @@
     "current_goal": "heal the sick",
     "life_satisfaction": 0.8,
     "emotion": "calm",
-    "emotion_intensity": 0.32400000000000007,
+    "emotion_intensity": 0.4,
     "mood": "stable",
     "relationships": {
       "Aedan": "friend",
@@ -239,13 +239,13 @@
     "faction": null,
     "reputation": 0.9,
     "location": "forest",
-    "health": 0.8,
-    "energy": 0.8711574334746286,
+    "health": 0.7788819706060855,
+    "energy": 0.6799945195478709,
     "skills": {
-      "healing": 0.9,
-      "herbalism": 0.9,
-      "wisdom": 0.8,
-      "meditation": 0.8
+      "healing": 0.8983674807328718,
+      "herbalism": 0.8975997515661911,
+      "wisdom": 0.79804332019293,
+      "meditation": 0.7981421376594583
     },
     "beliefs": {
       "all_life_is_sacred": 0.9,
@@ -287,7 +287,7 @@
     "current_goal": "protect family",
     "life_satisfaction": 0.7,
     "emotion": "determined",
-    "emotion_intensity": 0.48600000000000004,
+    "emotion_intensity": 0.6,
     "mood": "stable",
     "relationships": {
       "Lara": "sister",
@@ -307,13 +307,13 @@
     "faction": null,
     "reputation": 0.8,
     "location": "village_center",
-    "health": 1.0,
-    "energy": 1.0,
+    "health": 0.9869303147147469,
+    "energy": 0.8860898705645112,
     "skills": {
-      "combat": 0.8,
-      "crafting": 0.7,
-      "leadership": 0.6,
-      "survival": 0.8
+      "combat": 0.7985784839019164,
+      "crafting": 0.6979821443616251,
+      "leadership": 0.5984581342819425,
+      "survival": 0.7979709185010069
     },
     "beliefs": {
       "family_first": 0.9,
